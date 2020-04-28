@@ -29,8 +29,12 @@ import React, { Component } from "react";
      constructor(params){
          super(params)
          this.state={
-             user:'',
-             message:''
+             email:'',
+             password:'',
+            auth:{
+                token:'',
+                refreshtoken:''
+            }
          }
      }
 
@@ -52,13 +56,64 @@ import React, { Component } from "react";
      }
 
      /**
+      * provides the class with the new model state
+      * @param {observer update} payload 
+      */
+     update(payload){
+        this.setState({
+            ...this.state,
+            auth:payload.store.getState().loginUser.auth
+        })
+     }
+
+     /**
+      * Dynamicly updates the state of the email attribute
+      * @param {the event} e 
+      */
+     setUserName(e){
+         this.setState({
+             ...this.state,
+             email:e.target.value
+         })
+     }
+
+     /**
+      * Dynamicly updates the state of the password attribute
+      * @param {event} e 
+      */
+     setPassword(e){
+        this.setState({
+            ...this.state,
+            password:e.target.value
+        })
+    }
+
+    /**
+     * On click sends the state of the email and password to the login model.
+     */
+     signUp(){
+         this.props.model.login(this.state.email,this.state.password);
+     }
+
+     /**
       * Render method that is returning the virtual dom to be rendered at the index.js file.
       * @return             React virtual DOM
       */
      render(){
          return(
             <div id="login-component">
-                <h1>This is the login-homescreen</h1>
+                <form>
+                    <label>
+                        Email:
+                        <input type="text"name ="name" onChange={this.setUserName.bind(this)}/>
+                    </label>
+                    <label>
+                        Password:
+                        <input type="password"name="password"onChange={this.setPassword.bind(this)}/>
+                    </label>
+                    <input type="button" value="Login" onClick={()=> this.signUp()}/>
+                </form>
+                <h1>We have a auth: {this.state.auth.refreshtoken != null} !!</h1>
             </div>
          );
      }
