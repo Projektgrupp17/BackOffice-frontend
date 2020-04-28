@@ -1,0 +1,5 @@
+applications:
+- name: backOffice
+  random-route: true
+  buildpack: sdk-for-nodejs
+  memory: 256M
