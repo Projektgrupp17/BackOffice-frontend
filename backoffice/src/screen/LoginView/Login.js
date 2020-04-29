@@ -8,20 +8,19 @@
  * to the view.
  * 
  * @Author Netanel Avraham Eklind
- * @version 0.0.1
+ * @version 0.0.3
  * 
  * TODO: 
- * * Implement Login <Netanel>
- * * Register
+ * * Register <Netanel>
  * * Forgot password
  * * Contact us
  */
 
 import React, { Component } from "react";
 import LoginBox from './containerLogin/LoginBox';
-
-
-
+import SignInBox from './containerLogin/SignInBox';
+import Axios from "axios";
+import { ENDPOINTBACKEND } from "../../config/config";
  class Login extends Component{
      /**
       * Creates a super with props and a state that is null, state will contain the information needed!
@@ -31,7 +30,8 @@ import LoginBox from './containerLogin/LoginBox';
          super(params)
          this.state = {
              auth: null,
-             status:''
+             status:'',
+             display:0
             }
             this.status = this.handleStatus.bind(this);
             
@@ -44,13 +44,20 @@ import LoginBox from './containerLogin/LoginBox';
         })
      }
 
+     displayChange(value){
+         this.setState({
+             ...this.state,
+             display:value
+         })
+     }
+
      /**
       * This method is called when the component is rendered for the first time and will then 
       * add an observer to the class. 
       */
      componentDidMount(){
         this.props.model.addObserver(this);
-        if(this.props.model.getAuthToken() != null){
+        if(this.props.model.getAuthToken() !== ""){
         this.setState({
             ...this.state,
             auth: this.props.model.getUsername(),
@@ -79,6 +86,10 @@ import LoginBox from './containerLogin/LoginBox';
             status:'DONE'
         })
      }
+
+     test(){
+        Axios.get(ENDPOINTBACKEND+"order/history?id=Netanel").then(resp => console.log(resp))
+     }
      /**
       * Render method that is returning the virtual dom to be rendered at the index.js file.
       * @return             React virtual DOM
@@ -91,11 +102,15 @@ import LoginBox from './containerLogin/LoginBox';
                  display = <em>Loading...</em>;
                  break;
             case 'DONE':
-                display = <b>{this.props.model.getUsername(this.state.auth.token)}</b>
+                display = <div>
+                    <b>{this.props.model.getUsername(this.state.auth.token)}</b>
+                    <button onClick ={() => this.test()}>
+                        testing calls
+                    </button>
+                </div>
                 break;
             default:
-                display = <LoginBox store={this.props.model.store}
-                status={this.status}/>
+                display = this.loginDisplay(this.state.display);
          }
          return(
             <div id="login-component">
@@ -103,7 +118,35 @@ import LoginBox from './containerLogin/LoginBox';
             </div>
          );
      }
+
+     loginDisplay = (state) => {
+          switch(state){
+                case 1:
+                  return(
+                     <LoginBox store={this.props.model.store}
+                     status={this.status}/>
+                  )
+                case 2:
+                    return(
+                        <SignInBox store={this.props.model.store}
+                        status={this.status}/>
+                    )
+                default:
+                return(
+                    <div id = "SignBox">
+                    <button id="btn" onClick={() => this.displayChange(2)}>
+                        SignUp
+                    </button>
+                      <button id="btn" onClick={() => this.displayChange(1)}>
+                      SignIn
+                  </button>
+                    </div>
+                )
+          }
+      }
  }
+
+
 
  
  export default Login

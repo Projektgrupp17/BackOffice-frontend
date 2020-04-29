@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import React,{useState, Component} from 'react'
+import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {login} from '../../../model/LoginModel'
 

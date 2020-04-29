@@ -18,4 +18,18 @@
      payload:error
  })
 
-export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess} ;
+ const postUserRegisterRequest = () =>({
+     type:'POST_USER_REGISTER_REQUEST'
+ })
+
+ const postUserRegisterSuccess = (auth) =>({
+    type:'POST_USER_REGISTER_SUCCESS',
+    payload:auth
+})
+
+const postUserRegisterError = (error) =>({
+    type:'POST_USER_REGISTER_ERROR',
+    payload:error
+})
+
+export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess,postUserRegisterRequest,postUserRegisterError,postUserRegisterSuccess} ;

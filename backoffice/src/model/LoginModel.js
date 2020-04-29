@@ -16,19 +16,19 @@ import * as Actions from './Actions/ActionsFiles';
 import {ENDPOINTAUTH} from '../config/config';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
-import {JWTverify} from './JWTDecoder';
+import {JWTverify,setAutherizationToken} from './JWTDecoder';
 
  class LoginModel extends Observable{
     
     constructor(cookie){
         super()
-        if(document.cookie != ''){
+        if(document.cookie !== ''){
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),JSON.parse(document.cookie),Redux.applyMiddleware(thunkMiddleware));
+            setAutherizationToken(this.store.getState().loginUser.auth.token)
         }
         else{
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
         }
-        console.log(this.store.getState())
     }
 
     getAuthToken(){
@@ -37,13 +37,13 @@ import {JWTverify} from './JWTDecoder';
     getAuthRefreshToken(){
         return this.store.getState().loginUser.auth.refreshtoken;
     }
-    
-    getErrorMessage(){
-        return this.store.getState().loginUser.error;
-    }
 
     getUsername(){
-        return JWTverify(this.store.getState().loginUser.auth.token).sub
+        try {
+            return JWTverify(this.store.getState().loginUser.auth.token).sub
+        } catch (error) {
+            return null
+        }
     }
     
     /**
@@ -52,6 +52,46 @@ import {JWTverify} from './JWTDecoder';
      */
     notifyObservers(){
         this._observer.map(observer => observer.update(this));
+    }
+}
+
+const signup = json => {
+    return function(dispatch){
+        dispatch(Actions.postUserRegisterRequest())
+        axios.post(ENDPOINTAUTH+'users/',json)
+        .then(resp => {
+            dispatch(Actions.postUserRegisterSuccess(resp.data))
+            instance.notifyObservers();
+            login(json.email,json.password);
+        })
+        .catch(error =>{
+            dispatch(Actions.postUserRegisterError(error.message))
+            instance.notifyObservers();
+        })
+    }
+}
+
+const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
+    switch(action.type){
+        case 'POST_USER_REGISTER_REQUEST':
+            return{
+                ...state,
+                loading:true
+            }
+        case 'POST_USER_REGISTER_SUCCESS':
+            return{
+                userIsSignedUp:true,
+                loading:false,
+                error:''
+            }
+        case 'POST_USER_REGISTER_ERROR':
+            return{
+                userIsSignedUp:false,
+                loading:false,
+                error:action.payload
+            }
+            default:
+                return state;
     }
 }
 
@@ -66,9 +106,8 @@ const login =(email,pass) =>{
         .then(resp =>{
             dispatch(Actions.postUserLoginSuccess(resp.data))
             instance.notifyObservers();
+            setAutherizationToken(resp.data.token)
             document.cookie = JSON.stringify(instance.store.getState());
-           
-
         })
         .catch(error => {
             dispatch(Actions.postUserLoginError(error.message))
@@ -114,10 +153,10 @@ const loginUser = ( state={
             }
             
             
-            const combineReducers = {loginUser};
+            const combineReducers = {loginUser,signupUser};
             
             
             const instance = new LoginModel();
             export default instance;
-            export{login};
+            export{login,signup};
             
