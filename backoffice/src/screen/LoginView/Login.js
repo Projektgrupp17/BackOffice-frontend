@@ -8,7 +8,7 @@
  * to the view.
  * 
  * @Author Netanel Avraham Eklind
- * @version 0.0.3
+ * @version 0.0.5
  * 
  * TODO: 
  * * Forgot password
@@ -80,12 +80,21 @@ import { ENDPOINTBACKEND } from "../../config/config";
       * @param {observer update} payload 
       */
      update(payload){
-        this.setState({
-            ...this.state,
-            auth:payload.store.getState().loginUser.auth,
-            status:'DONE',
-            message:payload.store.getState().loginUser.error
-        })
+         if(payload.store.getState().loginUser.error !== ''){
+            this.setState({
+                ...this.state,
+                auth:payload.store.getState().loginUser.auth,
+                status:'',
+                message: payload.store.getState().loginUser.error
+            })
+         }
+         else{
+             this.setState({
+                 ...this.state,
+                 auth:payload.store.getState().loginUser.auth,
+                 status:'DONE',
+             })
+         }
      }
 
      test(){
@@ -124,8 +133,11 @@ import { ENDPOINTBACKEND } from "../../config/config";
           switch(state){
                 case 1:
                   return(
-                     <LoginBox store={this.props.model.store}
-                     status={this.status}/>
+                      <div id="login">
+                          <LoginBox store={this.props.model.store}
+                          status={this.status}/>
+                              {this.errorCheck()}
+                      </div>
                   )
                 case 2:
                     return(
@@ -143,6 +155,14 @@ import { ENDPOINTBACKEND } from "../../config/config";
                   </button>
                     </div>
                 )
+          }
+      }
+
+      errorCheck(){
+          if(this.state.message !== ""){
+              return(
+                  <b>{this.state.message}</b>
+              )
           }
       }
  }

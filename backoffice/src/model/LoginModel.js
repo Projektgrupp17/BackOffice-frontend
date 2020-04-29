@@ -112,9 +112,8 @@ const login =(email,pass) =>{
             document.cookie = JSON.stringify(instance.store.getState());
         })
         .catch(error => {
-            dispatch(Actions.postUserLoginError(error.message))
+            dispatch(Actions.postUserLoginError(error.response.data.message))
             instance.notifyObservers();
-            console.log(error.message)
         })
     }
 }
