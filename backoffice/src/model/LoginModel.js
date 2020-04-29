@@ -110,6 +110,7 @@ const login =(email,pass) =>{
             instance.notifyObservers();
             setAutherizationToken(resp.data.token)
             document.cookie = JSON.stringify(instance.store.getState());
+            window.location.pathname = "/order"
         })
         .catch(error => {
             dispatch(Actions.postUserLoginError(error.response.data.message))

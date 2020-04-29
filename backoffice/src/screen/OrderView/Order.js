@@ -62,14 +62,12 @@ class Order extends Component {
     }
 
     update(payload) {
-        console.log(payload.store.getState())  
         let status = 'SUCCESS';
         if(payload.store.getState().order.Loading)
             status = "LOADING";
         
         if(payload.store.getState().order.error)
             status = "ERROR";
-        console.log(status)
         this.setState({
             ...this.state,
             status: status,
@@ -100,7 +98,7 @@ class Order extends Component {
                     status={this.status} />
         }
         return (
-            <div class="order-component" id="order-component">
+            <div className="order-component" id="order-component">
                 {display}
             </div>
         );

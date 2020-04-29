@@ -105,10 +105,6 @@ import { ENDPOINTBACKEND } from "../../config/config";
              })
          }
      }
-
-     test(){
-        Axios.get(ENDPOINTBACKEND+"order/history?id=Netanel").then(resp => console.log(resp))
-     }
      /**
       * Render method that is returning the virtual dom to be rendered at the index.js file.
       * @return             React virtual DOM
