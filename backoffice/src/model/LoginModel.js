@@ -16,6 +16,7 @@ import * as Actions from './Actions/ActionsFiles';
 import {ENDPOINTAUTH} from '../config/config';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
+import {JWTverify} from './JWTDecoder';
 
  class LoginModel extends Observable{
     constructor(){
@@ -29,11 +30,15 @@ import axios from 'axios';
     getAuthRefreshToken(){
         return this.store.getState().loginUser.auth.refreshtoken;
     }
-
+    
     getErrorMessage(){
         return this.store.getState().loginUser.error;
     }
 
+    getUsername(auth){
+        return JWTverify(auth).sub
+    }
+    
     /**
      * This method notifies observers if there is any changes to the 
      * store!
@@ -41,74 +46,62 @@ import axios from 'axios';
     notifyObservers(){
         this._observer.map(observer => observer.update(this));
     }
-
-    /**
-     * A method that dispatches the action creator to do async api call using redux.
-     * @param {user email} email 
-     * @param {user password} pass 
-     */
-    login(email,pass){
-      this.store.dispatch(login(email,pass));
-    }
-
 }
+
 
 const login =(email,pass) =>{
- return function(dispatch){
-     dispatch(Actions.postUserLoginRequest())
-    axios.post(ENDPOINTAUTH+'auth/login',{
-        password:pass,
-        email:email,
-    })
-    .then(resp =>{
+    return function(dispatch){
+        dispatch(Actions.postUserLoginRequest())
+        axios.post(ENDPOINTAUTH+'auth/login',{
+            password:pass,
+            email:email,
+        })
+        .then(resp =>{
             dispatch(Actions.postUserLoginSuccess(resp.data))
-    })
-    .catch(error => {
-        dispatch(Actions.postUserLoginError(error.message))
-    })
- }
+            instance.notifyObservers();
+        })
+        .catch(error => {
+            dispatch(Actions.postUserLoginError(error.message))
+            instance.notifyObservers();
+        })
+    }
 }
 
-
-
-
- const loginUser = ( state={
-     loading:false,
-     auth:{},
-     error:''
-    },action) => {
-        switch(action.type){
-            case 'POST_USER_LOGIN_REQUEST':
-                return{
-                    ...state,
-                    loading:true
-                }
-
+const loginUser = ( state={
+    loading:false,
+    auth:{},
+    error:''
+},action) => {
+    switch(action.type){
+        case 'POST_USER_LOGIN_REQUEST':
+            return{
+                ...state,
+                loading:true
+            }
+            
             case 'POST_USER_LOGIN_SUCCESS':
                 return{
                     loading:false,
                     auth: action.payload,
                     error:''
                 }
-
-            case 'POST_USER_LOGIN_ERROR':
-                return{
-                    loading:false,
-                    auth:{},
-                    error: { message: action.payload,
-                              code:action.code }
+                
+                case 'POST_USER_LOGIN_ERROR':
+                    return{
+                        loading:false,
+                        auth:{},
+                        error:action.payload
+                    }
+                    default :
+                    return state;
                 }
-            default :
-                return state;
-        }
- }
-
-
- const combineReducers = {loginUser};
-
- const instance = new LoginModel();
-
- instance.store.subscribe(() => instance.notifyObservers())
-
- export default instance;
-
+            }
+            
+            
+            const combineReducers = {loginUser};
+            
+            
+            const instance = new LoginModel();
+            export default instance;
+            export{login};
+            

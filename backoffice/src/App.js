@@ -21,6 +21,13 @@ import loginModel from './model/LoginModel'
  * @returns             The virtual REACT dom to be rendered.
  */
 class App extends Component{
+  constructor(props){
+    super(props)
+
+    this.state = {
+      currentUser:null
+    };
+  }
 
   render(){
     return (

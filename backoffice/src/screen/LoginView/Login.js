@@ -18,6 +18,7 @@
  */
 
 import React, { Component } from "react";
+import LoginBox from './containerLogin/LoginBox';
 
 
 
@@ -28,16 +29,20 @@ import React, { Component } from "react";
       */
      constructor(params){
          super(params)
-         this.state={
-             email:'',
-             password:'',
-            auth:{
-                token:'',
-                refreshtoken:''
+         this.state = {
+             auth: null,
+             status:''
             }
-         }
-     }
+            this.status = this.handleStatus.bind(this);
+            
+        }
 
+     handleStatus(status){
+        this.setState({
+            ...this.state,
+            status: status
+        })
+     }
 
      /**
       * This method is called when the component is rendered for the first time and will then 
@@ -60,63 +65,37 @@ import React, { Component } from "react";
       * @param {observer update} payload 
       */
      update(payload){
+         console.log(payload)
         this.setState({
             ...this.state,
-            auth:payload.store.getState().loginUser.auth
+            auth:payload.store.getState().loginUser.auth,
+            status:'DONE'
         })
      }
-
-     /**
-      * Dynamicly updates the state of the email attribute
-      * @param {the event} e 
-      */
-     setUserName(e){
-         this.setState({
-             ...this.state,
-             email:e.target.value
-         })
-     }
-
-     /**
-      * Dynamicly updates the state of the password attribute
-      * @param {event} e 
-      */
-     setPassword(e){
-        this.setState({
-            ...this.state,
-            password:e.target.value
-        })
-    }
-
-    /**
-     * On click sends the state of the email and password to the login model.
-     */
-     signUp(){
-         this.props.model.login(this.state.email,this.state.password);
-     }
-
      /**
       * Render method that is returning the virtual dom to be rendered at the index.js file.
       * @return             React virtual DOM
       */
      render(){
+         let display = null;
+         switch(this.state.status){
+            case 'LOADING':
+                 display = <em>Loading...</em>;
+                 break;
+            case 'DONE':
+                display = <b>{this.props.model.getUsername(this.state.auth.token)}</b>;
+                break;
+            default:
+                display = <LoginBox store={this.props.model.store}
+                status={this.status}/>
+         }
          return(
             <div id="login-component">
-                <form>
-                    <label>
-                        Email:
-                        <input type="text"name ="name" onChange={this.setUserName.bind(this)}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password"name="password"onChange={this.setPassword.bind(this)}/>
-                    </label>
-                    <input type="button" value="Login" onClick={()=> this.signUp()}/>
-                </form>
-                <h1>We have a auth: {this.state.auth.refreshtoken != null} !!</h1>
+               {display}
             </div>
          );
      }
  }
 
+ 
  export default Login
