@@ -88,6 +88,15 @@ import { ENDPOINTBACKEND } from "../../config/config";
                 message: payload.store.getState().loginUser.error
             })
          }
+         else if(payload.store.getState().signupUser.error !== ''){
+            this.setState({
+                ...this.state,
+                auth:payload.store.getState().loginUser.auth,
+                status:'',
+                message: payload.store.getState().signupUser.error
+            })
+         }
+
          else{
              this.setState({
                  ...this.state,
@@ -140,9 +149,11 @@ import { ENDPOINTBACKEND } from "../../config/config";
                       </div>
                   )
                 case 2:
-                    return(
+                    return(<div id="sign">
                         <SignInBox store={this.props.model.store}
                         status={this.status}/>
+                        {this.errorCheck()}
+                    </div>
                     )
                 default:
                 return(

@@ -66,7 +66,7 @@ const signup = json => {
             instance.store.dispatch(login(json.email,json.password))
         })
         .catch(error =>{
-            dispatch(Actions.postUserRegisterError(error.message))
+            dispatch(Actions.postUserRegisterError(error.response.data.message))
             instance.notifyObservers();
         })
     }
@@ -114,6 +114,7 @@ const login =(email,pass) =>{
         .catch(error => {
             dispatch(Actions.postUserLoginError(error.response.data.message))
             instance.notifyObservers();
+            
         })
     }
 }
