@@ -19,9 +19,16 @@ import axios from 'axios';
 import {JWTverify} from './JWTDecoder';
 
  class LoginModel extends Observable{
-    constructor(){
+    
+    constructor(cookie){
         super()
-        this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
+        if(document.cookie != ''){
+            this.store = Redux.createStore(Redux.combineReducers(combineReducers),JSON.parse(document.cookie),Redux.applyMiddleware(thunkMiddleware));
+        }
+        else{
+            this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
+        }
+        console.log(this.store.getState())
     }
 
     getAuthToken(){
@@ -35,8 +42,8 @@ import {JWTverify} from './JWTDecoder';
         return this.store.getState().loginUser.error;
     }
 
-    getUsername(auth){
-        return JWTverify(auth).sub
+    getUsername(){
+        return JWTverify(this.store.getState().loginUser.auth.token).sub
     }
     
     /**
@@ -59,6 +66,9 @@ const login =(email,pass) =>{
         .then(resp =>{
             dispatch(Actions.postUserLoginSuccess(resp.data))
             instance.notifyObservers();
+            document.cookie = JSON.stringify(instance.store.getState());
+           
+
         })
         .catch(error => {
             dispatch(Actions.postUserLoginError(error.message))
@@ -69,7 +79,10 @@ const login =(email,pass) =>{
 
 const loginUser = ( state={
     loading:false,
-    auth:{},
+    auth:{
+        token:'',
+        refreshtoken:''
+    },
     error:''
 },action) => {
     switch(action.type){
@@ -82,7 +95,10 @@ const loginUser = ( state={
             case 'POST_USER_LOGIN_SUCCESS':
                 return{
                     loading:false,
-                    auth: action.payload,
+                    auth: {
+                        token: action.payload.token,
+                        refreshtoken: action.payload.token
+                    },
                     error:''
                 }
                 

@@ -34,20 +34,30 @@ class LoginContainer extends Component{
         }
         this.handleStatus = this.handleStatus.bind(this);
     }
-
+    /**
+     * Change status of loginbox
+     * @param {Status of login} status 
+     */
     handleStatus(status){
         this.props.status(status)
     } 
 
+    /**
+     * Checks that there is valid input
+     */
    validateForm() {
         return this.state.email.length > 0 && this.state.password.length > 0;
       }
 
+      /**
+       * When sumbiting form this handles the operation
+       */
     handleSubmit = event =>{
         event.preventDefault();
         this.props.login(this.state.email,this.state.password)
         this.handleStatus("LOADING");
     }
+
 
     setEmail(e){
         this.setState({
@@ -63,6 +73,9 @@ class LoginContainer extends Component{
         })
     }
 
+    /**
+     * Main class render method.
+     */
     render(){
         return(
             <div id="loginbox">

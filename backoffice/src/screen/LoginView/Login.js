@@ -50,6 +50,14 @@ import LoginBox from './containerLogin/LoginBox';
       */
      componentDidMount(){
         this.props.model.addObserver(this);
+        if(this.props.model.getAuthToken() != null){
+        this.setState({
+            ...this.state,
+            auth: this.props.model.getUsername(),
+            status:'DONE'
+        })
+    }
+
      }
 
      /**
@@ -65,7 +73,6 @@ import LoginBox from './containerLogin/LoginBox';
       * @param {observer update} payload 
       */
      update(payload){
-         console.log(payload)
         this.setState({
             ...this.state,
             auth:payload.store.getState().loginUser.auth,
@@ -76,6 +83,7 @@ import LoginBox from './containerLogin/LoginBox';
       * Render method that is returning the virtual dom to be rendered at the index.js file.
       * @return             React virtual DOM
       */
+     //Password1
      render(){
          let display = null;
          switch(this.state.status){
@@ -83,7 +91,7 @@ import LoginBox from './containerLogin/LoginBox';
                  display = <em>Loading...</em>;
                  break;
             case 'DONE':
-                display = <b>{this.props.model.getUsername(this.state.auth.token)}</b>;
+                display = <b>{this.props.model.getUsername(this.state.auth.token)}</b>
                 break;
             default:
                 display = <LoginBox store={this.props.model.store}
