@@ -18,4 +18,19 @@
      payload:error
  })
 
-export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess} ;
+const postOrderRequest =() => ({
+    type:'POST_ADVERTISEMENT_ORDER',
+})
+
+const postOrderSuccess = auth =>({
+    type: 'POST_ADVERTISEMENT_ORDER_SUCCESS',
+    payload:auth
+})
+
+const postOrderError = error =>({
+    type: 'POST_ADVERTISEMENT_ORDER_ERROR',
+    payload:error
+})
+
+
+export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError} ;
