@@ -16,11 +16,19 @@ import * as Actions from './Actions/ActionsFiles';
 import {ENDPOINTAUTH} from '../config/config';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
+import {JWTverify,setAutherizationToken} from './JWTDecoder';
 
  class LoginModel extends Observable{
-    constructor(){
+    
+    constructor(cookie){
         super()
-        this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
+        if(document.cookie !== ''){
+            this.store = Redux.createStore(Redux.combineReducers(combineReducers),JSON.parse(document.cookie),Redux.applyMiddleware(thunkMiddleware));
+            setAutherizationToken(this.store.getState().loginUser.auth.token)
+        }
+        else{
+            this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
+        }
     }
 
     getAuthToken(){
@@ -30,10 +38,14 @@ import axios from 'axios';
         return this.store.getState().loginUser.auth.refreshtoken;
     }
 
-    getErrorMessage(){
-        return this.store.getState().loginUser.error;
+    getUsername(){
+        try {
+            return JWTverify(this.store.getState().loginUser.auth.token).sub
+        } catch (error) {
+            return null
+        }
     }
-
+    
     /**
      * This method notifies observers if there is any changes to the 
      * store!
@@ -41,74 +53,113 @@ import axios from 'axios';
     notifyObservers(){
         this._observer.map(observer => observer.update(this));
     }
-
-    /**
-     * A method that dispatches the action creator to do async api call using redux.
-     * @param {user email} email 
-     * @param {user password} pass 
-     */
-    login(email,pass){
-      this.store.dispatch(login(email,pass));
-    }
-
 }
+
+const signup = json => {
+    return function(dispatch){
+        console.log(json)
+        dispatch(Actions.postUserRegisterRequest())
+        axios.post(ENDPOINTAUTH+'users/',json)
+        .then(resp => {
+            dispatch(Actions.postUserRegisterSuccess(resp.data))
+            instance.notifyObservers();
+            instance.store.dispatch(login(json.email,json.password))
+        })
+        .catch(error =>{
+            dispatch(Actions.postUserRegisterError(error.response.data.message))
+            instance.notifyObservers();
+        })
+    }
+}
+
+const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
+    switch(action.type){
+        case 'POST_USER_REGISTER_REQUEST':
+            return{
+                ...state,
+                loading:true
+            }
+        case 'POST_USER_REGISTER_SUCCESS':
+            return{
+                userIsSignedUp:true,
+                loading:false,
+                error:''
+            }
+        case 'POST_USER_REGISTER_ERROR':
+            return{
+                userIsSignedUp:false,
+                loading:false,
+                error:action.payload
+            }
+            default:
+                return state;
+    }
+}
+
 
 const login =(email,pass) =>{
- return function(dispatch){
-     dispatch(Actions.postUserLoginRequest())
-    axios.post(ENDPOINTAUTH+'auth/login',{
-        password:pass,
-        email:email,
-    })
-    .then(resp =>{
+    return function(dispatch){
+        console.log("Loging in!")
+        dispatch(Actions.postUserLoginRequest())
+        axios.post(ENDPOINTAUTH+'auth/login',{
+            password:pass,
+            email:email,
+        })
+        .then(resp =>{
             dispatch(Actions.postUserLoginSuccess(resp.data))
-    })
-    .catch(error => {
-        dispatch(Actions.postUserLoginError(error.message))
-    })
- }
+            instance.notifyObservers();
+            setAutherizationToken(resp.data.token)
+            document.cookie = JSON.stringify(instance.store.getState());
+        })
+        .catch(error => {
+            dispatch(Actions.postUserLoginError(error.response.data.message))
+            instance.notifyObservers();
+            
+        })
+    }
 }
 
-
-
-
- const loginUser = ( state={
-     loading:false,
-     auth:{},
-     error:''
-    },action) => {
-        switch(action.type){
-            case 'POST_USER_LOGIN_REQUEST':
-                return{
-                    ...state,
-                    loading:true
-                }
-
+const loginUser = ( state={
+    loading:false,
+    auth:{
+        token:'',
+        refreshtoken:''
+    },
+    error:''
+},action) => {
+    switch(action.type){
+        case 'POST_USER_LOGIN_REQUEST':
+            return{
+                ...state,
+                loading:true
+            }
+            
             case 'POST_USER_LOGIN_SUCCESS':
                 return{
                     loading:false,
-                    auth: action.payload,
+                    auth: {
+                        token: action.payload.token,
+                        refreshtoken: action.payload.token
+                    },
                     error:''
                 }
-
-            case 'POST_USER_LOGIN_ERROR':
-                return{
-                    loading:false,
-                    auth:{},
-                    error: { message: action.payload,
-                              code:action.code }
+                
+                case 'POST_USER_LOGIN_ERROR':
+                    return{
+                        loading:false,
+                        auth:{},
+                        error:action.payload
+                    }
+                    default :
+                    return state;
                 }
-            default :
-                return state;
-        }
- }
-
-
- const combineReducers = {loginUser};
-
- const instance = new LoginModel();
-
- instance.store.subscribe(() => instance.notifyObservers())
-
- export default instance;
-
+            }
+            
+            
+            const combineReducers = {loginUser,signupUser};
+            
+            
+            const instance = new LoginModel();
+            export default instance;
+            export{login,signup};
+            

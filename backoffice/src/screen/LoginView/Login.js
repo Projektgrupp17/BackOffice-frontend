@@ -8,19 +8,18 @@
  * to the view.
  * 
  * @Author Netanel Avraham Eklind
- * @version 0.0.1
+ * @version 0.0.5
  * 
  * TODO: 
- * * Implement Login <Netanel>
- * * Register
  * * Forgot password
  * * Contact us
  */
 
 import React, { Component } from "react";
-
-
-
+import LoginBox from './containerLogin/LoginBox';
+import SignInBox from './containerLogin/SignInBox';
+import Axios from "axios";
+import { ENDPOINTBACKEND } from "../../config/config";
  class Login extends Component{
      /**
       * Creates a super with props and a state that is null, state will contain the information needed!
@@ -28,16 +27,29 @@ import React, { Component } from "react";
       */
      constructor(params){
          super(params)
-         this.state={
-             email:'',
-             password:'',
-            auth:{
-                token:'',
-                refreshtoken:''
+         this.state = {
+             auth: null,
+             status:'',
+             display:0,
+             message:''
             }
-         }
+            this.status = this.handleStatus.bind(this);
+            
+        }
+
+     handleStatus(status){
+        this.setState({
+            ...this.state,
+            status: status
+        })
      }
 
+     displayChange(value){
+         this.setState({
+             ...this.state,
+             display:value
+         })
+     }
 
      /**
       * This method is called when the component is rendered for the first time and will then 
@@ -45,6 +57,14 @@ import React, { Component } from "react";
       */
      componentDidMount(){
         this.props.model.addObserver(this);
+        if(this.props.model.getAuthToken() !== ""){
+        this.setState({
+            ...this.state,
+            auth: this.props.model.getUsername(),
+            status:'DONE'
+        })
+    }
+
      }
 
      /**
@@ -60,63 +80,105 @@ import React, { Component } from "react";
       * @param {observer update} payload 
       */
      update(payload){
-        this.setState({
-            ...this.state,
-            auth:payload.store.getState().loginUser.auth
-        })
+         if(payload.store.getState().loginUser.error !== ''){
+            this.setState({
+                ...this.state,
+                auth:payload.store.getState().loginUser.auth,
+                status:'',
+                message: payload.store.getState().loginUser.error
+            })
+         }
+         else if(payload.store.getState().signupUser.error !== ''){
+            this.setState({
+                ...this.state,
+                auth:payload.store.getState().loginUser.auth,
+                status:'',
+                message: payload.store.getState().signupUser.error
+            })
+         }
+
+         else{
+             this.setState({
+                 ...this.state,
+                 auth:payload.store.getState().loginUser.auth,
+                 status:'DONE',
+             })
+         }
      }
 
-     /**
-      * Dynamicly updates the state of the email attribute
-      * @param {the event} e 
-      */
-     setUserName(e){
-         this.setState({
-             ...this.state,
-             email:e.target.value
-         })
+     test(){
+        Axios.get(ENDPOINTBACKEND+"order/history?id=Netanel").then(resp => console.log(resp))
      }
-
-     /**
-      * Dynamicly updates the state of the password attribute
-      * @param {event} e 
-      */
-     setPassword(e){
-        this.setState({
-            ...this.state,
-            password:e.target.value
-        })
-    }
-
-    /**
-     * On click sends the state of the email and password to the login model.
-     */
-     signUp(){
-         this.props.model.login(this.state.email,this.state.password);
-     }
-
      /**
       * Render method that is returning the virtual dom to be rendered at the index.js file.
       * @return             React virtual DOM
       */
+     //Password1
      render(){
+         let display = null;
+         switch(this.state.status){
+            case 'LOADING':
+                 display = <em>Loading...</em>;
+                 break;
+            case 'DONE':
+                display = <div>
+                    <b>{this.props.model.getUsername(this.state.auth.token)}</b>
+                    <button onClick ={() => this.test()}>
+                        testing calls
+                    </button>
+                </div>
+                break;
+            default:
+                display = this.loginDisplay(this.state.display);
+         }
          return(
             <div id="login-component">
-                <form>
-                    <label>
-                        Email:
-                        <input type="text"name ="name" onChange={this.setUserName.bind(this)}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password"name="password"onChange={this.setPassword.bind(this)}/>
-                    </label>
-                    <input type="button" value="Login" onClick={()=> this.signUp()}/>
-                </form>
-                <h1>We have a auth: {this.state.auth.refreshtoken != null} !!</h1>
+               {display}
             </div>
          );
      }
+
+     loginDisplay = (state) => {
+          switch(state){
+                case 1:
+                  return(
+                      <div id="login">
+                          <LoginBox store={this.props.model.store}
+                          status={this.status}/>
+                              {this.errorCheck()}
+                      </div>
+                  )
+                case 2:
+                    return(<div id="sign">
+                        <SignInBox store={this.props.model.store}
+                        status={this.status}/>
+                        {this.errorCheck()}
+                    </div>
+                    )
+                default:
+                return(
+                    <div id = "SignBox">
+                    <button id="btn" onClick={() => this.displayChange(2)}>
+                        SignUp
+                    </button>
+                      <button id="btn" onClick={() => this.displayChange(1)}>
+                      SignIn
+                  </button>
+                    </div>
+                )
+          }
+      }
+
+      errorCheck(){
+          if(this.state.message !== ""){
+              return(
+                  <b>{this.state.message}</b>
+              )
+          }
+      }
  }
 
+
+
+ 
  export default Login

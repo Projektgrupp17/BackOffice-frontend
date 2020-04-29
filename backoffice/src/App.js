@@ -15,12 +15,20 @@ import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
 import './App.css';
 import LoginView from './screen/LoginView/Login';
 import loginModel from './model/LoginModel'
+import instance from './model/LoginModel';
 
 /**
  * Method to render the application to display the different screens depending on browser router.
  * @returns             The virtual REACT dom to be rendered.
  */
 class App extends Component{
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      currentUser:instance.getUsername()
+    };
+  }
 
   render(){
     return (
@@ -30,6 +38,9 @@ class App extends Component{
               <Route exact path="/">
                <LoginView model={loginModel}/>
               </Route>
+              <Route path ="/order">
+                {/*order herer */}
+              </Route>
 
             </Switch>
           </Router>
@@ -37,5 +48,7 @@ class App extends Component{
   );
 }
 }
+
+
 
 export default App;
