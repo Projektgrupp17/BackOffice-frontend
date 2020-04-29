@@ -1,0 +1,8 @@
+.orderbox {
+    margin-left: 25%;
+    padding: 2.5%;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    background-color: grey;
+}
