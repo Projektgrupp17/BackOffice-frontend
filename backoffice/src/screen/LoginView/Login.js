@@ -11,7 +11,6 @@
  * @version 0.0.3
  * 
  * TODO: 
- * * Register <Netanel>
  * * Forgot password
  * * Contact us
  */
@@ -31,7 +30,8 @@ import { ENDPOINTBACKEND } from "../../config/config";
          this.state = {
              auth: null,
              status:'',
-             display:0
+             display:0,
+             message:''
             }
             this.status = this.handleStatus.bind(this);
             
@@ -83,7 +83,8 @@ import { ENDPOINTBACKEND } from "../../config/config";
         this.setState({
             ...this.state,
             auth:payload.store.getState().loginUser.auth,
-            status:'DONE'
+            status:'DONE',
+            message:payload.store.getState().loginUser.error
         })
      }
 

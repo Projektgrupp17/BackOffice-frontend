@@ -4,8 +4,9 @@ import {signup} from '../../../model/LoginModel';
 
 
 const mapDispatchToProps = dispatch=>{
+    console.log("hello")
     return{
-        signup: () => dispatch(signup())
+        signup: (json) => dispatch(signup(json))
     }
 }
 
@@ -34,7 +35,6 @@ class SignInContainer extends Component{
 
     handleSubmit = event =>{
         event.preventDefault();
-        console.log(this.state)
         this.props.signup(this.state)
         this.handleStatus("LOADING");
     }

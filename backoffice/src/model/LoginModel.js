@@ -57,12 +57,13 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
 
 const signup = json => {
     return function(dispatch){
+        console.log(json)
         dispatch(Actions.postUserRegisterRequest())
         axios.post(ENDPOINTAUTH+'users/',json)
         .then(resp => {
             dispatch(Actions.postUserRegisterSuccess(resp.data))
             instance.notifyObservers();
-            login(json.email,json.password);
+            instance.store.dispatch(login(json.email,json.password))
         })
         .catch(error =>{
             dispatch(Actions.postUserRegisterError(error.message))
@@ -98,6 +99,7 @@ const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
 
 const login =(email,pass) =>{
     return function(dispatch){
+        console.log("Loging in!")
         dispatch(Actions.postUserLoginRequest())
         axios.post(ENDPOINTAUTH+'auth/login',{
             password:pass,
@@ -112,6 +114,7 @@ const login =(email,pass) =>{
         .catch(error => {
             dispatch(Actions.postUserLoginError(error.message))
             instance.notifyObservers();
+            console.log(error.message)
         })
     }
 }
