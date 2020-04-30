@@ -5,7 +5,7 @@
  * @version 0.0.1
  */
 import '../OrderStyle.css'
-import React,{useState, Component} from 'react'
+import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {makeOrder} from '../../../model/OrderModel'
 

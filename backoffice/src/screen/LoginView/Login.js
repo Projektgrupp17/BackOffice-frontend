@@ -18,8 +18,6 @@
 import React, { Component } from "react";
 import LoginBox from './containerLogin/LoginBox';
 import SignInBox from './containerLogin/SignInBox';
-import Axios from "axios";
-import { ENDPOINTBACKEND } from "../../config/config";
  class Login extends Component{
      /**
       * Creates a super with props and a state that is null, state will contain the information needed!
