@@ -32,4 +32,20 @@ const postUserRegisterError = (error) =>({
     payload:error
 })
 
-export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess,postUserRegisterRequest,postUserRegisterError,postUserRegisterSuccess} ;
+const postOrderRequest =() => ({
+    type:'POST_ADVERTISEMENT_ORDER',
+})
+
+const postOrderSuccess = auth =>({
+    type: 'POST_ADVERTISEMENT_ORDER_SUCCESS',
+    payload:auth
+})
+
+const postOrderError = error =>({
+    type: 'POST_ADVERTISEMENT_ORDER_ERROR',
+    payload:error
+})
+
+
+export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError,
+postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError} ;
