@@ -20,7 +20,7 @@ import orderModel from './model/OrderModel';
 import {isAuth} from './model/JWTDecoder';
 /**
  * Method to render the application to display the different screens depending on browser router.
- * @returns             The virtual REACT dom to be rendered.asdasda
+ * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
  */
 class App extends Component{
   constructor(props){
