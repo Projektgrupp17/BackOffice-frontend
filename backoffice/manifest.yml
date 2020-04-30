@@ -1,5 +1,8 @@
 applications:
-- name: backOffice
-  random-route: true
-  buildpack: sdk-for-nodejs
-  memory: 256M
+  - path: .
+    name: Backoffice-Marketing
+    environment_json: {}
+    memory: 256M
+    instances: 1
+    disk_quota: 1024M
+    services: []

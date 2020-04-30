@@ -3,6 +3,7 @@
  */
 
 import Axios from 'axios';
+import instanceModel from './LoginModel';
 
 
 
@@ -28,6 +29,17 @@ const setAutherizationToken = (token) => {
     }
 }
 
+const isAuth = () =>{
+    if(instanceModel.getAuthToken() !== ''){
+        console.log(true)
+        return true
+    }
+    else{
+        console.log(false)
+        return false;
+    }
+}
 
 
- export {JWTverify,setAutherizationToken};
+
+ export {JWTverify,setAutherizationToken,isAuth};

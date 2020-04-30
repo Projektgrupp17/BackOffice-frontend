@@ -17,6 +17,7 @@ import LoginView from './screen/LoginView/Login';
 import loginModel from './model/LoginModel';
 import Order from './screen/OrderView/Order';
 import orderModel from './model/OrderModel';
+import {isAuth} from './model/JWTDecoder';
 /**
  * Method to render the application to display the different screens depending on browser router.
  * @returns             The virtual REACT dom to be rendered.
@@ -38,11 +39,13 @@ class App extends Component{
               <Route exact path="/">
                <LoginView model={loginModel}/>
               </Route>
-              <Route path="/order">
-                <Order model ={orderModel}/>
-              </Route>
-              {/* <PrivateRoute path ="/order"
-              component = {Order}/> */}
+              <PrivateRoute 
+              exact
+              path ="/order"
+              component = {Order}
+              model ={orderModel}
+              isAuth ={isAuth()}
+              />
             </Switch>
           </Router>
       </div>
@@ -55,25 +58,16 @@ const PrivateRoute = ({component: Component, ...rest}) =>{
         <Route
         {...rest}
         render = {
-          props=> 
-          isAuth ? (
-            <Component {...props}/>
+          (props) => 
+          isAuth() ? (
+            <Component {...props} {...rest}/>
           ):
           (
-            <Redirect to={{
-              pathname: "/",
-              state: {from: props.location}
-            }}
-            />
+            <Redirect to="/"/>
           )
         }
         />
       )
 }
-
-const isAuth = () =>{
-      return App.state.currentUser !== null
-}
-
 
 export default App;

@@ -121,7 +121,7 @@ class OrderContainer extends Component {
 
     render() {
         return(
-            <div class="orderbox" id="orderbox">
+            <div className="orderbox" id="orderbox">
                  <form onSubmit={this.handleSubmit}>
                         <label>
                             Credits:
