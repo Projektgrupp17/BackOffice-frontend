@@ -21,12 +21,6 @@ const mapDispatchToProps = dispatch=>{
     }
 }
 
-const mapStateToProps = state =>{
-    return {
-        
-    }
-}
-
 /**
  * The main component of the loginbox.
  * It handles the submition of the email and password and sends it to the store
