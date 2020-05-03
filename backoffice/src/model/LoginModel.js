@@ -20,7 +20,7 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
 
  class LoginModel extends Observable{
     
-    constructor(){
+    constructor(cookie){
         super()
         if(document.cookie !== ''){
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),JSON.parse(document.cookie),Redux.applyMiddleware(thunkMiddleware));
@@ -33,6 +33,9 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
 
     getAuthToken(){
         return this.store.getState().loginUser.auth.token;
+    }
+    getAuthRefreshToken(){
+        return this.store.getState().loginUser.auth.refreshtoken;
     }
 
     getUsername(){
@@ -54,6 +57,7 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
 
 const signup = json => {
     return function(dispatch){
+        console.log(json)
         dispatch(Actions.postUserRegisterRequest())
         axios.post(ENDPOINTAUTH+'users/',json)
         .then(resp => {
@@ -92,31 +96,12 @@ const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
     }
 }
 
-const refresh = (auth) =>{
-     return function(dispatch){
-         console.log(refresh)
-         axios.post(ENDPOINTAUTH+'auth/refresh',{
-            token: auth.token,
-            refreshtoken: auth.refreshtoken
-         })
-         .then(resp => {
-            dispatch(Actions.refreshOrder(resp.data))
-            instance.notifyObservers();
-            setAutherizationToken(resp.data.token)
-            document.cookie = JSON.stringify(instance.store.getState());
-         })
-         .catch(error => {
-             dispatch(Actions.postUserLoginError(error.response.data.message))
-             instance.notifyObservers();
-         })
-     }
-}
-
 
 const login =(email,pass) =>{
     return function(dispatch){
+        console.log("Loging in!")
         dispatch(Actions.postUserLoginRequest())
-       return axios.post(ENDPOINTAUTH+'auth/login',{
+        axios.post(ENDPOINTAUTH+'auth/login',{
             password:pass,
             email:email,
         })
@@ -125,7 +110,7 @@ const login =(email,pass) =>{
             instance.notifyObservers();
             setAutherizationToken(resp.data.token)
             document.cookie = JSON.stringify(instance.store.getState());
-            //window.location.pathname = "/order"
+            window.location.pathname = "/order"
         })
         .catch(error => {
             dispatch(Actions.postUserLoginError(error.response.data.message))
@@ -165,11 +150,6 @@ const loginUser = ( state={
                         loading:false,
                         auth:{},
                         error:action.payload
-                    }
-
-                case 'REFRESH_USER_LOGIN':
-                    return{
-
                     }
                     default :
                     return state;

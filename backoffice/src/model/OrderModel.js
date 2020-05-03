@@ -92,7 +92,6 @@ const order = (state = {
 }
 
 const instance = new OrderModel();
-
 export default instance;
 export { makeOrder };
 

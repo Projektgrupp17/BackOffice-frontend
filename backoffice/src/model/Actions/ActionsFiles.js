@@ -46,11 +46,6 @@ const postOrderError = error =>({
     payload:error
 })
 
-const refreshOrder = auth =>({
-    type:'REFRESH_USER_LOGIN',
-    payload: auth
-})
-
 
 export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError,
-postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder} ;
+postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError} ;
