@@ -138,7 +138,8 @@ import SignInBox from './containerLogin/SignInBox';
                   return(
                       <div id="login">
                           <LoginBox store={this.props.model.store}
-                          status={this.status}/>
+                          status={this.status}
+                          />
                               {this.errorCheck()}
                       </div>
                   )

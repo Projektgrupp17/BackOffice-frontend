@@ -17,6 +17,13 @@ import {login} from '../../../model/LoginModel'
 const mapDispatchToProps = dispatch=>{
     return{
         login: (email,password) => dispatch(login(email,password))
+        .then(() => window.location.pathname = "/order")
+    }
+}
+
+const mapStateToProps = state =>{
+    return {
+        
     }
 }
 
