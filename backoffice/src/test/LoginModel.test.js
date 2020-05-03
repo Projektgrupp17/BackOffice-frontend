@@ -3,7 +3,7 @@
  * selenium
  */
 
-import Login,{login} from '../model/LoginModel';
+import Login,{login} from './../model/LoginModel';
 import configureStore from 'redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
