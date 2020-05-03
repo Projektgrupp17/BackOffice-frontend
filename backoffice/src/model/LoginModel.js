@@ -94,7 +94,6 @@ const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
 
 const refresh = (auth) =>{
      return function(dispatch){
-         console.log(refresh)
          axios.post(ENDPOINTAUTH+'auth/refresh',{
             token: auth.token,
             refreshtoken: auth.refreshtoken
