@@ -92,24 +92,24 @@ const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
     }
 }
 
-const refresh = (auth) =>{
-     return function(dispatch){
-         axios.post(ENDPOINTAUTH+'auth/refresh',{
-            token: auth.token,
-            refreshtoken: auth.refreshtoken
-         })
-         .then(resp => {
-            dispatch(Actions.refreshOrder(resp.data))
-            instance.notifyObservers();
-            setAutherizationToken(resp.data.token)
-            document.cookie = JSON.stringify(instance.store.getState());
-         })
-         .catch(error => {
-             dispatch(Actions.postUserLoginError(error.response.data.message))
-             instance.notifyObservers();
-         })
-     }
-}
+// const refresh = (auth) =>{
+//      return function(dispatch){
+//          axios.post(ENDPOINTAUTH+'auth/refresh',{
+//             token: auth.token,
+//             refreshtoken: auth.refreshtoken
+//          })
+//          .then(resp => {
+//             dispatch(Actions.refreshOrder(resp.data))
+//             instance.notifyObservers();
+//             setAutherizationToken(resp.data.token)
+//             document.cookie = JSON.stringify(instance.store.getState());
+//          })
+//          .catch(error => {
+//              dispatch(Actions.postUserLoginError(error.response.data.message))
+//              instance.notifyObservers();
+//          })
+//      }
+// }
 
 
 const login =(email,pass) =>{
