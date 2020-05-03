@@ -17,7 +17,6 @@ This application communicate with the backOffice-backend and Auth api.
 ## Testing
 See test badge and test page on wiki!
 ![CI](https://github.com/Projektgrupp17/BackOffice-frontend/workflows/CI/badge.svg?branch=master)
-
 testing npm:
 
 <code> npm install 'react-test-render' 
