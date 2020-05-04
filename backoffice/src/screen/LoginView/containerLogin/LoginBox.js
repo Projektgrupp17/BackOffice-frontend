@@ -12,14 +12,17 @@ import {login} from '../../../model/LoginModel'
 /**
  * Dispatch a new update to the store with the given dispatch from 
  * the store.
- * @param {The dispatch command to sned a store upate} dispatch 
+ * @param {Store} dispatch  action to be taken
  */
 const mapDispatchToProps = dispatch=>{
     return{
         login: (email,password) => dispatch(login(email,password))
     }
 }
-
+/**
+ * Provides the component with information from model store.
+ * @param {Store} state state of the store.
+ */
 const mapStateToProps = state =>{
     return{
         loginUser: state.loginUser

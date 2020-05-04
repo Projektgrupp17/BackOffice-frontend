@@ -56,18 +56,19 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
 }
 
 /**
- * Refreshes the token with the aid of the refresh
- * @param {String} auth 
+ * Refreshes the token with the token and refresh token.
+ * @param {String} auth  a Json string containing old auth token.
  */
 const refresh = (auth) =>{
     return function(dispatch){
-        console.log(refresh)
-        axios.post(ENDPOINTAUTH+'auth/refresh',{
-           token: auth.token,
-           refreshtoken: auth.refreshtoken
+       return axios.post(ENDPOINTAUTH+'auth/refresh',{headers:{
+           "Auth-Token": auth.token,
+           "Refresh-Token": auth.refreshtoken
+       }
         })
         .then(resp => {
-           dispatch(Actions.refreshOrder(resp.data))
+            
+           dispatch(Actions.refreshOrder(resp.data.data))
            instance.notifyObservers();
            setAutherizationToken(resp.data.token)
            document.cookie = JSON.stringify(instance.store.getState());
@@ -85,7 +86,6 @@ const refresh = (auth) =>{
  */
 const signup = json => {
     return function(dispatch){
-        console.log(json)
         dispatch(Actions.postUserRegisterRequest())
         axios.post(ENDPOINTAUTH+'users/',json)
         .then(resp => {
