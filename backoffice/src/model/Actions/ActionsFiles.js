@@ -1,6 +1,9 @@
 /**
  * This file contains all the actions to be used by the redux login model.
+ * @author Netanel Avraham Eklind
+ * @author Magnus
  * 
+ * @version 1.0.0
  */
 
 
