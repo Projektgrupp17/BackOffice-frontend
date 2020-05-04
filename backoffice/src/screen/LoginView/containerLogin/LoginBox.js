@@ -20,6 +20,12 @@ const mapDispatchToProps = dispatch=>{
     }
 }
 
+const mapStateToProps = state =>{
+    return{
+        loginUser: state.loginUser
+    }
+}
+
 /**
  * The main component of the loginbox.
  * It handles the submition of the email and password and sends it to the store
@@ -32,8 +38,10 @@ class LoginContainer extends Component{
             email:'',
             password:'',
         }
+
         this.handleStatus = this.handleStatus.bind(this);
     }
+
     /**
      * Change status of loginbox
      * @param {Status of login} status 
@@ -57,7 +65,6 @@ class LoginContainer extends Component{
         this.props.login(this.state.email,this.state.password)
         this.handleStatus("LOADING");
     }
-
 
     setEmail(e){
         this.setState({
@@ -94,5 +101,5 @@ class LoginContainer extends Component{
         )
     }
 }
- 
-export default connect(null,mapDispatchToProps)(LoginContainer)
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoginContainer)

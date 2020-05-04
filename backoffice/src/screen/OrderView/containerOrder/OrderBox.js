@@ -5,7 +5,11 @@
  * @version 0.0.1
  */
 import '../OrderStyle.css'
+<<<<<<< HEAD
 import React,{Component} from 'react'
+=======
+import React,{ Component} from 'react'
+>>>>>>> 1685de278757d429afb4ddb21f672c0223e12810
 import {connect} from 'react-redux'
 import {makeOrder} from '../../../model/OrderModel'
 

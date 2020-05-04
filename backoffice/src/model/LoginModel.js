@@ -55,6 +55,34 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
     }
 }
 
+/**
+ * Refreshes the token with the aid of the refresh
+ * @param {String} auth 
+ */
+const refresh = (auth) =>{
+    return function(dispatch){
+        console.log(refresh)
+        axios.post(ENDPOINTAUTH+'auth/refresh',{
+           token: auth.token,
+           refreshtoken: auth.refreshtoken
+        })
+        .then(resp => {
+           dispatch(Actions.refreshOrder(resp.data))
+           instance.notifyObservers();
+           setAutherizationToken(resp.data.token)
+           document.cookie = JSON.stringify(instance.store.getState());
+        })
+        .catch(error => {
+            dispatch(Actions.postUserLoginError(error.response.data.message))
+            instance.notifyObservers();
+        })
+    }
+}
+/**
+ * A functions that calls for signup to the auth api and updates the store with
+ * an jwt token.
+ * @param {String} json 
+ */
 const signup = json => {
     return function(dispatch){
         console.log(json)
@@ -71,7 +99,11 @@ const signup = json => {
         })
     }
 }
-
+/**
+ * The action for updating the user signup reducer state
+ * @param {Store} state 
+ * @param {Action} action 
+ */
 const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
     switch(action.type){
         case 'POST_USER_REGISTER_REQUEST':
@@ -96,12 +128,16 @@ const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
     }
 }
 
-
+/**
+ * Login into the api and retrive an jwt token.
+ * @param {String} email 
+ * @param {String} pass 
+ */
 const login =(email,pass) =>{
     return function(dispatch){
-        console.log("Loging in!")
+   
         dispatch(Actions.postUserLoginRequest())
-        axios.post(ENDPOINTAUTH+'auth/login',{
+       return axios.post(ENDPOINTAUTH+'auth/login',{
             password:pass,
             email:email,
         })
@@ -110,16 +146,26 @@ const login =(email,pass) =>{
             instance.notifyObservers();
             setAutherizationToken(resp.data.token)
             document.cookie = JSON.stringify(instance.store.getState());
-            window.location.pathname = "/order"
         })
         .catch(error => {
-            dispatch(Actions.postUserLoginError(error.response.data.message))
+            
+            if(error.message === 'Network Error'){
+            dispatch(Actions.postUserLoginError("No connection to server"))
+            }else{
+                dispatch(Actions.postUserLoginError(error.response.data.message))
+            }
             instance.notifyObservers();
             
         })
     }
 }
 
+/**
+ * The action that uppdates the reducer state depending on action
+ * type
+ * @param {The initial state of the reducer} state 
+ * @param {The actions given to the reducer} action 
+ */
 const loginUser = ( state={
     loading:false,
     auth:{
@@ -151,6 +197,17 @@ const loginUser = ( state={
                         auth:{},
                         error:action.payload
                     }
+
+                case 'REFRESH_USER_LOGIN':
+                    return{
+                        loading:false,
+                        auth: {
+                            token: action.payload.token,
+                            refreshtoken: action.payload.token
+                        },
+                        error:''
+                    }
+
                     default :
                     return state;
                 }
@@ -162,5 +219,5 @@ const loginUser = ( state={
             
             const instance = new LoginModel();
             export default instance;
-            export{login,signup};
+            export{login,signup,refresh};
             

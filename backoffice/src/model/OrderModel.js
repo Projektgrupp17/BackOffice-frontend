@@ -10,6 +10,8 @@ import * as Actions from './Actions/ActionsFiles';
 import { ENDPOINTBACKEND } from '../config/config';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
+import LoginModel,{refresh} from './LoginModel';
+import {JWTverify} from './JWTDecoder';
 
 /**
  * Contains the state related to orders. Order history and such
@@ -35,6 +37,9 @@ class OrderModel extends Observable {
 
 const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
     return function (dispatch) {
+        if(!JWTverify){
+            LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
+        }
         dispatch(Actions.postOrderRequest())
         console.log("START REQ")
         axios.post(ENDPOINTBACKEND + 'order/add', 

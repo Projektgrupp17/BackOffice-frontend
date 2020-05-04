@@ -7,18 +7,22 @@ import instanceModel from './LoginModel';
 
 
 
+
 const jwt = require('jsonwebtoken');
+const RSAKey = require('rsa-key');
 
 
+const pkey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp9zDetMqlfV9XMBVUmgJDPiEpW6DrQFXnv1dtU4DeN754eTr3FQImV8mXl49OXXLy3nkUa/qgllM2vhqrPWpZd0BuUAafl1ju9ik/mqmUfRqYf5g0GqD++Jr7JvSBp7Y34o0tZNn81m+lkGU8qWx27U3a/FwTniGn1kzfZoKkBIjVHCLHM87lMnQEOEBm8o6DPzX0Oc1OFkqZhRZiqMPa4Nz96ftd1Lg/2Q7ut8elpASXDY1dLjm9dilTERjg0MjrunOMvgGCj2Zzsu56QoZ02tS1lGj2XkcKhc4WMVknid/s3FPOHmHvyoZsw7REGzVDpKTS6ENJ06UtXYtK0wJqwIDAQAB";
 
-//const pkey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp9zDetMqlfV9XMBVUmgJDPiEpW6DrQFXnv1dtU4DeN754eTr3FQImV8mXl49OXXLy3nkUa/qgllM2vhqrPWpZd0BuUAafl1ju9ik/mqmUfRqYf5g0GqD++Jr7JvSBp7Y34o0tZNn81m+lkGU8qWx27U3a/FwTniGn1kzfZoKkBIjVHCLHM87lMnQEOEBm8o6DPzX0Oc1OFkqZhRZiqMPa4Nz96ftd1Lg/2Q7ut8elpASXDY1dLjm9dilTERjg0MjrunOMvgGCj2Zzsu56QoZ02tS1lGj2XkcKhc4WMVknid/s3FPOHmHvyoZsw7REGzVDpKTS6ENJ06UtXYtK0wJqwIDAQAB";
-
-const JWTverify = (auth) =>{
+const JWTverify = (token) =>{
     try {
-        return jwt.decode(auth)
-    } catch (error) {
-        return null;
-    }
+        let key = new RSAKey(pkey);
+        jwt.verify(token,key.exportKey(),{algorithms:["RS256"]})
+       return true
+   } catch (error) {
+       console.log(error.message)
+       return false;
+   }
 }
 const setAutherizationToken = (token) => {
     if(token){
@@ -30,16 +34,14 @@ const setAutherizationToken = (token) => {
 }
 
 const isAuth = () =>{
-    if(instanceModel.getAuthToken() !== ''){
-        console.log(true)
+    if(instanceModel.store.getState().loginUser.auth!== ''){
         return true
     }
     else{
-        console.log(false)
         return false;
     }
 }
-
+ 
 
 
  export {JWTverify,setAutherizationToken,isAuth};

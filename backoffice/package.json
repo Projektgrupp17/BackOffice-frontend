@@ -2,11 +2,19 @@
   "name": "backoffice",
   "version": "0.1.0",
   "private": true,
+<<<<<<< HEAD
+=======
+  "engines": {
+    "node": "14.0.0",
+    "npm": "6.14.4"
+  },
+>>>>>>> 1685de278757d429afb4ddb21f672c0223e12810
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "axios-mock-adapter": "^1.18.1",
     "chai": "^4.2.0",
     "jose": "^1.26.1",
     "jsonwebtoken": "^8.5.1",
@@ -18,13 +26,17 @@
     "react-scripts": "3.4.1",
     "react-test-render": "^1.1.2",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
+    "rsa-key": "0.0.6",
+    "ssh-key-to-pem": "^0.11.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest-dom": "^4.0.0"
   }
 }

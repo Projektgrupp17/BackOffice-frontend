@@ -20,25 +20,16 @@ import orderModel from './model/OrderModel';
 import {isAuth} from './model/JWTDecoder';
 /**
  * Method to render the application to display the different screens depending on browser router.
- * @returns             The virtual REACT dom to be rendered.
+ * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
  */
 class App extends Component{
-  constructor(props){
-    super(props)
-    
-    this.state = {
-      currentUser:loginModel.getUsername()
-    };
-  }
-
   render(){
     return (
       <div id="app-component">
           <Router>
             <Switch>
-              <Route exact path="/">
-               <LoginView model={loginModel}/>
-              </Route>
+              <Route exact path="/"
+              render ={ props => <LoginView {...props} model={loginModel}/>}/>
               <PrivateRoute 
               exact
               path ="/order"
@@ -46,6 +37,7 @@ class App extends Component{
               model ={orderModel}
               isAuth ={isAuth()}
               />
+              <PrivateRoute exact path ="/home" isAuth={isAuth()}/>
             </Switch>
           </Router>
       </div>
