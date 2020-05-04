@@ -116,7 +116,6 @@ import SignInBox from './containerLogin/SignInBox';
                  break;
             case 'DONE':
                 display = <div>
-                    <b>{this.props.model.getUsername(this.state.auth.token)}</b>
                     {this.props.history.push('/home')}
                 </div>
                 break;

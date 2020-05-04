@@ -1,6 +1,5 @@
 /**
- * Testfile for loginmodel
- * selenium
+ * Login UnitTest: done
  */
 
 import Login,{login} from '../model/LoginModel';
@@ -112,7 +111,6 @@ describe("Login is working accordlingly", () =>{
 
         return store.dispatch(login('test@example.com','Password1'))
         .then(() =>{
-            console.log(store.getActions())
             chai.expect(store.getActions()).to.be.deep.equal(expectedActions)
         })
 

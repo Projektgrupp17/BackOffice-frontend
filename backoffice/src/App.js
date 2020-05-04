@@ -18,6 +18,7 @@ import loginModel from './model/LoginModel';
 import Order from './screen/OrderView/Order';
 import orderModel from './model/OrderModel';
 import {isAuth} from './model/JWTDecoder';
+import Home from './screen/HomeView/HomeView';
 /**
  * Method to render the application to display the different screens depending on browser router.
  * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
@@ -37,7 +38,7 @@ class App extends Component{
               model ={orderModel}
               isAuth ={isAuth()}
               />
-              <PrivateRoute exact path ="/home" isAuth={isAuth()}/>
+              <PrivateRoute exact path ="/home" component ={Home} isAuth={isAuth()}/>
             </Switch>
           </Router>
       </div>
