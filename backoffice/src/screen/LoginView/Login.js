@@ -99,7 +99,7 @@ import SignInBox from './containerLogin/SignInBox';
              this.setState({
                  ...this.state,
                  auth:payload.store.getState().loginUser.auth,
-                 status:'DONE',
+                 status:'DONE'
              })
          }
      }
@@ -117,9 +117,7 @@ import SignInBox from './containerLogin/SignInBox';
             case 'DONE':
                 display = <div>
                     <b>{this.props.model.getUsername(this.state.auth.token)}</b>
-                    <button onClick ={() => this.test()}>
-                        testing calls
-                    </button>
+                    {this.props.history.push('/home')}
                 </div>
                 break;
             default:
@@ -138,8 +136,8 @@ import SignInBox from './containerLogin/SignInBox';
                   return(
                       <div id="login">
                           <LoginBox store={this.props.model.store}
-                          status={this.status}/>
-                              {this.errorCheck()}
+                            status={this.status}/>
+                            {this.errorCheck()}
                       </div>
                   )
                 case 2:
