@@ -34,7 +34,8 @@ const setAutherizationToken = (token) => {
 }
 
 const isAuth = () =>{
-    if(instanceModel.store.getState().loginUser.auth!== ''){
+    console.log(instanceModel.store.getState().loginUser.auth.token )
+    if(instanceModel.store.getState().loginUser.auth.token !== ''){
         return true
     }
     else{
