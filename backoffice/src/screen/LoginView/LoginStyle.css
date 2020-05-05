@@ -1,7 +1,10 @@
 #login-component{
     grid-area: sidebar;
-    background-color: #686868;
+    background-image: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 33%, rgb(0, 0, 0) 67% );
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(29, 29, 29)), color-stop(1,  rgb(0, 0, 0)));
     height: auto;
+    border-right: 2px solid;
+    border-color: rgb(255, 255, 255);
 }
 
 #SignBox{
@@ -14,4 +17,14 @@
     grid-template-areas: "SignUp"  "SignIn";
     row-gap: 15px;
     align-items: center;
+}
+
+
+#btn{
+    background:rgb(34, 34, 34) ;
+    border-color: rgb(34, 34, 34);
+    color: blanchedalmond;
+    font: Arial, sans-serif;
+    font-size: large;
+    height: 50px;
 }

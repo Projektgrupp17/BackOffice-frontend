@@ -27,6 +27,13 @@ class App extends Component{
   render(){
     return (
       <div id="app-component">
+           <div id ="Login-Message">
+                            <h1 id="message">
+                                Welcome!<br/>
+                            Sign up to start service!
+                            </h1>
+                        </div>
+
           <Router>
             <Switch>
               <Route exact path="/"

@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM, {render} from 'react-dom';
 import Login from '../screen/LoginView/Login';
-import {MemoryRouter} from 'react-router';
 import loginModel, { login } from '../model/LoginModel';
-import { act } from 'react-dom/test-utils';
-import App from '../App';
 
 const chai = require('chai')
 
