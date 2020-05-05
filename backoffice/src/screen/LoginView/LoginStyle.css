@@ -1,0 +1,17 @@
+#login-component{
+    grid-area: sidebar;
+    background-color: #686868;
+    height: auto;
+}
+
+#SignBox{
+    margin-top: 10px;
+    width: auto;
+    height: 50%;
+    padding: 0;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "SignUp"  "SignIn";
+    row-gap: 15px;
+    align-items: center;
+}

@@ -18,6 +18,7 @@
 import React, { Component } from "react";
 import LoginBox from './containerLogin/LoginBox';
 import SignInBox from './containerLogin/SignInBox';
+import './LoginStyle.css'
  class Login extends Component{
      /**
       * Creates a super with props and a state that is null, state will contain the information needed!
@@ -149,10 +150,10 @@ import SignInBox from './containerLogin/SignInBox';
                 default:
                 return(
                     <div id = "SignBox">
-                    <button id="btn" onClick={() => this.displayChange(2)}>
+                    <button  className="SignUp" id ="btn" onClick={() => this.displayChange(2)}>
                         SignUp
                     </button>
-                      <button id="btn" onClick={() => this.displayChange(1)}>
+                      <button  className="SignIn" id ="btn" onClick={() => this.displayChange(1)}>
                       SignIn
                   </button>
                     </div>

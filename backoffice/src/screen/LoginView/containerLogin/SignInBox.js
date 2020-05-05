@@ -4,7 +4,6 @@ import {signup} from '../../../model/LoginModel';
 
 
 const mapDispatchToProps = dispatch=>{
-    console.log("hello")
     return{
         signup: (json) => dispatch(signup(json))
     }
@@ -32,7 +31,9 @@ class SignInContainer extends Component{
         this.props.status(status)
     } 
 
-
+    /**
+     * Calls when a submit event is detected. Prevents refresh of site.
+     */
     handleSubmit = event =>{
         event.preventDefault();
         this.props.signup(this.state)
@@ -65,6 +66,9 @@ class SignInContainer extends Component{
             agency:e
         })
     }
+    /**
+     * Validates that the form is filled out and no empty boxes are found!
+     */
     validateForm(){
             return this.state.email.length > 0 && this.state.password.length > 0
              && this.state.username.length > 0 && this.state.agency.length > 0;

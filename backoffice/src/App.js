@@ -64,3 +64,4 @@ const PrivateRoute = ({component: Component, ...rest}) =>{
 }
 
 export default App;
+export {PrivateRoute};
