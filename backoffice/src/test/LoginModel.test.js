@@ -2,11 +2,12 @@
  * Login UnitTest: done
  */
 
-import Login,{login,refresh} from '../model/LoginModel';
+import Login,{login,refresh,signup} from '../model/LoginModel';
 import configureStore from 'redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import { sign } from 'jsonwebtoken';
 const chai = require('chai');
 
 
@@ -220,7 +221,6 @@ describe("Refreshing the site is made correctly",() =>{
         });
         return store.dispatch(refresh(auth))
         .then(()=>{
-            console.log(store.getActions()[0])
            let newStore = {
                 auth:{
                     token:store.getActions()[0].payload.token,
@@ -336,5 +336,118 @@ describe("Signup works correctly",() =>{
         mock.resetHistory();
     })
 
+    it('The signup is sent and responded correctly', () =>{
+        let expectedActions = [
+            {type:'POST_USER_REGISTER_REQUEST'},
+            {type:'POST_USER_REGISTER_SUCCESS',payload:201}
+        ]
+        let testJson = {
+            email:'NetTest@NetTest.com',
+            username:'NetTest',
+            password:'NetTest2',
+            agency:'111333'
+        }
 
+        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        .reply(201);
+
+        return store.dispatch(signup(testJson)).then(()=>{
+            chai.expect(store.getActions()).to.deep.equal(expectedActions)
+        })
+   
+    })
+
+    it('The wrong information is recived and error is throwed,username',() =>{
+        let expectedActions = [
+            {type:'POST_USER_REGISTER_REQUEST'},
+            {type:'POST_USER_REGISTER_ERROR',payload:'invalid username'}
+        ]
+
+        let testJson = {
+            email:'NetTest@NetTest.com',
+            username:'Net',
+            password:'NetTest2',
+            agency:'111333'
+        }
+
+        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        .reply(401,{
+            message: "invalid username"
+        });
+
+        return store.dispatch(signup(testJson))
+        .then(()=>{
+            chai.expect(store.getActions()).to.deep.equal(expectedActions)
+        })
+    })
+    it('The username already excist in the system',() =>{
+        let expectedActions = [
+            {type:'POST_USER_REGISTER_REQUEST'},
+            {type:'POST_USER_REGISTER_ERROR',payload:'user or email aready taken'}
+        ]
+
+        let testJson = {
+            email:'NetTest@NetTest.com',
+            username:'Netanel',
+            password:'NetTest2',
+            agency:'111333'
+        }
+
+        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        .reply(401,{
+            message: "user or email aready taken"
+        });
+
+        return store.dispatch(signup(testJson))
+        .then(()=>{
+            chai.expect(store.getActions()).to.deep.equal(expectedActions)
+        })
+    })
+    it('The password is invalid',() =>{
+        let expectedActions = [
+            {type:'POST_USER_REGISTER_REQUEST'},
+            {type:'POST_USER_REGISTER_ERROR',payload:'invalid password'}
+        ]
+
+        let testJson = {
+            email:'NetTest@NetTest.com',
+            username:'Netanel',
+            password:'Netanel',
+            agency:'111333'
+        }
+
+        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        .reply(401,{
+            message: "invalid password"
+        });
+
+        return store.dispatch(signup(testJson))
+        .then(()=>{
+            chai.expect(store.getActions()).to.deep.equal(expectedActions)
+        })
+    })
+    it('The agency does not exist',() =>{
+        let expectedActions = [
+            {type:'POST_USER_REGISTER_REQUEST'},
+            {type:'POST_USER_REGISTER_ERROR',payload:'agency does not exist'}
+        ]
+
+        let testJson = {
+            email:'NetTest@NetTest.com',
+            username:'Netanel',
+            password:'Netanel',
+            agency:'111333'
+        }
+
+        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        .reply(401,{
+            message: "agency does not exist"
+        });
+
+        return store.dispatch(signup(testJson))
+        .then(()=>{
+            chai.expect(store.getActions()).to.deep.equal(expectedActions)
+        })
+    })
+    
 })
