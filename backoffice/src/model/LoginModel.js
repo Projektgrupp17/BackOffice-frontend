@@ -87,9 +87,9 @@ const refresh = (auth) =>{
 const signup = json => {
     return function(dispatch){
         dispatch(Actions.postUserRegisterRequest())
-        axios.post(ENDPOINTAUTH+'users/',json)
+        return axios.post(ENDPOINTAUTH+'users/',json)
         .then(resp => {
-            dispatch(Actions.postUserRegisterSuccess(resp.data))
+            dispatch(Actions.postUserRegisterSuccess(resp.status))
             instance.notifyObservers();
             instance.store.dispatch(login(json.email,json.password))
         })

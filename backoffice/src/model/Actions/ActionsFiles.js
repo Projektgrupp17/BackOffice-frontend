@@ -25,9 +25,9 @@
      type:'POST_USER_REGISTER_REQUEST'
  })
 
- const postUserRegisterSuccess = (auth) =>({
+ const postUserRegisterSuccess = (status) =>({
     type:'POST_USER_REGISTER_SUCCESS',
-    payload:auth
+    payload:status
 })
 
 const postUserRegisterError = (error) =>({
