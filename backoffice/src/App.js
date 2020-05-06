@@ -24,13 +24,40 @@ import Home from './screen/HomeView/HomeView';
  * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
  */
 class App extends Component{
+  constructor(){
+    super()
+    this.state ={
+      displayWelcome:true
+    }
+    this.display = this.handleDisplay.bind(this)
+  }
+
+  /**
+   * Binds with the login screen to show either welcome message or signup/signin screen!
+   * @param {Boolean} change 
+   */
+  handleDisplay(change){
+    this.setState({
+      ...this.state,
+      displayWelcome:change
+    })
+  }
   render(){
     return (
       <div id="app-component">
+        <div className="circle c0" id="circle0"/>
+        <div className="circle c1" id="circle1"/>
+         <div className="circle c2" id="circle2"/>
+        <div id ="Login-Message" style={{display:welcomeMessage(this.state.displayWelcome)}}>
+          <h1 id="message">
+              Welcome!<br/>
+              Sign up to start service!
+          </h1>
+        </div>
           <Router>
             <Switch>
               <Route exact path="/"
-              render ={ props => <LoginView {...props} model={loginModel}/>}/>
+              render ={ props => <LoginView {...props} model={loginModel} display={this.display}/>}/>
               <PrivateRoute 
               exact
               path ="/order"
@@ -44,6 +71,15 @@ class App extends Component{
       </div>
   );
 }
+}
+
+const welcomeMessage= (flag)=>{
+  if(flag === true){
+  return "grid"    
+  }
+  else{
+    return "none"
+  }
 }
 
 const PrivateRoute = ({component: Component, ...rest}) =>{
@@ -64,3 +100,4 @@ const PrivateRoute = ({component: Component, ...rest}) =>{
 }
 
 export default App;
+export {PrivateRoute};

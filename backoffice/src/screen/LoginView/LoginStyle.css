@@ -1,0 +1,83 @@
+#login-component{
+    grid-area: sidebar;
+    background-image: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 33%, rgb(0, 0, 0) 67% );
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(26, 25, 25)), color-stop(1,  rgb(0, 0, 0)));
+    height: auto;
+    width: auto;
+    border-right: 2px solid;
+    border-color: rgb(255, 255, 255);
+}
+
+#SignBox{
+    margin-top: 10px;
+    width: auto;
+    height: 50%;
+    padding: 0;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "SignUp"  "SignIn";
+    row-gap: 15px;
+    align-items: center;
+    position: relative;
+}
+
+#login{
+    top: 250px;
+    background-color: rgb(41, 41, 41);
+    border-color: white;
+    border: 2px solid white;
+    height: 250px;
+    width: 300px;
+    position: absolute;
+    left: 6.9vw;
+    -webkit-animation: box 1s; 
+    -moz-animation: box 1s; 
+     -ms-animation: box 1s; 
+      -o-animation: box 1s; 
+         animation: box 1s;
+}
+
+@keyframes box{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+#login form{
+    color: white;
+}
+
+#sign{
+    top: 250px;
+    background-color: whitesmoke;
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    left: 140px;
+    display: flex;
+    align-items: center;
+}
+
+#btn{
+    width: auto;
+    background:rgb(34, 34, 34) ;
+    border-color: rgb(34, 34, 34);
+    color: blanchedalmond;
+    font: Arial, sans-serif;
+    font-size: large;
+    height: 50px;
+}
+
+#btn:hover{
+    background:rgb(41, 41, 41) ;
+    border-color: rgb(41, 41, 41);
+}
+
+.SignUp{
+    align-self: end;
+}
+
+
+.SignIn{
+    align-self: start;
+    position: sticky;
+}

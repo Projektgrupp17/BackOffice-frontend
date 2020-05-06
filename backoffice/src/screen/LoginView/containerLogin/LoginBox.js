@@ -8,6 +8,7 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {login} from '../../../model/LoginModel'
+import './LoginBox.css';
 
 /**
  * Dispatch a new update to the store with the given dispatch from 
@@ -83,6 +84,17 @@ class LoginContainer extends Component{
         })
     }
 
+    displayError(){
+        if(this.props.loginUser.error === ''){
+            return null
+        }
+        else{
+            return(
+                <b>Error: {this.props.loginUser.error}</b>
+            )
+        }
+    }
+
     /**
      * Main class render method.
      */
@@ -90,19 +102,25 @@ class LoginContainer extends Component{
         return(
             <div id="loginbox">
                  <form onSubmit={this.handleSubmit}>
-                        <label>
-                            Email:
+                        <label className = "email">
+                           <b id="email-text">Email:</b>
                             <input type="text"name ="name" value={this.state.email} onChange={e => this.setEmail(e.target.value)}/>
                         </label>
-                        <label>
-                            Password:
+                        <label className = "password">
+                        <b id="password-text">Password:</b>
                             <input type="password"name="password" value={this.state.password} onChange={e=>this.setPassword(e.target.value)}/>
                         </label>
-                        <input type="submit" value="Login" disabled={!this.validateForm()}/>
+                        <div id className="Button-login">
+                        <input type="submit" value="Login" disabled={!this.validateForm()} className ="submit"/>
+                        </div>
+                        <div className="Error-message">
+                           {this.displayError()}
+                        </div>
                     </form>
             </div>
         )
     }
 }
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginContainer)
