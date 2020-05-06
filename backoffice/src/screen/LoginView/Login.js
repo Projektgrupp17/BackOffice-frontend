@@ -33,8 +33,12 @@ import './LoginStyle.css'
              message:''
             }
             this.status = this.handleStatus.bind(this);
-            
+            this.displayWelcome = this.handleDisplayWelcome.bind(this)
         }
+
+    handleDisplayWelcome(boolean){
+        this.props.display(boolean)
+    }
 
      handleStatus(status){
         this.setState({
@@ -44,6 +48,7 @@ import './LoginStyle.css'
      }
 
      displayChange(value){
+         this.handleDisplayWelcome(false);
          this.setState({
              ...this.state,
              display:value

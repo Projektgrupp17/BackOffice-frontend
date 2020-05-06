@@ -1,7 +1,7 @@
 #login-component{
     grid-area: sidebar;
     background-image: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 33%, rgb(0, 0, 0) 67% );
-    background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(29, 29, 29)), color-stop(1,  rgb(0, 0, 0)));
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(26, 25, 25)), color-stop(1,  rgb(0, 0, 0)));
     height: auto;
     border-right: 2px solid;
     border-color: rgb(255, 255, 255);
@@ -27,4 +27,17 @@
     font: Arial, sans-serif;
     font-size: large;
     height: 50px;
+}
+
+#btn:hover{
+    background:rgb(41, 41, 41) ;
+    border-color: rgb(41, 41, 41);
+}
+
+.SignUp{
+    align-self: end;
+}
+
+.SignIn{
+    align-self: start;
 }
