@@ -19,8 +19,40 @@
     align-items: center;
 }
 
+#login{
+    top: 250px;
+    background-color: rgb(41, 41, 41);
+    border-color: white;
+    border: 2px solid white;
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    left: 118px;
+    display: flex;
+    align-items: center;
+    animation-name: signIn;
+    animation-duration: 4s;
+}
+
+#login form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sign{
+    top: 250px;
+    background-color: whitesmoke;
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    left: 140px;
+    display: flex;
+    align-items: center;
+}
 
 #btn{
+    width: auto;
     background:rgb(34, 34, 34) ;
     border-color: rgb(34, 34, 34);
     color: blanchedalmond;
@@ -38,6 +70,8 @@
     align-self: end;
 }
 
+
 .SignIn{
     align-self: start;
+    position: sticky;
 }

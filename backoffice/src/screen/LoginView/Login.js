@@ -138,18 +138,29 @@ import './LoginStyle.css'
      loginDisplay = (state) => {
           switch(state){
                 case 1:
-                  return(
+                  return(  
+                  <div id = "SignBox">
+                      <button  className="SignUp" id ="btn" onClick={() => this.displayChange(2)}>
+                        SignUp
+                    </button>
                       <div id="login">
                           <LoginBox store={this.props.model.store}
                             status={this.status}/>
                             {this.errorCheck()}
+                        </div>
                       </div>
                   )
                 case 2:
-                    return(<div id="sign">
+                    return(
+                        <div id = "SignBox">
+                             <button  className="SignIn" id ="btn" onClick={() => this.displayChange(1)}>
+                      SignIn
+                  </button>
+                    <div id="sign">
                         <SignInBox store={this.props.model.store}
                         status={this.status}/>
                         {this.errorCheck()}
+                        </div>
                     </div>
                     )
                 default:

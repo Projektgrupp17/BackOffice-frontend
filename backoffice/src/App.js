@@ -41,14 +41,13 @@ class App extends Component{
       ...this.state,
       displayWelcome:change
     })
-    return `hello  ${change}`
   }
   render(){
     return (
       <div id="app-component">
         <div className="circle c0" id="circle0"/>
         <div className="circle c1" id="circle1"/>
-        <div className="circle c2" id="circle2"/>
+         <div className="circle c2" id="circle2"/>
         <div id ="Login-Message" style={{display:welcomeMessage(this.state.displayWelcome)}}>
           <h1 id="message">
               Welcome!<br/>
