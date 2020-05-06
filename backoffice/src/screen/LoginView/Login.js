@@ -146,7 +146,6 @@ import './LoginStyle.css'
                       <div id="login">
                           <LoginBox store={this.props.model.store}
                             status={this.status}/>
-                            {this.errorCheck()}
                         </div>
                       </div>
                   )
@@ -159,7 +158,6 @@ import './LoginStyle.css'
                     <div id="sign">
                         <SignInBox store={this.props.model.store}
                         status={this.status}/>
-                        {this.errorCheck()}
                         </div>
                     </div>
                     )
@@ -174,14 +172,6 @@ import './LoginStyle.css'
                   </button>
                     </div>
                 )
-          }
-      }
-
-      errorCheck(){
-          if(this.state.message !== ""){
-              return(
-                  <b>{this.state.message}</b>
-              )
           }
       }
  }

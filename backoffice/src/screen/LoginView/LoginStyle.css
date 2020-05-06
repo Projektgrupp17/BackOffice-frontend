@@ -3,6 +3,7 @@
     background-image: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 33%, rgb(0, 0, 0) 67% );
     background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(26, 25, 25)), color-stop(1,  rgb(0, 0, 0)));
     height: auto;
+    width: auto;
     border-right: 2px solid;
     border-color: rgb(255, 255, 255);
 }
@@ -17,6 +18,7 @@
     grid-template-areas: "SignUp"  "SignIn";
     row-gap: 15px;
     align-items: center;
+    position: relative;
 }
 
 #login{
@@ -24,20 +26,24 @@
     background-color: rgb(41, 41, 41);
     border-color: white;
     border: 2px solid white;
-    height: 300px;
+    height: 250px;
     width: 300px;
     position: absolute;
-    left: 118px;
-    display: flex;
-    align-items: center;
-    animation-name: signIn;
-    animation-duration: 4s;
+    left: 6.9vw;
+    -webkit-animation: box 1s; 
+    -moz-animation: box 1s; 
+     -ms-animation: box 1s; 
+      -o-animation: box 1s; 
+         animation: box 1s;
+}
+
+@keyframes box{
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 
 #login form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    color: white;
 }
 
 #sign{

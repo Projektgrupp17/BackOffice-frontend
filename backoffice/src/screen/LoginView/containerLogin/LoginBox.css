@@ -1,0 +1,52 @@
+#loginbox{
+    height: 100%;
+}
+#loginbox form{
+    display: grid;
+    height: 100%;
+    grid-template-rows: 1fr 1fr 1fr 1fr ;
+    grid-template-areas: "email" "password" "signbutton" "error";
+}
+
+.Error-message{
+    grid-area: error;
+    color: red;
+    
+}
+
+.email{
+    grid-area:email;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.password{
+    grid-area: password;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Button-login{
+    grid-area: signbutton;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit{
+    height: 3rem;
+    width: 4rem;
+    background:rgb(34, 34, 34) ;
+    border-color: rgb(34, 34, 34);
+    color: blanchedalmond;
+    font: Arial, sans-serif;
+    font-size: medium;
+}
+
+.submit:hover{
+    background:rgb(41, 41, 41) ;
+    border-color: rgb(41, 41, 41);
+}
