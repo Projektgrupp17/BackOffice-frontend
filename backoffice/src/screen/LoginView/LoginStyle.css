@@ -15,10 +15,14 @@
     padding: 0;
     display: grid;
     grid-template-rows: 50% 50%;
-    grid-template-areas: "SignUp"  "SignIn";
+    grid-template-areas: "SignUp" "SignIn";
     row-gap: 15px;
     align-items: center;
     position: relative;
+}
+
+#keeper{
+    grid-area:SignUp;
 }
 
 #login{
@@ -26,7 +30,7 @@
     background-color: rgb(41, 41, 41);
     border-color: white;
     border: 2px solid white;
-    height: 250px;
+    height: 200px;
     width: 300px;
     position: absolute;
     left: 6.9vw;
@@ -45,16 +49,24 @@
 #login form{
     color: white;
 }
+#sign form{
+    color: white;
+}
 
 #sign{
     top: 250px;
-    background-color: whitesmoke;
+    background-color: rgb(41, 41, 41);
+    border-color: white;
+    border: 2px solid white;
     height: 300px;
     width: 300px;
     position: absolute;
-    left: 140px;
-    display: flex;
-    align-items: center;
+    left: 6.9vw;
+    -webkit-animation: box 1s; 
+    -moz-animation: box 1s; 
+     -ms-animation: box 1s; 
+      -o-animation: box 1s; 
+         animation: box 1s;
 }
 
 #btn{
@@ -79,5 +91,4 @@
 
 .SignIn{
     align-self: start;
-    position: sticky;
 }

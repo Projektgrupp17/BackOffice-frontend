@@ -2,16 +2,12 @@
     height: 100%;
 }
 #loginbox form{
-    display: grid;
     height: 100%;
-    grid-template-rows: 1fr 1fr 1fr 1fr ;
-    grid-template-areas: "email" "password" "signbutton" "error";
 }
 
 .Error-message{
     grid-area: error;
     color: red;
-    
 }
 
 .email{

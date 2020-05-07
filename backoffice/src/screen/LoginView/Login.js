@@ -49,6 +49,7 @@ import './LoginStyle.css'
 
      displayChange(value){
          this.handleDisplayWelcome(false);
+         this.props.model.cleareStoreError();
          this.setState({
              ...this.state,
              display:value
@@ -117,29 +118,29 @@ import './LoginStyle.css'
      render(){
          let display = null;
          switch(this.state.status){
-            case 'LOADING':
-                 display = <em>Loading...</em>;
+             case 'LOADING':
+                 display = <em style={{color:"white",fontSize:"Large"}}>Loading...</em>;
                  break;
-            case 'DONE':
-                display = <div>
+                 case 'DONE':
+                     display = <div>
                     {this.props.history.push('/home')}
                 </div>
                 break;
-            default:
-                display = this.loginDisplay(this.state.display);
-         }
-         return(
-            <div id="login-component">
+                default:
+                    display = this.loginDisplay(this.state.display);
+                }
+                return(
+                    <div id="login-component">
                {display}
             </div>
          );
-     }
-
-     loginDisplay = (state) => {
-          switch(state){
+        }
+        
+        loginDisplay = (state) => {
+            switch(state){
                 case 1:
-                  return(  
-                  <div id = "SignBox">
+                    return(
+                        <div id = "SignBox">
                       <button  className="SignUp" id ="btn" onClick={() => this.displayChange(2)}>
                         SignUp
                     </button>
@@ -152,7 +153,8 @@ import './LoginStyle.css'
                 case 2:
                     return(
                         <div id = "SignBox">
-                             <button  className="SignIn" id ="btn" onClick={() => this.displayChange(1)}>
+                            <div id="keeper"></div>
+                            <button  className="SignIn" id ="btn" onClick={() => this.displayChange(1)}>
                       SignIn
                   </button>
                     <div id="sign">

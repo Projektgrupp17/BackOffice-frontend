@@ -27,8 +27,14 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
             setAutherizationToken(this.store.getState().loginUser.auth.token)
         }
         else{
+            console.log(combineReducers)
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
         }
+    }
+
+    cleareStoreError(){
+        this.store.getState().loginUser.error ='';
+        this.store.getState().signupUser.error ='';
     }
 
     getAuthToken(){
@@ -104,7 +110,7 @@ const signup = json => {
  * @param {Store} state 
  * @param {Action} action 
  */
-const signupUser = (state ={userIsSignedUp:false,loading:false} ,action) =>{
+const signupUser = (state ={userIsSignedUp:false,loading:false,error:''} ,action) =>{
     switch(action.type){
         case 'POST_USER_REGISTER_REQUEST':
             return{

@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {signup} from '../../../model/LoginModel';
-
+import DisplayError from './Error';
+import './SignInBox.css';
 
 const mapDispatchToProps = dispatch=>{
     return{
@@ -75,27 +76,33 @@ class SignInContainer extends Component{
           }
 
     render(){
+
         return(
         <div id="signupbox">
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    Email:
+                <label className="email">
+                   <b>Email:</b>
                     <input type="text"name ="Email" value={this.state.email} onChange={e => this.setEmail(e.target.value)}/>
                 </label>
-                <label>
-                    username:
+                <label className="username">
+                <b>Username:</b>
                     <input type="text"name="username" value={this.state.username} onChange={e => this.setusername(e.target.value)}/>
                 </label>
-                <label>
-                    Password:
+                <label className="password">
+                <b>Password:</b>
                     <input type="password"name="password" value={this.state.password} onChange={e=>this.setPassword(e.target.value)}/>
                 </label>
 
-                <label>
-                    agency:
+                <label className="agency">
+                <b>Agency:</b>
                     <input type="text"name="agecy" value={this.state.agency} onChange={e => this.setAgency(e.target.value)}/>
                 </label>
-                <input type="submit" value="Signup" disabled={!this.validateForm()}/>
+                <div className="Button-signup">
+                <input type="submit" value="Signup" disabled={!this.validateForm()} id="submit"/>
+                </div>
+                <div className ="Error-messageSignup">
+                    <DisplayError store={this.props.store}/>
+                </div>
             </form>
         </div>
         )
