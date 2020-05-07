@@ -9,6 +9,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {login} from '../../../model/LoginModel'
 import './LoginBox.css';
+import DisplayError from './Error';
 
 /**
  * Dispatch a new update to the store with the given dispatch from 
@@ -20,15 +21,6 @@ const mapDispatchToProps = dispatch=>{
         login: (email,password) => dispatch(login(email,password))
     }
 }
-/**
- * Provides the component with information from model store.
- * @param {Store} state state of the store.
- */
-const mapStateToProps = state =>{
-    return{
-        loginUser: state.loginUser
-    }
-}
 
 /**
  * The main component of the loginbox.
@@ -36,8 +28,9 @@ const mapStateToProps = state =>{
  * for login.
  */
 class LoginContainer extends Component{
-    constructor(props){
-        super(props)
+    constructor(prop){
+        super(prop)
+        
         this.state ={
             email:'',
             password:'',
@@ -84,16 +77,6 @@ class LoginContainer extends Component{
         })
     }
 
-    displayError(){
-        if(this.props.loginUser.error === ''){
-            return null
-        }
-        else{
-            return(
-                <b>Error: {this.props.loginUser.error}</b>
-            )
-        }
-    }
 
     /**
      * Main class render method.
@@ -110,11 +93,11 @@ class LoginContainer extends Component{
                         <b id="password-text">Password:</b>
                             <input type="password"name="password" value={this.state.password} onChange={e=>this.setPassword(e.target.value)}/>
                         </label>
-                        <div id className="Button-login">
+                        <div className="Button-login">
                         <input type="submit" value="Login" disabled={!this.validateForm()} className ="submit"/>
                         </div>
                         <div className="Error-message">
-                           {this.displayError()}
+                           <DisplayError store={this.props.store}/>
                         </div>
                     </form>
             </div>
@@ -123,4 +106,4 @@ class LoginContainer extends Component{
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(LoginContainer)
+export default connect(null,mapDispatchToProps)(LoginContainer)

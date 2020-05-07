@@ -50,7 +50,6 @@ const setAutherizationToken = (token) => {
  * @returns true if user is autherized and false otherwise.
  */
 const isAuth = () =>{
-    console.log(instanceModel.store.getState().loginUser.auth.token )
     if(instanceModel.store.getState().loginUser.auth.token !== ''){
         return true
     }
