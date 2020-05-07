@@ -29,7 +29,7 @@ class HomeView extends Component{
         return(
             <div id="wrapper">
                     <button id="Menu" onClick={() =>this.handleDisplay()}>
-                        <Menu label={"Menu"} display={this.state.displayNavBar}/>
+                        <Menu label={"Menu"} display={this.state.displayNavBar} {...this.props}/>
                     </button>
             </div>
         )

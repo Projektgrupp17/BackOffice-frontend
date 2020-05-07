@@ -16,7 +16,11 @@ const mapDispatchToProps = dispatch=>{
 
 /**
  * This class implements the container to deal with the signin of the web-application.
- * It does this by implementing a form that is connected with a 
+ * It does this by implementing a form that is connected with the store in the lower model
+ * layer. Thus when the form is sent the state of this class is sent down and used to register
+ * the new user to the authentication api.
+ * @author Netanel Avraham Eklind
+ * @version 1.0.0
  */
 
 class SignInContainer extends Component{
@@ -28,7 +32,7 @@ class SignInContainer extends Component{
             password:'',
             agency:''
         }
-        this.handleStatus = this.handleStatus.bind(this);
+        this.handleStatus = this.handleStatusChange.bind(this);
     }
 
 
@@ -36,43 +40,43 @@ class SignInContainer extends Component{
      * Change status of signupbox
      * @param {Status of login} status 
      */
-    handleStatus(status){
+    handleStatusChange(status){
         this.props.status(status)
     } 
 
     /**
      * Calls when a submit event is detected. Prevents refresh of site.
      */
-    handleSubmit = event =>{
+    handleSubmitEvent = event =>{
         event.preventDefault();
         this.props.signup(this.state)
-        this.handleStatus("LOADING");
+        this.handleStatusChange("LOADING");
     }
 
-    setEmail(e){
-        this.setState({
+    setEmail(value){
+        this.seventtState({
             ...this.state,
-            email:e
+            email:value
         })
     }
 
-    setPassword(e){
+    setPassword(value){
         this.setState({
             ...this.state,
-            password:e
+            password:value
         })
     }
 
-    setusername(e){
+    setusername(value){
         this.setState({
             ...this.state,
-            username:e
+            username:value
         })
     }
-    setAgency(e){
+    setAgency(value){
         this.setState({
             ...this.state,
-            agency:e
+            agency:value
         })
     }
     /**
@@ -86,7 +90,7 @@ class SignInContainer extends Component{
     render(){
         return(
         <div id="signupbox">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmitEvent}>
                 <label className="email">
                    <b>Email:</b>
                     <input type="text"name ="Email" value={this.state.email} onChange={e => this.setEmail(e.target.value)}/>

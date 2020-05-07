@@ -23,6 +23,10 @@
     position: relative;
 }
 
+#Menu:focus{
+    outline: 0;
+}
+
 
 #Menu:hover{
     background:rgb(41, 41, 41) ;
