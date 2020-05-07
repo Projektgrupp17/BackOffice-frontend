@@ -4,12 +4,20 @@ import {signup} from '../../../model/LoginModel';
 import DisplayError from './Error';
 import './SignInBox.css';
 
+/**
+ * Dispatches the action to the store.
+ * @param {Store} dispatch 
+ */
 const mapDispatchToProps = dispatch=>{
     return{
         signup: (json) => dispatch(signup(json))
     }
 }
 
+/**
+ * This class implements the container to deal with the signin of the web-application.
+ * It does this by implementing a form that is connected with a 
+ */
 
 class SignInContainer extends Component{
     constructor(props){
@@ -76,7 +84,6 @@ class SignInContainer extends Component{
           }
 
     render(){
-
         return(
         <div id="signupbox">
             <form onSubmit={this.handleSubmit}>

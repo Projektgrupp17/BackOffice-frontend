@@ -74,7 +74,7 @@ class App extends Component{
 }
 
 const welcomeMessage= (flag)=>{
-  if(flag === true){
+  if(flag === true && document.cookie === ''){
   return "grid"    
   }
   else{
