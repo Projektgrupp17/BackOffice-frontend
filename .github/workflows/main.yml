@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -29,6 +29,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: sudo chmod 755 chromedriver 
     - run: npm install
     - run: npm run build --if-present
     - run: npm run integrationtest
