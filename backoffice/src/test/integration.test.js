@@ -5,83 +5,63 @@ const { exec } = require('child_process');
 const testServer = require('./test-server');
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-var spawn = require('child_process').spawn;
 
 let driver;
 let proxy;
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
+const loginSuccess = {
+    token: "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI5MDI4OWU3Ni1lNjY1LTQyNzctYWY2Yi0yODc4MTUxYjA3NWQiLCJpYXQiOjE1ODg5NTU2NDIsInN1YiI6InRlc3RAZXhhbXBsZS5jb20iLCJpc3MiOiJwcm9qZWt0Z3J1cHAxNy1hdXRoIiwiZXhwIjoxNTg5MDQyMDQyfQ.RbqTLxjRcBIm-SbNMdDCLO2RXwnNX-YrjCSmc3szrfGqFgSu_Xy9rf_HxnrWGIsoBcnZi6IFYReR1CrbnvFif2SHYjYkHueO0P8eNnqZWUfktcOAFxc_HL31BpkauO5Ljetn4jyBzr0Y408rwRYImhwHmWswW33p_r-vClefIokhmd99Vlj9qUByxggIcPLyUdrB6pI-CQStz9kY87WG3pgf6z9Jh0sUXR1xNi2_lmLXOjKLULpX1wsEi4PocTgLWxc0zWVj6ZlcvPp5kWhHNOybU1T0IU3FF7QebBhbAkUecw90Ch5jZsZ0kv8vg8bfAeh3Juelk5ojofXmCCx4yQ",
+    refreshToken: "a0dd7384-0fd0-47a8-8ccd-856ad05c09b1"
+}
 
 describe("integration test suite", () => {
-
     beforeEach((done) => {
-        driver.get('http://localhost:5001').then(() => {
-            setTimeout(() => {
-                done();
-            }, 500);
-        })
+        new Builder().forBrowser('chrome')
+            //Remove headless to see the browser in real time
+            .setChromeOptions(new chrome.Options().headless().windowSize({
+                width: 800,
+                height: 600
+            }))
+            .build().then((dr) => {
+                driver = dr;
+            }).then(() => {
+                driver.get('http://localhost:5001')
+                .then(done)
+            })
+    })
+
+    afterEach((done) => {
+        testServer.reset();
+        driver.close().then(() => {done()});
     })
 
     afterAll((done) => {
-        console.log("QUITTING")
-        driver.quit().then(done());
-        process.exit(1);
+        testServer.quit();
+        driver.quit().then(() => {done()});
     })
 
     beforeAll((done) => {
         async.parallel([
             function (cb) {
-                console.log("STARTING SERVER FROM TEST")
                 testServer.start();
                 cb();
             },
             function (cb) {
-                new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().headless().windowSize({
-                    width:800,
-                    height:600
-                }))
-                .build().then((dr) => {
-                    driver = dr;
-                    console.log("DODOOOOENNE");
-                    cb();
-                })
-            },
-            function (cb) {
-                exec('serve -s build -p 5001', function(error, out, err) {
-                    console.log("hmmm");
-                    if(error)
-                        console.error(error);
-                    if(err)
-                        console.error(err);
-                    if(out)
-                        console.log(out);
+                exec('serve -s build -p 5001', function (error, out, err) {
+                    if (error) console.error(error);
+                    if (err) console.error(err);
+                    if (out) console.log(out);
                 });
                 cb();
             },
-        ], () => {
-            console.log("DONE!!");
-            done();
-        }
+        ], 
+            done
         );
     })
 
     it("shows login and email input fields", async (done) => {
-        /*fetch('http://localhost:5558')
-        .then(response => response.json())
-        .then(data => {
-            console.log("I AM A TEAPOT")
-            console.log(data)
-            done();
-        });
-        */
-
-        let x = await driver.getPageSource();
-        console.log("SOURCE");
-        console.log(x);
         await driver.wait(until.titleIs('Backoffice'), 5000);
-        done();
-        return;
         let button = await driver.findElement(By.className('SignIn'));
         button.click();
         await driver.wait(until.elementLocated(By.id("loginbox")), 1000);
@@ -95,9 +75,14 @@ describe("integration test suite", () => {
         done();
     });
 
-    it("shows loading while loading", async (done) => {
-        done();
-        /*
+    it("shows error message after invalid login", async (done) => {
+        testServer.addResponse('/auth/login',
+            { email: "invalidemail", password: "invalipassword" },
+            {
+                status: 401,
+                body: { status: "error", message: "invalid login" }
+            }, 500);
+
         let button = await driver.findElement(By.className('SignIn'));
         button.click();
         await driver.wait(until.elementLocated(By.id("loginbox")), 1000);
@@ -110,56 +95,34 @@ describe("integration test suite", () => {
         chai.expect(await submitBtn.isEnabled()).to.equal(true);
         let loginButton = await driver.findElement(By.className('submit'));
         loginButton.click();
+        await driver.wait(until.elementLocated(By.xpath("//*[text()='Loading...']")), 1000);
+        let errorDiv = await driver.wait(until.elementLocated(By.className("Error-message")), 2000);
+        await driver.wait(until.elementTextMatches(errorDiv, /Error: invalid login/), 1000);
         done();
-        */
     });
-})
 
+    it("logging in logs in", async (done) => {
+        testServer.addResponse('/auth/login',
+            { email: "validemail", password: "validpassword" },
+            {
+                status: 201,
+                body: loginSuccess
+            }, 500);
 
-/*
-const proxy = new Proxy();
-const buildAndStart = (callback) => {
-    console.log("Running");
-    exec('npm build');
-
-    async.parallel([
-        function(cb){
-            exec('serve -s build');
-            cb(null, "serving build")
-        },
-    ],  callback
-    );
-}
-
-async function test() {
-    console.log("testing")
-
-    console.log("starting webdriver")
-    let driver = await new Builder().forBrowser('chrome').build();
-    try {
-        await driver.get('http://localhost:5000');
         let button = await driver.findElement(By.className('SignIn'));
         button.click();
         await driver.wait(until.elementLocated(By.id("loginbox")), 1000);
-        //sendKeys('webdriver', Key.RETURN);
         let submitBtn = await driver.findElement(By.className('submit'));
         chai.expect(await submitBtn.isEnabled()).to.equal(false);
         let emailInput = await driver.findElement(By.name("name"));
-        await emailInput.sendKeys('test@example.com');
-
+        await emailInput.sendKeys('validemail');
         let passwordInput = await driver.findElement(By.name("password"));
-        await passwordInput.sendKeys('Password1');
-
+        await passwordInput.sendKeys('validpassword');
         chai.expect(await submitBtn.isEnabled()).to.equal(true);
-
-        //await driver.wait(until.elementLocated(By.id("sdkljn")), 2000);
-        //await driver.findElement(By.name("name")).sendKeys()
-      } finally {
-        await driver.quit();
-      }
-
-    process.exit()
-}
-
-buildAndStart(test)
-*/
+        let loginButton = await driver.findElement(By.className('submit'));
+        loginButton.click();
+        await driver.wait(until.elementLocated(By.xpath("//*[text()='Loading...']")), 5000);
+        await driver.wait(until.elementLocated(By.xpath("//*[text()='HOME IS HERTE']")), 5000);
+        done();
+    });
+})
