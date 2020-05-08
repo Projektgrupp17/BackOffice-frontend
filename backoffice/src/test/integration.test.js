@@ -1,7 +1,7 @@
 let Proxy = require('browsermob-proxy').Proxy
 const chai = require('chai');
 const async = require('async');
-const { exec } = require('child_process');
+const execa = require('execa');
 const testServer = require('./test-server');
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
@@ -37,7 +37,9 @@ describe("integration test suite", () => {
 
     afterAll((done) => {
         testServer.quit();
-        driver.quit().then(() => {done()});
+        setTimeout(() => {
+            driver.quit().then(() => {done()});
+        },100)
     })
 
     beforeAll((done) => {
@@ -47,11 +49,12 @@ describe("integration test suite", () => {
                 cb();
             },
             function (cb) {  
-                let e = exec('serve -s build -p 5001', {detached: true}, function (error, out, err) {
-                    if (error) console.error(error);
-                    if (err) console.error(err);
-                    if (out) console.log(out);
-                });
+                const options = {
+                    shell: true,
+                    detached: true,
+                    stdio: 'ignore'
+                  }
+                let e = execa('serve -s build -p 5001', "",options); 
                 e.unref();
                 cb();
             },
