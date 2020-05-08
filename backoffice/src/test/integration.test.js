@@ -25,6 +25,7 @@ describe("integration test suite", () => {
     afterAll((done) => {
         console.log("QUITTING")
         driver.quit().then(done());
+        process.exit(1);
     })
 
     beforeAll((done) => {
@@ -47,7 +48,8 @@ describe("integration test suite", () => {
                 })
             },
             function (cb) {
-                exec('serve -s build -p 5001', (error, out, err) => {
+                exec('serve -s build -p 5001', function(error, out, err) {
+                    console.log("hmmm");
                     if(error)
                         console.error(error);
                     if(err)
