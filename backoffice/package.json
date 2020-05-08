@@ -30,7 +30,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-test-server": "node test-server.js",
     "build": "react-scripts build",
+    "integrationtest": "npm test src/test/integration.test.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
@@ -51,6 +53,12 @@
     ]
   },
   "devDependencies": {
-    "jest-dom": "^4.0.0"
+    "browsermob-proxy": "^1.0.10",
+    "cors": "^2.8.5",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest-dom": "^4.0.0",
+    "nock": "^12.0.3",
+    "selenium-webdriver": "^4.0.0-alpha.7"
   }
 }
