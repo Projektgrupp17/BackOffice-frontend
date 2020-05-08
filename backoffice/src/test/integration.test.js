@@ -31,20 +31,19 @@ describe("integration test suite", () => {
     })
 
     afterEach((done) => {
-        //testServer.reset();
+        testServer.reset();
         driver.close().then(() => {done()});
     })
 
     afterAll((done) => {
-        
-        //testServer.quit();
+        testServer.quit();
         driver.quit().then(() => {done()});
     })
 
     beforeAll((done) => {
         async.parallel([
             function (cb) {
-                //testServer.start();
+                testServer.start();
                 cb();
             },
             function (cb) {  

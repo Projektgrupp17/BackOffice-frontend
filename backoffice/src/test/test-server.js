@@ -30,8 +30,8 @@ module.exports = {
         routes.push({path: path, body: body, res: res, delay: delay})
     },
     quit: function() {
-        if(server)
-            server.quit()
+        if(server) 
+            server.close()
     },
     getApp: app,
     reset: function() {
@@ -42,6 +42,6 @@ module.exports = {
         app.use(cors())
         app.use(bodyParser.json())
         app.post('/*', postRoutingFunc)
-        server = app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+        server = app.listen(port, () => console.log(`mock server listening at http://localhost:${port}`))
     }
 }
