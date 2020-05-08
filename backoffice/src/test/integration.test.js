@@ -6,8 +6,7 @@ const testServer = require('./test-server');
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-let driver;
-let proxy;
+let driver; 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 const loginSuccess = {
@@ -37,6 +36,7 @@ describe("integration test suite", () => {
     })
 
     afterAll((done) => {
+        
         testServer.quit();
         driver.quit().then(() => {done()});
     })
@@ -48,11 +48,13 @@ describe("integration test suite", () => {
                 cb();
             },
             function (cb) {
-                exec('serve -s build -p 5001', function (error, out, err) {
+                
+                let e = exec('serve -s build -p 5001', function (error, out, err) {
                     if (error) console.error(error);
                     if (err) console.error(err);
                     if (out) console.log(out);
                 });
+                e.unref();
                 cb();
             },
         ], 
