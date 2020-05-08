@@ -1,13 +1,15 @@
 let Proxy = require('browsermob-proxy').Proxy
+var pidtree = require('pidtree');
 const chai = require('chai');
 const async = require('async');
-const execa = require('execa');
+const exec = require('child_process').exec;
 const testServer = require('./test-server');
-const { Builder, By, Key, until } = require('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
 let driver; 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+let reactServer;
 
 const loginSuccess = {
     token: "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI5MDI4OWU3Ni1lNjY1LTQyNzctYWY2Yi0yODc4MTUxYjA3NWQiLCJpYXQiOjE1ODg5NTU2NDIsInN1YiI6InRlc3RAZXhhbXBsZS5jb20iLCJpc3MiOiJwcm9qZWt0Z3J1cHAxNy1hdXRoIiwiZXhwIjoxNTg5MDQyMDQyfQ.RbqTLxjRcBIm-SbNMdDCLO2RXwnNX-YrjCSmc3szrfGqFgSu_Xy9rf_HxnrWGIsoBcnZi6IFYReR1CrbnvFif2SHYjYkHueO0P8eNnqZWUfktcOAFxc_HL31BpkauO5Ljetn4jyBzr0Y408rwRYImhwHmWswW33p_r-vClefIokhmd99Vlj9qUByxggIcPLyUdrB6pI-CQStz9kY87WG3pgf6z9Jh0sUXR1xNi2_lmLXOjKLULpX1wsEi4PocTgLWxc0zWVj6ZlcvPp5kWhHNOybU1T0IU3FF7QebBhbAkUecw90Ch5jZsZ0kv8vg8bfAeh3Juelk5ojofXmCCx4yQ",
@@ -35,11 +37,16 @@ describe("integration test suite", () => {
         driver.close().then(() => {done()});
     })
 
-    afterAll((done) => {
+    afterAll( async (done) => {
+        console.log("AFTERALL")
+        console.log(reactServer.pid)
+        let pids = await pidtree(reactServer.pid, { root: true })
+        console.log(pids);
+        pids.map((pid) => {
+            process.kill(pid, "SIGTERM")
+        });
         testServer.quit();
-        setTimeout(() => {
-            driver.quit().then(() => {done()});
-        },100)
+        driver.quit().then(() => {done()});
     })
 
     beforeAll((done) => {
@@ -49,23 +56,14 @@ describe("integration test suite", () => {
                 cb();
             },
             function (cb) {  
-                const options = {
-                    shell: true,
-                    detached: true,
-                    stdio: 'ignore'
-                  }
-                let e = execa('serve -s build -p 5001', "",options); 
-                e.unref();
+                reactServer = exec('serve -s build -p 5001'); 
                 cb();
             },
-        ], 
-            done
+        ],done
         );
     })
 
     it("shows login and email input fields", async (done) => {
-        done();
-        return;
         await driver.wait(until.titleIs('Backoffice'), 5000);
         let button = await driver.findElement(By.className('SignIn'));
         button.click();
@@ -81,8 +79,6 @@ describe("integration test suite", () => {
     });
 
     it("shows error message after invalid login", async (done) => {
-        done();
-        return;
         testServer.addResponse('/auth/login',
             { email: "invalidemail", password: "invalipassword" },
             {
@@ -109,8 +105,6 @@ describe("integration test suite", () => {
     });
 
     it("logging in logs in", async (done) => {
-        done();
-        return;
         testServer.addResponse('/auth/login',
             { email: "validemail", password: "validpassword" },
             {
