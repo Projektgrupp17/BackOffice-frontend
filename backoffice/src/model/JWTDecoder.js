@@ -26,7 +26,6 @@ const JWTverify = (token) =>{
         jwt.verify(token,key.exportKey(),{algorithms:["RS256"]})
        return true
    } catch (error) {
-       console.log(error.message)
        return false;
    }
 }
@@ -36,12 +35,14 @@ const JWTverify = (token) =>{
  * token on each call.
  * @param {String} token 
  */
-const setAutherizationToken = (token) => {
+const setAutherizationToken = (token,refreshtoken) => {
     if(token){
         Axios.defaults.headers.common['authorization'] = `${token}`
+        Axios.defaults.headers.common['Refresh-Token'] =`${refreshtoken}`
     }
     else{
         delete Axios.defaults.headers.common['authorization']
+        delete  Axios.defaults.headers.common['Refresh-Token']
     }
 }
 

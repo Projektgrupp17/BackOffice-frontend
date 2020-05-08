@@ -1,0 +1,67 @@
+#Logout-box{
+    grid-area: website;
+    display: grid;
+    grid-template-columns: 7% auto ;
+    grid-template-areas: "sidebar website";
+    position: relative;
+    
+}
+
+#checkout{
+    list-style-type:none;
+    display: grid;
+    grid-template-columns: 2 fr 2 fr;
+    grid-template-areas: "yes no";
+    padding: 0;
+    column-gap: 1vw;
+    justify-content: center;
+}
+
+
+
+#Logout{
+    grid-area: website;
+    justify-self: center;
+    align-self: center;
+    background-color: rgb(41, 41, 41);
+}
+
+#box{
+    color: white;
+    border: 2px solid;
+    width: 25vw;
+    height: 10vw;
+}
+
+
+#sidebar{
+    background-image: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 33%, rgb(0, 0, 0) 67% );
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(26, 25, 25)), color-stop(1,  rgb(0, 0, 0)));
+    position: absolute;
+    display: flex;
+    grid-area: sidebar;
+    left: -8vw;
+    width: 8vw;
+    padding-left: 2px;
+    height: 965px;
+    justify-content:center;
+    align-items: center;
+    border: 2px solid;
+    color: white;
+    border-bottom: 0px;
+}
+
+#sidebar #Menu{
+    width: 8vw;
+}
+
+#sidebar #Menu #navbar{
+    left: 8vw;
+}
+#sidebar #Menu #navbar1{
+    left: 8.1vw;
+}
+
+#checkout{
+    grid-area: website;
+}

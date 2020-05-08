@@ -2,6 +2,7 @@ import React  from "react";
 import './MenuContainer.css'
 import { Link } from "react-router-dom";
 
+
 /**
  * The Menu component that loads the navbar
  * @param {Component} props 
@@ -9,7 +10,7 @@ import { Link } from "react-router-dom";
 const Menu = (props) =>{
     return(<div>
         <h1>{props.label}</h1>
-        <Navbar display ={props.display} component={List} history={props.history}/>
+        <Navbar display ={props.display} store={props.store} component={List} history={props.history}/>
     </div>
     )
 }
@@ -44,18 +45,18 @@ const Navbar = (props) =>{
  * @param {Component} props 
  */
 const List = props =>{
-    console.log(props.label)
     return(
     <ul id={props.label.navbar}>
         <li><Link to='/order' className={props.label.navButton}>Order</Link></li>
         <li><Link to='/orderhistory' className={props.label.navButton}>Orderhistory</Link></li>
         <li><Link to='/userservice'className={props.label.navButton}>User service</Link></li>
+        <li><Link to='/logout' className={props.label.navButton}>Logout</Link></li>
     </ul>
     )
 }
 
+
 const openOrClose = (flag) =>{
-    console.log(flag)
     if(flag)return {navbar: "navbar",navButton: "nav-btn"}
     return  {navbar: "navbar1",navButton: "nav-btn1"}
 }

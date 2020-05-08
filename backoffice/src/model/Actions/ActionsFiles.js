@@ -21,6 +21,11 @@
      payload:error
  })
 
+ const postUserLogout = auth =>({
+     type: 'POST_USER_LOGOUT',
+     payload:auth
+ })
+
  const postUserRegisterRequest = () =>({
      type:'POST_USER_REGISTER_REQUEST'
  })
@@ -58,4 +63,4 @@ const refreshOrder = auth =>({
 
 
 export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError,
-postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder} ;
+postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder,postUserLogout} ;

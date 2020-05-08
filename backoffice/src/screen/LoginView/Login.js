@@ -71,7 +71,7 @@ import './LoginStyle.css'
       */
      componentDidMount(){
         this.props.model.addObserver(this);
-        if(document.cookie === '') return;
+        if(document.cookie === '' || document.cookie.includes("logedOut")) return;
         this.setState({
             ...this.state,
             auth: this.props.model.getUsername(),
