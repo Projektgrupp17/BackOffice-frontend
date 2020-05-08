@@ -47,7 +47,7 @@ describe("integration test suite", () => {
                 cb();
             },
             function (cb) {  
-                let e = exec('serve -s build -p 5001', function (error, out, err) {
+                let e = exec('serve -s build -p 5001', {detached: true}, function (error, out, err) {
                     if (error) console.error(error);
                     if (err) console.error(err);
                     if (out) console.log(out);
