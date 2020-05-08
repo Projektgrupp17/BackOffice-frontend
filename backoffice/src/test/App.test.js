@@ -16,13 +16,3 @@ it('Renders without crashing', () =>{
 });
 
 
-
-
-
-it('it does a test!',() =>{
-
-    act(() =>{
-        console.log("hello")
-    })
-
-})

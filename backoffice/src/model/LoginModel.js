@@ -27,11 +27,9 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
             setAutherizationToken(this.store.getState().loginUser.auth.token)
         }
         else{
-            console.log(combineReducers)
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
         }
     }
-
     cleareStoreError(){
         this.store.getState().loginUser.error ='';
         this.store.getState().signupUser.error ='';

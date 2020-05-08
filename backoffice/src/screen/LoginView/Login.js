@@ -149,7 +149,7 @@ import './LoginStyle.css'
                 case 1:
                     return(
                         <div id = "SignBox">
-                      <button  className="SignUp" id ="btn" onClick={() => this.changeDisplayBox(2)}>
+                      <button  className="SignUp" id ="btn" onClick={() =>{this.changeDisplayBox(2); }}>
                         SignUp
                     </button>
                       <div id="login">
