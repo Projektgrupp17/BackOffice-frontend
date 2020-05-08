@@ -32,22 +32,31 @@ import './LoginStyle.css'
              display:0,
              message:''
             }
-            this.status = this.handleStatus.bind(this);
+            this.status = this.handleStatusChange.bind(this);
             this.displayWelcome = this.handleDisplayWelcome.bind(this)
         }
 
+
+        /**
+         * Tells the application if the welcome message should be shown or not
+         * @param {boolean} boolean 
+         */
     handleDisplayWelcome(boolean){
         this.props.display(boolean)
     }
 
-     handleStatus(status){
+    /**
+     * Tells the program if the loading is done or not, thus changing screen.
+     * @param {String} status 
+     */
+     handleStatusChange(status){
         this.setState({
             ...this.state,
             status: status
         })
      }
 
-     displayChange(value){
+     changeDisplayBox(value){
          this.handleDisplayWelcome(false);
          this.props.model.cleareStoreError();
          this.setState({
@@ -62,7 +71,7 @@ import './LoginStyle.css'
       */
      componentDidMount(){
         this.props.model.addObserver(this);
-        if(this.props.model.getAuthToken() !== ""){
+        if(document.cookie === '') return;
         this.setState({
             ...this.state,
             auth: this.props.model.getUsername(),
@@ -70,7 +79,6 @@ import './LoginStyle.css'
         })
     }
 
-     }
 
      /**
       * This method is called when the component is no longer needed and thus removing the 
@@ -127,7 +135,7 @@ import './LoginStyle.css'
                 </div>
                 break;
                 default:
-                    display = this.loginDisplay(this.state.display);
+                    display = this.setDisplayBox(this.state.display);
                 }
                 return(
                     <div id="login-component">
@@ -136,12 +144,12 @@ import './LoginStyle.css'
          );
         }
         
-        loginDisplay = (state) => {
+        setDisplayBox = (state) => {
             switch(state){
                 case 1:
                     return(
                         <div id = "SignBox">
-                      <button  className="SignUp" id ="btn" onClick={() => this.displayChange(2)}>
+                      <button  className="SignUp" id ="btn" onClick={() =>{this.changeDisplayBox(2); }}>
                         SignUp
                     </button>
                       <div id="login">
@@ -154,7 +162,7 @@ import './LoginStyle.css'
                     return(
                         <div id = "SignBox">
                             <div id="keeper"></div>
-                            <button  className="SignIn" id ="btn" onClick={() => this.displayChange(1)}>
+                            <button  className="SignIn" id ="btn" onClick={() => this.changeDisplayBox(1)}>
                       SignIn
                   </button>
                     <div id="sign">
@@ -166,10 +174,10 @@ import './LoginStyle.css'
                 default:
                 return(
                     <div id = "SignBox">
-                    <button  className="SignUp" id ="btn" onClick={() => this.displayChange(2)}>
+                    <button  className="SignUp" id ="btn" onClick={() => this.changeDisplayBox(2)}>
                         SignUp
                     </button>
-                      <button  className="SignIn" id ="btn" onClick={() => this.displayChange(1)}>
+                      <button  className="SignIn" id ="btn" onClick={() => this.changeDisplayBox(1)}>
                       SignIn
                   </button>
                     </div>

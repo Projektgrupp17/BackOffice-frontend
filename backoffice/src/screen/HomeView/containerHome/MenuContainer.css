@@ -1,0 +1,126 @@
+#navbar{
+    position: absolute;
+    list-style-type:none;
+    margin: 0;
+    padding: 0;
+    width: 20vw;
+    height: 30vw;
+    top:-10vw;
+    left: 6.8vw;
+    background-color: rgb(41, 41, 41);
+    border: 2px solid;
+    display: grid;
+    grid-template-rows: repeat(2fr);
+    justify-content:center;
+    align-content: center;
+    row-gap: 5vw;
+    -webkit-animation: Navbar 0.5s; 
+    -moz-animation: Navbar 0.5s; 
+     -ms-animation: Navbar 0.5s; 
+      -o-animation: Navbar 0.5s; 
+         animation: Navbar 0.5s;
+}
+
+@keyframes Navbar{
+    from{width:0vw;display: grid;color: rgb(29, 29, 29);}
+    to{width:20vw; display: grid;}
+}
+
+#navbar1{
+    position: absolute;
+    list-style-type:none;
+    color: rgb(29, 29, 29);
+    margin: 0;
+    padding: 0;
+    width: 0vw;
+    height: 30vw;
+    top:-10vw;
+    left: 6.9vw;
+    background-color: rgb(41, 41, 41);
+    border: 2px solid;
+    display: grid;
+    grid-template-rows: repeat(2fr);
+    justify-content:center;
+    align-content: center;
+    row-gap: 5vw;
+    -webkit-animation: Navbar1 0.5s; 
+    -moz-animation: Navbar1 0.5s; 
+     -ms-animation: Navbar1 0.5s; 
+      -o-animation: Navbar1 0.5s; 
+         animation: Navbar1 0.5s;
+}
+
+@keyframes Navbar1{
+    0%{width:20vw; display: grid;color:white}
+    75%{color: rgb(29, 29, 29);}
+    to{width:0vw;display: grid;}
+}
+
+
+.nav-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 5vw;
+    width: 10vw;
+    background:rgb(34, 34, 34) ;
+    border-color: rgb(34, 34, 34);
+    font-size: medium;
+    -webkit-animation: Button 0.5s; 
+    -moz-animation: Button 0.5s; 
+     -ms-animation: Button 0.5s; 
+      -o-animation: Button 0.5s; 
+         animation: Button 0.5s;
+    overflow: hidden;
+}
+
+.nav-btn:focus{
+    outline: 0;
+}
+
+@keyframes Button{
+    0%{width:0vw;display: none; opacity: 0;}
+    25%{width:2.5vw; display: block; opacity: 0.25;}
+    50%{width:5vw; display: block; opacity: 0.5;}
+    75%{width:7.5vw; display: block; opacity: 0.75;}
+    100%{width:10vw; display: block; opacity: 1;}
+}
+
+
+.nav-btn1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 5vw;
+    width: 0vw;
+    background:rgb(34, 34, 34) ;
+    border-color: rgb(34, 34, 34);
+    font-size: medium;
+    -webkit-animation: Button1 0.5s; 
+    -moz-animation: Button1 0.5s; 
+     -ms-animation: Button1 0.5s; 
+      -o-animation: Button1 0.5s; 
+         animation: Button1 0.5s;
+    overflow: hidden;
+}
+
+.nav-btn1:focus{
+    outline: 0;
+}
+
+@keyframes Button1{
+    0%{width:10vw; display: block; opacity: 1;}
+    25%{width:7.5vw; display: block; opacity: 0.75;}
+    50%{width:5vw; display: block; opacity: 0.5;}
+    75%{width:2.5vw; display: block; opacity: 0.25;}
+    100%{width:0vw;display: none; opacity: 0;}
+}
+
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}

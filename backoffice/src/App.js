@@ -48,16 +48,19 @@ class App extends Component{
         <div className="circle c0" id="circle0"/>
         <div className="circle c1" id="circle1"/>
          <div className="circle c2" id="circle2"/>
-        <div id ="Login-Message" style={{display:welcomeMessage(this.state.displayWelcome)}}>
-          <h1 id="message">
-              Welcome!<br/>
-              Sign up to start service!
-          </h1>
+        <div id ="Login-Message">
+          {welcomeMessage(this.state.displayWelcome) ? (
+            <h1 id="message">Welcome!<br/>Sign up to start service!</h1>) : ("")}
         </div>
           <Router>
             <Switch>
-              <Route exact path="/"
-              render ={ props => <LoginView {...props} model={loginModel} display={this.display}/>}/>
+              <PublicRoute
+              exact
+              path ="/"
+              model = {loginModel}
+              component ={LoginView}
+              display = {this.display}
+              />
               <PrivateRoute 
               exact
               path ="/order"
@@ -74,12 +77,19 @@ class App extends Component{
 }
 
 const welcomeMessage= (flag)=>{
-  if(flag === true){
-  return "grid"    
+  if(flag === true && document.cookie === ''){
+  return true
   }
   else{
-    return "none"
+    return false
   }
+}
+
+const PublicRoute = ({component: Component, ...rest}) =>{
+  return (
+    <Route {...rest} render ={ props =><Component {...props} {...rest}/>}
+    />
+  )
 }
 
 const PrivateRoute = ({component: Component, ...rest}) =>{
