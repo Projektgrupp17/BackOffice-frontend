@@ -14,8 +14,6 @@ module.exports = {
             console.log("RESPONDING!!!!!")
             res.send({message: "hello world"})
         })
-        
-        
         app.post('/auth/login', (req, res) => {
             console.log("POSTED AS");
             console.log(req);

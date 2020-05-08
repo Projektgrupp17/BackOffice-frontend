@@ -5,6 +5,7 @@ const { exec } = require('child_process');
 const testServer = require('./test-server');
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+var spawn = require('child_process').spawn;
 
 let driver;
 let proxy;
@@ -14,7 +15,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 describe("integration test suite", () => {
 
     beforeEach((done) => {
-        driver.get('http://localhost:5000').then(() => {
+        driver.get('http://localhost:5001').then(() => {
             setTimeout(() => {
                 done();
             }, 500);
@@ -46,7 +47,14 @@ describe("integration test suite", () => {
                 })
             },
             function (cb) {
-                exec('serve -s build');
+                exec('serve -s build -p 5001', (error, out, err) => {
+                    if(error)
+                        console.error(error);
+                    if(err)
+                        console.error(err);
+                    if(out)
+                        console.log(out);
+                });
                 cb();
             },
         ], () => {
