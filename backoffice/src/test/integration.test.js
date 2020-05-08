@@ -47,14 +47,12 @@ describe("integration test suite", () => {
                 cb();
             },
             function (cb) {  
-                /* 
                 let e = exec('serve -s build -p 5001', function (error, out, err) {
                     if (error) console.error(error);
                     if (err) console.error(err);
                     if (out) console.log(out);
                 });
                 e.unref();
-                */
                 cb();
             },
         ], 
