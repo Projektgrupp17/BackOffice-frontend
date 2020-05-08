@@ -65,6 +65,10 @@ describe("integration test suite", () => {
             done();
         });
         */
+
+        let x = await driver.getPageSource();
+        console.log("SOURCE");
+        console.log(x);
         await driver.wait(until.titleIs('Backoffice'), 5000);
         done();
         return;
