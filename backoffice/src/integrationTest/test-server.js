@@ -8,33 +8,37 @@ const port = 5558;
 let server;
 let routes = []
 
-const postRoutingFunc = function(req, res) {
-    routes.map((route) => {
-        console.log("handling: " + req.url);
-        if(req.url == route.path) {
-            if(equal(req.body, route.body)) {
-                res.status(route.res.status)
+const postRoutingFunc = function (req, res) {
+    //Allow one trailing slash discrepancy, but not more, that would be a bug!
+    let url = req.url.replace(/\/$/, "");
+    let i = 0;
+    console.log("handling: " + req.url);
+    for (i = 0; i < routes.length; i++) {
+        let route = routes[i];
+        let path = route.path.replace(/\/$/, "");
+        if (url == path) {
+            if (equal(req.body, route.body)) {
                 return setTimeout(() => {
+                    res.status(route.res.status);
                     res.send(route.res.body);
                 }, route.delay)
-            } 
+            }
         }
-            console.error("NO MATCH FOR REQUEST WITH PATH: " + req.url + "\nBody:")
-            console.error(req.body);
-            throw "REQUEST MISMATCH";
-    }) 
+    }
+    console.error("NO MATCH FOR REQUEST WITH PATH: " + req.url + "\nBody:")
+    console.error(req.body);
+    throw "REQUEST MISMATCH";
 }
 
 module.exports = {
     addResponse(path, body, res, delay = 0) {
-        routes.push({path: path, body: body, res: res, delay: delay})
+        routes.push({ path: path, body: body, res: res, delay: delay })
     },
-    quit: function() {
-        if(server) 
+    quit: function () {
+        if (server)
             server.close()
     },
-    getApp: app,
-    reset: function() {
+    reset: function () {
         routes = [];
     },
     start: function () {

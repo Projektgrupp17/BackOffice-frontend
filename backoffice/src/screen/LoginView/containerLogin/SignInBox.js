@@ -54,7 +54,7 @@ class SignInContainer extends Component{
     }
 
     setEmail(value){
-        this.seventtState({
+        this.setState({
             ...this.state,
             email:value
         })

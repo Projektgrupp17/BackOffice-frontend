@@ -1,3 +1,7 @@
+/**
+ * Integration testing on an actual browser.    
+ */
+
 var pidtree = require('pidtree');
 const chai = require('chai');
 const async = require('async');
@@ -11,7 +15,14 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 let reactServer;
 
 const loginSuccess = {
-    token: "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI5MDI4OWU3Ni1lNjY1LTQyNzctYWY2Yi0yODc4MTUxYjA3NWQiLCJpYXQiOjE1ODg5NTU2NDIsInN1YiI6InRlc3RAZXhhbXBsZS5jb20iLCJpc3MiOiJwcm9qZWt0Z3J1cHAxNy1hdXRoIiwiZXhwIjoxNTg5MDQyMDQyfQ.RbqTLxjRcBIm-SbNMdDCLO2RXwnNX-YrjCSmc3szrfGqFgSu_Xy9rf_HxnrWGIsoBcnZi6IFYReR1CrbnvFif2SHYjYkHueO0P8eNnqZWUfktcOAFxc_HL31BpkauO5Ljetn4jyBzr0Y408rwRYImhwHmWswW33p_r-vClefIokhmd99Vlj9qUByxggIcPLyUdrB6pI-CQStz9kY87WG3pgf6z9Jh0sUXR1xNi2_lmLXOjKLULpX1wsEi4PocTgLWxc0zWVj6ZlcvPp5kWhHNOybU1T0IU3FF7QebBhbAkUecw90Ch5jZsZ0kv8vg8bfAeh3Juelk5ojofXmCCx4yQ",
+    token: "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI5MDI4OWU3Ni1lNjY1LTQyNzctYWY2Yi0yODc4MTUxY"+
+           "jA3NWQiLCJpYXQiOjE1ODg5NTU2NDIsInN1YiI6InRlc3RAZXhhbXBsZS5jb20iLCJpc3MiOiJ"+
+           "wcm9qZWt0Z3J1cHAxNy1hdXRoIiwiZXhwIjoxNTg5MDQyMDQyfQ.RbqTLxjRcBIm-SbNMdDCLO"+
+           "2RXwnNX-YrjCSmc3szrfGqFgSu_Xy9rf_HxnrWGIsoBcnZi6IFYReR1CrbnvFif2SHYjYkHueO"+
+           "0P8eNnqZWUfktcOAFxc_HL31BpkauO5Ljetn4jyBzr0Y408rwRYImhwHmWswW33p_r-vClefIo"+
+           "khmd99Vlj9qUByxggIcPLyUdrB6pI-CQStz9kY87WG3pgf6z9Jh0sUXR1xNi2_lmLXOjKLULpX"+
+           "1wsEi4PocTgLWxc0zWVj6ZlcvPp5kWhHNOybU1T0IU3FF7QebBhbAkUecw90Ch5jZsZ0kv8vg8"+
+           "bfAeh3Juelk5ojofXmCCx4yQ",
     refreshToken: "a0dd7384-0fd0-47a8-8ccd-856ad05c09b1"
 }
 
@@ -37,8 +48,6 @@ describe("integration test suite", () => {
     })
 
     afterAll( async (done) => {
-        console.log("AFTERALL")
-        console.log(reactServer.pid)
         let pids = await pidtree(reactServer.pid, { root: true })
         pids.map((pid) => {
             process.kill(pid, "SIGTERM")
@@ -102,7 +111,7 @@ describe("integration test suite", () => {
         done();
     });
 
-    it("logging in logs in", async (done) => {
+    it("logging in shows home", async (done) => {
         testServer.addResponse('/auth/login',
             { email: "validemail", password: "validpassword" },
             {

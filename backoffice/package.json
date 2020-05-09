@@ -31,7 +31,7 @@
     "ssh-key-to-pem": "^0.11.1"
   },
   "scripts": {
-    "integrationtest": "npm run build:test && react-scripts test src/integrationTest/*",
+    "integrationtest": "npm run build:test && react-scripts test --runInBand --verbose src/integrationTest/*",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:test": "env-cmd -f .env.test react-scripts build",
