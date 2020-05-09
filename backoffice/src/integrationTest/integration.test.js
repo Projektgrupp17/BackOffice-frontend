@@ -19,9 +19,9 @@ describe("integration test suite", () => {
     beforeEach((done) => {
         new Builder().forBrowser('chrome')
             //Remove headless to see the browser in real time
-            .setChromeOptions(new chrome.Options().windowSize({
-                width: 1024,
-                height: 768
+            .setChromeOptions(new chrome.Options().headless().windowSize({
+                width: 800,
+                height: 600
             }))
             .build().then((dr) => {
                 driver = dr;
