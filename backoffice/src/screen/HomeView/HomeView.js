@@ -11,18 +11,10 @@ class HomeView extends Component{
     }
 
     handleDisplay(){
-        if(this.state.displayNavBar === false){
-            this.setState({
-                ...this.state,
-                displayNavBar:true
-            })
-        }
-        else{
-            this.setState({
-                ...this.state,
-                displayNavBar:false
-            })
-        }
+        this.setState({
+            ...this.state,
+            displayNavBar:!this.state.displayNavBar
+        })
     }
 
     render(){

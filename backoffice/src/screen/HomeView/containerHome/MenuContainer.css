@@ -1,4 +1,5 @@
-#navbar{
+.navbar{
+    z-index: 2; 
     position: absolute;
     list-style-type:none;
     margin: 0;
@@ -26,23 +27,10 @@
     to{width:20vw; display: grid;}
 }
 
-#navbar1{
-    position: absolute;
-    list-style-type:none;
+.navbar.hidden{
+    z-index: 2;
     color: rgb(29, 29, 29);
-    margin: 0;
-    padding: 0;
     width: 0vw;
-    height: 30vw;
-    top:-10vw;
-    left: 6.9vw;
-    background-color: rgb(41, 41, 41);
-    border: 2px solid;
-    display: grid;
-    grid-template-rows: repeat(2fr);
-    justify-content:center;
-    align-content: center;
-    row-gap: 3vw;
     -webkit-animation: Navbar1 0.5s; 
     -moz-animation: Navbar1 0.5s; 
      -ms-animation: Navbar1 0.5s; 

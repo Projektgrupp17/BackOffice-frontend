@@ -7,9 +7,6 @@
 import Axios from 'axios';
 import instanceModel from './LoginModel';
 
-
-
-
 const jwt = require('jsonwebtoken');
 const RSAKey = require('rsa-key');
 
@@ -20,14 +17,9 @@ const pkey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp9zDetMqlfV9XMBVUmgJDP
  * key.
  * @param {String} token 
  */
-const JWTverify = (token) =>{
-    try {
-        let key = new RSAKey(pkey);
-        jwt.verify(token,key.exportKey(),{algorithms:["RS256"]})
-       return true
-   } catch (error) {
-       return false;
-   }
+export const JWTverify = (token) =>{
+    let key = new RSAKey(pkey);
+    return jwt.verify(token,key.exportKey(),{algorithms:["RS256"]})
 }
 
 /**
@@ -61,4 +53,4 @@ const isAuth = () =>{
  
 
 
- export {JWTverify,setAutherizationToken,isAuth};
+ export {setAutherizationToken,isAuth};

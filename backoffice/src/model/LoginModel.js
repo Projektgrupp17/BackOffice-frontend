@@ -59,11 +59,7 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
     }
 
     getUsername(){
-        try {
-            return JWTverify(this.store.getState().loginUser.auth.token).sub
-        } catch (error) {
-            return null
-        }
+        return JWTverify(this.store.getState().loginUser.auth.token).sub;
     }
     
     /**
