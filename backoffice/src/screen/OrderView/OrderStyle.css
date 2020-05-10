@@ -18,23 +18,30 @@
     min-width: 5em;
 }
 
-#order-component {
+.order-component.shown {
+    opacity: 1;
+}
+
+.order-component {
+    opacity: 0;
     margin-top: calc(50vh - 20vh);
     position: absolute;
+    margin-left:2px;
     list-style-type:none;
     height: 40vh;
     left: 6.8vw;
     background-color: rgb(41, 41, 41);
-    border: 2px solid black;
-    border-left: 2px solid white;
+    border: 2px solid white;
     display: grid;
     grid-template-rows: repeat(2fr);
     justify-content:center;
     align-content: center;
     row-gap: 3vw;
-    -webkit-animation: Navbar 0.5s; 
-    -moz-animation: Navbar 0.5s; 
-     -ms-animation: Navbar 0.5s; 
-      -o-animation: Navbar 0.5s; 
-         animation: Navbar 0.5s;
+    transition: opacity 0.5s ease-in-out;
+    animation: 1s ease-in-out fadein;
 }
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }

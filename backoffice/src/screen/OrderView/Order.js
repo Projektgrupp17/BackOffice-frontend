@@ -112,7 +112,7 @@ class Order extends Component {
                 <button id="Menu" onClick={() => this.handleDisplay()}>
                     <Menu label={"Menu"} display={this.state.displayNavBar} store={this.props.store} />
                 </button>
-                <div className="" id="order-component">
+                <div className="" className="order-component shown">
                     {display}
                 </div>
             </div>

@@ -152,7 +152,7 @@ class OrderContainer extends Component {
         this.setState({...this.state, video: this.state.video.filter((_el, ind) => ind !== index)})
     }
 
-    validateNextVideo(){
+    validateNextVideo() {
         let interest = this.state.nextVidInterest;
         let url = this.state.nextVidUrl;
         let match = this.state.video.filter(el => el.url === this.state.nextVidUrl && el.interest === this.state.nextVidInterest)
