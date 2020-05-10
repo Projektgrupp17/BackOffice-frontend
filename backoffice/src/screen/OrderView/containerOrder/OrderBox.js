@@ -75,9 +75,9 @@ class OrderContainer extends Component {
     }
 
     mapInterestToId(interest){
-        let matches = this.props.interests.response.filter(el =>  el.string == interest)
-        if(matches.length == 0 || matches.length > 1)
-            throw "INVALID INTEREST MAPPING"
+        let matches = this.props.interests.response.filter(el =>  el.string === interest[0])
+        if(matches.length === 0 || matches.length > 1)
+            throw new Error("INVALID INTEREST MAPPING");
         return matches[0].id;
     }
 
@@ -148,14 +148,14 @@ class OrderContainer extends Component {
 
     removeVideoByIndex(index) {
         if(index === undefined)
-            throw "bad index";
+            throw new Error("bad index");
         this.setState({...this.state, video: this.state.video.filter((_el, ind) => ind !== index)})
     }
 
     validateNextVideo(){
         let interest = this.state.nextVidInterest;
         let url = this.state.nextVidUrl;
-        let match = this.state.video.filter(el => el.url == this.state.nextVidUrl && el.interest === this.state.nextVidInterest)
+        let match = this.state.video.filter(el => el.url === this.state.nextVidUrl && el.interest === this.state.nextVidInterest)
         //No identical duplicates.
         if (match.length > 0)
             return false
