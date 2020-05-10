@@ -56,7 +56,7 @@ class App extends Component{
 }
 
 const shouldDisplay = () =>{
-      return localStorage.getItem("Message")
+      return window.sessionStorage.getItem("Message")
 }
 
 /**
