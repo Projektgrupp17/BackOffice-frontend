@@ -4,8 +4,16 @@
  * <em> Router, Route, Switch </en> that allows react to check for the browser
  * change and update depending on this.
  * 
+ * The application uses 3 different components depending on the state of the 
+ * application.
+ * If the user is autherized they can enter all <code> <PrivateRoute> </code>
+ * routes of the application. Otherwise they can only access the 
+ * <code <PublicRoute> </code>.
+ * The component <code> <FrontScreen> </code> decides if the frontscreen
+ * should show the login screen that allows the user to sign up or the menu
+ * allowing the user traverse the application.
  * @author Netanel Avraham Eklind
- * @version 0.1
+ * @version 1.0.3
  * 
  * TODO: Implementing the different screens and better the router service.
  */
@@ -19,29 +27,12 @@ import Order from './screen/OrderView/Order';
 import orderModel from './model/OrderModel';
 import {isAuth} from './model/JWTDecoder';
 import Home from './screen/HomeView/HomeView';
+import Logout from './screen/LogoutView/LogutContainer';
 /**
  * Method to render the application to display the different screens depending on browser router.
  * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
  */
 class App extends Component{
-  constructor(){
-    super()
-    this.state ={
-      displayWelcome:true
-    }
-    this.display = this.handleDisplay.bind(this)
-  }
-
-  /**
-   * Binds with the login screen to show either welcome message or signup/signin screen!
-   * @param {Boolean} change 
-   */
-  handleDisplay(change){
-    this.setState({
-      ...this.state,
-      displayWelcome:change
-    })
-  }
   render(){
     return (
       <div id="app-component">
@@ -49,26 +40,13 @@ class App extends Component{
         <div className="circle c1" id="circle1"/>
          <div className="circle c2" id="circle2"/>
         <div id ="Login-Message">
-          {welcomeMessage(this.state.displayWelcome) ? (
-            <h1 id="message">Welcome!<br/>Sign up to start service!</h1>) : ("")}
+          {!isAuth() ? ( <h1 id="message">Welcome!<br/>Sign up to start service!</h1>) : ("")}
         </div>
           <Router>
-            <Switch>
-              <PublicRoute
-              exact
-              path ="/"
-              model = {loginModel}
-              component ={LoginView}
-              display = {this.display}
-              />
-              <PrivateRoute 
-              exact
-              path ="/order"
-              component = {Order}
-              model ={orderModel}
-              isAuth ={isAuth()}
-              />
-              <PrivateRoute exact path ="/home" component ={Home} isAuth={isAuth()}/>
+            <Switch> 
+              <FrontScreen exact path ="/" component={{home:Home,login: LoginView }}/>
+              <PrivateRoute exact path ="/order" component = {Order} model ={orderModel} isAuth ={isAuth()}/>
+              <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store} menu= {Home}/>
             </Switch>
           </Router>
       </div>
@@ -76,15 +54,22 @@ class App extends Component{
 }
 }
 
-const welcomeMessage= (flag)=>{
-  if(flag === true && document.cookie === ''){
-  return true
-  }
-  else{
-    return false
-  }
+/**
+ * Displays either the login view or the menu/"homeview" depending if the user is 
+ * autherized or not.
+ * @param {Components} param0 
+ */
+const FrontScreen = ({component:{home:Home,login: LoginView}}) =>{
+  return (
+    isAuth() ?(<PrivateRoute component ={Home} store={loginModel.store}/>)
+    :(<PublicRoute model = {loginModel} component ={LoginView}/>)
+  )
 }
 
+/**
+ * Renders public components to the user
+ * @param {Components} param0 
+ */
 const PublicRoute = ({component: Component, ...rest}) =>{
   return (
     <Route {...rest} render ={ props =><Component {...props} {...rest}/>}
@@ -92,6 +77,10 @@ const PublicRoute = ({component: Component, ...rest}) =>{
   )
 }
 
+/**
+ * Renders these components only if the user is autherized.
+ * @param {Components} param0 
+ */
 const PrivateRoute = ({component: Component, ...rest}) =>{
       return(
         <Route

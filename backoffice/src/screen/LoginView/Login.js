@@ -33,17 +33,8 @@ import './LoginStyle.css'
              message:''
             }
             this.status = this.handleStatusChange.bind(this);
-            this.displayWelcome = this.handleDisplayWelcome.bind(this)
         }
 
-
-        /**
-         * Tells the application if the welcome message should be shown or not
-         * @param {boolean} boolean 
-         */
-    handleDisplayWelcome(boolean){
-        this.props.display(boolean)
-    }
 
     /**
      * Tells the program if the loading is done or not, thus changing screen.
@@ -57,7 +48,6 @@ import './LoginStyle.css'
      }
 
      changeDisplayBox(value){
-         this.handleDisplayWelcome(false);
          this.props.model.cleareStoreError();
          this.setState({
              ...this.state,
@@ -71,7 +61,7 @@ import './LoginStyle.css'
       */
      componentDidMount(){
         this.props.model.addObserver(this);
-        if(document.cookie === '') return;
+        if(document.cookie === '' || document.cookie.includes("logedOut")) return;
         this.setState({
             ...this.state,
             auth: this.props.model.getUsername(),
@@ -131,11 +121,9 @@ import './LoginStyle.css'
                  break;
                  case 'DONE':
                      display = <div>
-                    {this.props.history.push('/home')}
                 </div>
                 break;
                 default:
-                    display = this.setDisplayBox(this.state.display);
                 }
                 return(
                     <div id="login-component">

@@ -7,7 +7,7 @@
 import '../OrderStyle.css'
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {makeOrder} from '../../../model/OrderModel'
+import {makeOrder,getAllInterests} from '../../../model/OrderModel'
 
 
 /**
@@ -17,9 +17,17 @@ import {makeOrder} from '../../../model/OrderModel'
  */
 const mapDispatchToProps = dispatch =>{
     return{
-        makeOrder: order => dispatch(makeOrder(order))
+        makeOrder: order => dispatch(makeOrder(order)),
+        getAllInterests: () => dispatch(getAllInterests())
     }
 }
+
+const mapStateToProps = state =>{
+    return{
+        interests: state.interests
+    }
+}
+
 
 
 /**
@@ -30,17 +38,14 @@ const mapDispatchToProps = dispatch =>{
 class OrderContainer extends Component {
     constructor(props){
         super(props)
-        this.interestMap = {
-            Sports: "1",
-            Movies: "11"
-        }
+        props.getAllInterests();
         this.state ={
             startDate:this.toDateString(Date.now()),
             endDate:this.toDateString(Date.now()),
             credits:100,
             video: [],
             nextVidUrl: '',
-            nextVidInterest: 'Sports'
+            nextVidInterest:''
         }
         this.handleStatus = this.handleStatus.bind(this);
     }
@@ -56,6 +61,7 @@ class OrderContainer extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        console.log(event)
         this.props.makeOrder({
             credits: this.state.credits, 
             user: this.props.username, 
@@ -64,6 +70,14 @@ class OrderContainer extends Component {
             Enddate: this.toISODate(this.state.endDate)
             })
         this.handleStatus("LOADING");
+    }
+
+    setInterest(c){
+        console.log(c)
+        this.setState({
+            ...this.state,
+            nextVidInterest:c
+        })
     }
 
     setCredits(c) {
@@ -87,6 +101,8 @@ class OrderContainer extends Component {
         })
     }
 
+
+
     toDateString(dateEpoch) {
         let date = new Date(dateEpoch);
         let year = date.getYear()+1900;
@@ -108,14 +124,33 @@ class OrderContainer extends Component {
         return (
         <div id="order-video-list">
         {this.state.video.map((el,ind) =>  
-        <div>
+        <div key={el.url}>
             <input type="text"name ="video-url" value={el.url}  disabled id={"order-vid-url" + ind}/>
-            <input type="text"name ="video-url" value={el.interest}  disabled id={"order-vid-interest-" + ind}/>
+            <input type="text"name ="video-url" value={this.validateInterest(el.interest)}  disabled id={"order-vid-interest-" + ind}/>
         </div>
         )
         
         } 
         </div>
+        )
+    }
+
+    validateInterest(interest){
+        if(interest === '-' || interest === '') return this.props.interests.response[0].string
+    }
+
+    makeInterestList(){
+        return this.props.interests.response.map(interest => (
+            <option value={interest.string} key={interest.id} >{interest.string}</option>
+        ))
+    }
+
+    interest(){
+        return(
+            <select id="interest" name="Interest" onChange={e => this.setInterest(e.target.value)}>
+                <option key="0" value="-">-</option>
+                {this.makeInterestList()}
+            </select>
         )
     }
 
@@ -144,6 +179,12 @@ class OrderContainer extends Component {
                             <input placeholder="video url" type="text"name="url" value={this.state.nextVidUrl} onChange={e=>this.setState({...this.state, nextVidUrl: e.target.value})}/>
                         </label>
                         <div>
+                            <label>
+                                Interest:
+                            </label>
+                            {this.interest()}
+                        </div>
+                        <div>
                         <button onClick={e=> {e.preventDefault()
                                             this.addNextVideo()}}>
                         Add</button>
@@ -156,4 +197,4 @@ class OrderContainer extends Component {
     }
 }
  
-export default connect(null,mapDispatchToProps)(OrderContainer)
+export default connect(mapStateToProps,mapDispatchToProps)(OrderContainer)

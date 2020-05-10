@@ -21,6 +21,11 @@
      payload:error
  })
 
+ const postUserLogout = auth =>({
+     type: 'POST_USER_LOGOUT',
+     payload:auth
+ })
+
  const postUserRegisterRequest = () =>({
      type:'POST_USER_REGISTER_REQUEST'
  })
@@ -56,6 +61,20 @@ const refreshOrder = auth =>({
 })
 
 
+const getInterestsRequest = () =>({
+    type:'GET_INTEREST_REQUEST'
+})
+const getInterestsSuccess = data =>({
+    type: 'GET_INTEREST_SUCCESS',
+    payload: data
+})
+const getInterestsError = error =>({
+    type: 'GET_INTEREST_ERROR',
+    error: error
+})
+
+
+
 
 export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError,
-postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder} ;
+postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder,postUserLogout,getInterestsRequest,getInterestsSuccess,getInterestsError} ;

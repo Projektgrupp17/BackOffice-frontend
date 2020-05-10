@@ -1,10 +1,26 @@
 /**
+ * date: 2020-05-08
+ * 
  * This is the Login model that communicates with the backend for the backoffice service.
  * It implements the observable class to be able to communicate up to the view classes
  * and also handles the react with <code> react-redux </code> store to be able to save 
  * information to the store and save it to the cookie.
  * 
- * TODO: Better the comments^^
+ * This model implements 3 different action creator functions that handles the calls to
+ * the different apis:
+ * 
+ * <code> login(email,pass) </code> that uses the arguments email and password to call the 
+ * authentication api and request back <em> JWT </em> java web token. This then allows the 
+ * user to start navigating the different parts of the site only accessable with a verified
+ * token.
+ * 
+ * <code> signup(json) </code> takes a json object containing all the filled in information
+ * needed to send to the authentication api to create this user there, thus allowing the user
+ * access to the website with their new <em> jwt token</em>.
+ * 
+ * <code> refresh(auth) </code> takes the authentication jwt token and refresh token to update
+ * the <em> jwt </em> token since it may have expired. Thus the user does not need to login
+ * each time a token has "expired".
  * 
  * @author Netanel Avraham Eklind
  * @version 0.0.1
@@ -22,9 +38,9 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
     
     constructor(cookie){
         super()
-        if(document.cookie !== ''){
+        if(document.cookie !== '' && !document.cookie.includes("logedOut")){
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),JSON.parse(document.cookie),Redux.applyMiddleware(thunkMiddleware));
-            setAutherizationToken(this.store.getState().loginUser.auth.token)
+            setAutherizationToken(this.store.getState().loginUser.auth.token,this.store.getState().loginUser.auth.refreshtoken)
         }
         else{
             this.store = Redux.createStore(Redux.combineReducers(combineReducers),Redux.applyMiddleware(thunkMiddleware));
@@ -58,6 +74,9 @@ import {JWTverify,setAutherizationToken} from './JWTDecoder';
         this._observer.map(observer => observer.update(this));
     }
 }
+
+
+
 
 /**
  * Refreshes the token with the token and refresh token.
@@ -132,6 +151,26 @@ const signupUser = (state ={userIsSignedUp:false,loading:false,error:''} ,action
     }
 }
 
+
+/**
+ * Calls for the user to signout of the system, thus not having any new refresh token
+ * to use.
+ */
+const userLogout = () =>{
+    return function(dispatch){
+        return axios.post(`${ENDPOINTAUTH}auth/logout`)
+        .then(resp =>{
+            instance.store.dispatch(Actions.postUserLogout(resp.status))
+            instance.notifyObservers();
+            setAutherizationToken()
+            document.cookie = `${JSON.stringify(instance.store.getState())}logedOut; expires=1980-05-08T14:49:00.000Z; path =/;`;
+        })
+        .catch(error =>{
+            dispatch(Actions.postUserRegisterError(error.response.data.message))
+            instance.notifyObservers();
+        })
+    }
+}
 /**
  * Login into the api and retrive an jwt token.
  * @param {String} email 
@@ -146,10 +185,12 @@ const login =(email,pass) =>{
             email:email,
         })
         .then(resp =>{
+            var date = new Date();
+            date.setTime(date.getTime() + (60 * 1000));
             dispatch(Actions.postUserLoginSuccess(resp.data))
             instance.notifyObservers();
-            setAutherizationToken(resp.data.token)
-            document.cookie = JSON.stringify(instance.store.getState());
+            setAutherizationToken(resp.data.token,resp.data.refreshtoken)
+            document.cookie = `${JSON.stringify(instance.store.getState())}; expires=${date}; path =/;`;
         })
         .catch(error => {
             
@@ -190,7 +231,7 @@ const loginUser = ( state={
                     loading:false,
                     auth: {
                         token: action.payload.token,
-                        refreshtoken: action.payload.token
+                        refreshtoken: action.payload.refreshtoken
                     },
                     error:''
                 }
@@ -211,7 +252,15 @@ const loginUser = ( state={
                         },
                         error:''
                     }
-
+                case 'POST_USER_LOGOUT':
+                    return {
+                        loading:false,
+                        auth:{
+                            token:'',
+                            refreshtoken:''
+                            },
+                        error:''
+                    }
                     default :
                     return state;
                 }
@@ -223,5 +272,5 @@ const loginUser = ( state={
             
             const instance = new LoginModel();
             export default instance;
-            export{login,signup,refresh};
+            export{login,signup,refresh,userLogout};
             

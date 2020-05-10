@@ -13,7 +13,7 @@
     grid-template-rows: repeat(2fr);
     justify-content:center;
     align-content: center;
-    row-gap: 5vw;
+    row-gap: 3vw;
     -webkit-animation: Navbar 0.5s; 
     -moz-animation: Navbar 0.5s; 
      -ms-animation: Navbar 0.5s; 
@@ -42,7 +42,7 @@
     grid-template-rows: repeat(2fr);
     justify-content:center;
     align-content: center;
-    row-gap: 5vw;
+    row-gap: 3vw;
     -webkit-animation: Navbar1 0.5s; 
     -moz-animation: Navbar1 0.5s; 
      -ms-animation: Navbar1 0.5s; 
@@ -73,6 +73,7 @@
       -o-animation: Button 0.5s; 
          animation: Button 0.5s;
     overflow: hidden;
+    color: white;
 }
 
 .nav-btn:focus{

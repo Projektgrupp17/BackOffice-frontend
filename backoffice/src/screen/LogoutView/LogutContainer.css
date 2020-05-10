@@ -1,0 +1,39 @@
+#Logout-box{
+    grid-area: website;
+    display: grid;
+    grid-template-columns: 7% auto ;
+    grid-template-areas: "sidebar website";
+    position: relative;
+    
+}
+
+#checkout{
+    list-style-type:none;
+    display: grid;
+    grid-template-columns: 2 fr 2 fr;
+    grid-template-areas: "yes no";
+    padding: 0;
+    column-gap: 1vw;
+    justify-content: center;
+}
+
+
+
+#Logout{
+    grid-area: website;
+    justify-self: center;
+    align-self: center;
+    background-color: rgb(41, 41, 41);
+}
+
+#box{
+    color: white;
+    border: 2px solid;
+    width: 25vw;
+    height: 10vw;
+}
+
+
+#checkout{
+    grid-area: website;
+}

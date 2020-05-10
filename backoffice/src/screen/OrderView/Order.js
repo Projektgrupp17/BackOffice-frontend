@@ -62,8 +62,8 @@ class Order extends Component {
     }
 
     update(payload) {
-        let status = 'SUCCESS';
-        if(payload.store.getState().order.Loading)
+        let status = '';
+        if(payload.store.getState().order.Loading || payload.store.getState().interests.loading)
             status = "LOADING";
         
         if(payload.store.getState().order.error)
