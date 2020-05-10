@@ -71,8 +71,8 @@ describe("integration test suite", () => {
     })
 
     it("shows login and email input fields", async (done) => {
-        console.log(await driver.getTitle());
-        //await driver.wait(until.titleIs('Backoffice'), 5000);
+        let title = await driver.getTitle()
+        chai.expect(title).to.equal("Backoffice");
         let button = await driver.findElement(By.className('SignIn'));
         button.click();
         await driver.wait(until.elementLocated(By.id("loginbox")), 1000);
