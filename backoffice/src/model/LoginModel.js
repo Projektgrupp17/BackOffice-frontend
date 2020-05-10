@@ -164,6 +164,7 @@ const userLogout = () =>{
             instance.notifyObservers();
             setAutherizationToken()
             document.cookie = `${JSON.stringify(instance.store.getState())}logedOut; expires=1980-05-08T14:49:00.000Z; path =/;`;
+            sessionStorage.setItem("Message","grid")
         })
         .catch(error =>{
             dispatch(Actions.postUserRegisterError(error.response.data.message))
@@ -191,6 +192,7 @@ const login =(email,pass) =>{
             instance.notifyObservers();
             setAutherizationToken(resp.data.token,resp.data.refreshtoken)
             document.cookie = `${JSON.stringify(instance.store.getState())}; expires=${date}; path =/;`;
+            sessionStorage.setItem('Message','none')
         })
         .catch(error => {
             

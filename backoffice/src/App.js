@@ -12,6 +12,7 @@
  * The component <code> <FrontScreen> </code> decides if the frontscreen
  * should show the login screen that allows the user to sign up or the menu
  * allowing the user traverse the application.
+ * 
  * @author Netanel Avraham Eklind
  * @version 1.0.3
  * 
@@ -39,7 +40,7 @@ class App extends Component{
         <div className="circle c0" id="circle0"/>
         <div className="circle c1" id="circle1"/>
          <div className="circle c2" id="circle2"/>
-        <div id ="Login-Message">
+        <div id ="Login-Message" style={{display:shouldDisplay()}}>
           {!isAuth() ? ( <h1 id="message">Welcome!<br/>Sign up to start service!</h1>) : ("")}
         </div>
           <Router>
@@ -54,6 +55,10 @@ class App extends Component{
 }
 }
 
+const shouldDisplay = () =>{
+      return localStorage.getItem("Message")
+}
+
 /**
  * Displays either the login view or the menu/"homeview" depending if the user is 
  * autherized or not.
@@ -62,7 +67,8 @@ class App extends Component{
 const FrontScreen = ({component:{home:Home,login: LoginView}}) =>{
   return (
     isAuth() ?(<PrivateRoute component ={Home} store={loginModel.store}/>)
-    :(<PublicRoute model = {loginModel} component ={LoginView}/>)
+    :(
+    <PublicRoute model = {loginModel} component ={LoginView}/>)
   )
 }
 
