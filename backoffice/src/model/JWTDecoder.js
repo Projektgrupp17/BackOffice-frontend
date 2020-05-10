@@ -52,9 +52,11 @@ const setAutherizationToken = (token,refreshtoken) => {
  */
 const isAuth = () =>{
     if(instanceModel.store.getState().loginUser.auth.token !== ''){
+        console.log(true)
         return true
     }
     else{
+        console.log(false)
         return false;
     }
 }

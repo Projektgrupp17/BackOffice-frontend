@@ -11,7 +11,7 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {userLogout} from '../../../model/LoginModel'
+import {userLogout} from '../../model/LoginModel'
 import './LogutContainer.css'
 
 /**
@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch=>{
  */
 const logout = (props)=> {
     props.userLogout()
-    .then(() => props.history.goBack())
+    .then(() => props.history.push("/"))
 }
 
 /**
@@ -45,9 +45,6 @@ const logout = (props)=> {
 const Logout = props =>{
     return(
         <div id="Logout-box">
-            <div id ="sidebar">
-            <props.menu/>
-            </div>
             <div id="Logout">
                 <div id="box">
             <b>Do you wish to logout?</b>
