@@ -106,6 +106,7 @@ import './LoginStyle.css'
                  auth:payload.store.getState().loginUser.auth,
                  status:'DONE'
              })
+             this.props.history.push("/")
          }
      }
      /**
@@ -120,13 +121,13 @@ import './LoginStyle.css'
                  display = <em style={{color:"white",fontSize:"Large"}}>Loading...</em>;
                  break;
                  case 'DONE':
-                     display = <div>
-                </div>
+                     display = null;
                 break;
                 default:
+                    display = this.setDisplayBox(this.state.display);
                 }
-                return(
-                    <div id="login-component">
+                    return(
+                        <div id="login-component">
                {display}
             </div>
          );

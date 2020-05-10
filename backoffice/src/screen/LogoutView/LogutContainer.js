@@ -33,7 +33,8 @@ const mapDispatchToProps = dispatch=>{
  */
 const logout = (props)=> {
     props.userLogout()
-    .then(() => props.history.push("/"))
+    .then(() => {console.log("login out")
+        props.history.push("/")})
 }
 
 /**
