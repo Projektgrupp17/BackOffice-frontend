@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "axios-mock-adapter": "^1.18.1",
     "chai": "^4.2.0",
+    "env-cmd": "^10.1.0",
     "enzyme": "^3.11.0",
     "jose": "^1.26.1",
     "jsonwebtoken": "^8.5.1",
@@ -30,9 +31,11 @@
     "ssh-key-to-pem": "^0.11.1"
   },
   "scripts": {
+    "integrationtest": "npm run build:test && react-scripts test --runInBand --verbose src/integrationTest/*",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build:test": "env-cmd -f .env.test react-scripts build",
+    "test": "react-scripts test src/test/*",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
   },
@@ -52,6 +55,11 @@
     ]
   },
   "devDependencies": {
-    "jest-dom": "^4.0.0"
+    "jest-dom": "^4.0.0",
+    "cors": "^2.8.5",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "pidtree": "^0.5.0",
+    "serve": "^11.3.0",
+    "deep-equal": "^2.0.3"
   }
 }

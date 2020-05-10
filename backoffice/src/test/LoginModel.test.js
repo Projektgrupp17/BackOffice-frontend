@@ -7,11 +7,11 @@ import configureStore from 'redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import { sign } from 'jsonwebtoken';
+import {ENDPOINTAUTH} from '../config/config';
 const chai = require('chai');
 
 
-it("Loginmodel is pressent", () =>{
+it("Loginmodel is present", () =>{
     chai.expect(Login).to.not.equal(null)
 })
 
@@ -43,7 +43,7 @@ describe("Login is working accordlingly", () =>{
             }
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/login',{
+        mock.onPost(ENDPOINTAUTH + 'auth/login',{
             password:"Password1",
             email:"test@example.com"
         }).replyOnce(201,{
@@ -71,7 +71,7 @@ describe("Login is working accordlingly", () =>{
 
     it('store is uppdated with tokens',()=>{
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/login',{
+        mock.onPost(ENDPOINTAUTH + 'auth/login',{
             password:"Password1",
             email:"test@example.com"
         }).replyOnce(201,{
@@ -100,7 +100,7 @@ describe("Login is working accordlingly", () =>{
             {type:'POST_USER_LOGIN_ERROR',payload:"Invalid login"}
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/login',{
+        mock.onPost(ENDPOINTAUTH + 'auth/login',{
             password:"Password11",
             email:"test@example.com"
         })
@@ -121,7 +121,7 @@ describe("Login is working accordlingly", () =>{
             {type:'POST_USER_LOGIN_ERROR',payload:"Invalid login"}
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/login',{
+        mock.onPost(ENDPOINTAUTH + 'auth/login',{
             password:"Password1",
             email:"test@exaple.com"
         })
@@ -140,7 +140,7 @@ describe("Login is working accordlingly", () =>{
             {type:'POST_USER_LOGIN_ERROR',payload:"No connection to server"}
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/login',{
+        mock.onPost(ENDPOINTAUTH + 'auth/login',{
             password:"Password1",
             email:"test@example.com"
         }).networkError()
@@ -173,7 +173,7 @@ describe("Refreshing the site is made correctly",() =>{
             }
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/refresh',
+        mock.onPost(ENDPOINTAUTH + 'auth/login',
             {
                 headers:
                         {
@@ -204,7 +204,7 @@ describe("Refreshing the site is made correctly",() =>{
                 refreshtoken:"refreshing"
             }
 
-            mock.onPost('https://iot-auth-staging.herokuapp.com/auth/refresh',
+            mock.onPost(ENDPOINTAUTH + 'auth/refresh',
             {
                 headers:
                         {
@@ -249,7 +249,7 @@ describe("Refreshing the site is made correctly",() =>{
             }
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/refresh',
+        mock.onPost(ENDPOINTAUTH + 'auth/refresh',
         {
             headers:
                     {
@@ -280,7 +280,7 @@ describe("Refreshing the site is made correctly",() =>{
             }
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/refresh',
+        mock.onPost(ENDPOINTAUTH + 'auth/refresh',
         {
             headers:
                     {
@@ -310,7 +310,7 @@ describe("Refreshing the site is made correctly",() =>{
             }
         ]
 
-        mock.onPost('https://iot-auth-staging.herokuapp.com/auth/refresh',
+        mock.onPost(ENDPOINTAUTH + 'auth/refresh',
         {
             headers:
                     {
@@ -348,7 +348,7 @@ describe("Signup works correctly",() =>{
             agency:'111333'
         }
 
-        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        mock.onPost(ENDPOINTAUTH + "users/",testJson)
         .reply(201);
 
         return store.dispatch(signup(testJson)).then(()=>{
@@ -370,7 +370,7 @@ describe("Signup works correctly",() =>{
             agency:'111333'
         }
 
-        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        mock.onPost(ENDPOINTAUTH + "users/",testJson)
         .reply(401,{
             message: "invalid username"
         });
@@ -393,7 +393,7 @@ describe("Signup works correctly",() =>{
             agency:'111333'
         }
 
-        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        mock.onPost(ENDPOINTAUTH + "users/",testJson)
         .reply(401,{
             message: "user or email aready taken"
         });
@@ -416,7 +416,7 @@ describe("Signup works correctly",() =>{
             agency:'111333'
         }
 
-        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        mock.onPost(ENDPOINTAUTH + "users/",testJson)
         .reply(401,{
             message: "invalid password"
         });
@@ -439,7 +439,7 @@ describe("Signup works correctly",() =>{
             agency:'111333'
         }
 
-        mock.onPost("https://iot-auth-staging.herokuapp.com/users/",testJson)
+        mock.onPost(ENDPOINTAUTH + "users/",testJson)
         .reply(401,{
             message: "agency does not exist"
         });
