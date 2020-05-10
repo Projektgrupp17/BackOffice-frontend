@@ -61,6 +61,20 @@ const refreshOrder = auth =>({
 })
 
 
+const getInterestsRequest = () =>({
+    type:'GET_INTEREST_REQUEST'
+})
+const getInterestsSuccess = data =>({
+    type: 'GET_INTEREST_SUCCESS',
+    payload: data
+})
+const getInterestsError = error =>({
+    type: 'GET_INTEREST_ERROR',
+    error: error
+})
+
+
+
 
 export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError,
-postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder,postUserLogout} ;
+postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder,postUserLogout,getInterestsRequest,getInterestsSuccess,getInterestsError} ;

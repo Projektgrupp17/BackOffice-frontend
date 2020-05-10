@@ -19,7 +19,7 @@ import {JWTverify} from './JWTDecoder';
 class OrderModel extends Observable {
     constructor() {
         super()
-        this.store = Redux.createStore(Redux.combineReducers({order}), Redux.applyMiddleware(thunkMiddleware));
+        this.store = Redux.createStore(Redux.combineReducers({order,interests}), Redux.applyMiddleware(thunkMiddleware));
     }
 
     getAllOrders() {
@@ -32,6 +32,21 @@ class OrderModel extends Observable {
      */
     notifyObservers() {
         this._observer.map(observer => observer.update(this));
+    }
+}
+
+const getAllInterests = () =>{
+    return function(dispatch){
+        dispatch(Actions.getInterestsRequest())
+        axios.get(`${ENDPOINTBACKEND}order/intrests`)
+        .then(resp =>{
+            dispatch(Actions.getInterestsSuccess(resp.data))
+            instance.notifyObservers();
+        })
+        .catch(error =>{
+            dispatch(Actions.getInterestsError(error.message))
+            instance.notifyObservers();
+        })
     }
 }
 
@@ -61,6 +76,42 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
                 instance.notifyObservers();
         })
     }
+}
+
+/**
+ * Retrives current allowed intrerests from the backend api
+ * @param {Store} state 
+ */
+const interests = (state = {
+    loading:false,
+    response:[],
+    error:''
+},action) =>{
+    switch(action.type){
+        case 'GET_INTEREST_REQUEST':
+            return{
+                ...state,
+                loading:true
+            }
+
+        case 'GET_INTEREST_SUCCESS':
+            return{
+                loading:false,
+                response:action.payload,
+                error:''
+            }
+
+        case 'GET_INTEREST_ERROR':
+            return{
+                ...state,
+                loading:false,
+                error:action.payload
+            }
+
+        default: 
+        return state;
+    }
+
 }
 
 const order = (state = {
@@ -98,5 +149,5 @@ const order = (state = {
 
 const instance = new OrderModel();
 export default instance;
-export { makeOrder };
+export { makeOrder,getAllInterests };
 
