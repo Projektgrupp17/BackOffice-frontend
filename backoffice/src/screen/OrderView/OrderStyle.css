@@ -1,4 +1,5 @@
 .orderbox {
+    grid-area: website;
     margin-left: 25%;
     padding: 2.5%;
     width: 45%;

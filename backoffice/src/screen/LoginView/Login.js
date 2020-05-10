@@ -124,15 +124,17 @@ import './LoginStyle.css'
                 </div>
                 break;
                 default:
-                }
-                return(
-                    <div id="login-component">
+                    display = this.setDisplayBox(this.state.display);
+                    return(
+                        <div id="login-component">
                {display}
             </div>
          );
         }
+        }
         
         setDisplayBox = (state) => {
+            console.log(state)
             switch(state){
                 case 1:
                     return(
