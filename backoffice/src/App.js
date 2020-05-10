@@ -40,7 +40,7 @@ class App extends Component{
         <div className="circle c0" id="circle0"/>
         <div className="circle c1" id="circle1"/>
          <div className="circle c2" id="circle2"/>
-        <div id ="Login-Message" style={{display:shouldDisplay()}}>
+        <div id ="Login-Message">
           {!isAuth() ? ( <h1 id="message">Welcome!<br/>Sign up to start service!</h1>) : ("")}
         </div>
           <Router>
@@ -53,10 +53,6 @@ class App extends Component{
       </div>
   );
 }
-}
-
-const shouldDisplay = () =>{
-      return window.sessionStorage.getItem("Message")
 }
 
 /**
