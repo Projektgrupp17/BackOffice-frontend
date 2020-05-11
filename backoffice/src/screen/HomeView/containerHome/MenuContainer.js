@@ -35,7 +35,7 @@ const display = (flag) =>{
 const Navbar = (props) =>{
     return(
         <div>
-            {display(props.display) ?<List {...props} label={openOrClose(true)}/> : <List {...props} label={openOrClose(false)}/> }
+            {<List {...props} label={openOrClose(display(props.display))}/>}
         </div>
     )
 }
@@ -57,8 +57,9 @@ const List = props =>{
 
 
 const openOrClose = (flag) =>{
-    if(flag)return {navbar: "navbar",navButton: "nav-btn"}
-    return  {navbar: "navbar hidden",navButton: "nav-btn1"}
+    console.log("OPENORCLOSE: " + flag);
+    if(flag)return { navbar: "navbar shown",navButton: "nav-btn shown"}
+    return  {navbar: "navbar ",navButton: "nav-btn"}
 }
 
 export default Menu

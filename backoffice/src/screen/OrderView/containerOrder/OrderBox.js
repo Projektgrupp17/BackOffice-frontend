@@ -137,7 +137,7 @@ class OrderContainer extends Component {
         <div key={el.url+ ind}>
             <input type="text" name ="video-url" value={el.url}  disabled id={"order-vid-url" + ind} key={"order-vid-url" + ind}  style={{marginRight: "1em"}}/>
             <input type="text" name ="video-interest" value={el.interest}   disabled id={"order-vid-interest-" + ind}/>
-            <button onClick={() => {this.removeVideoByIndex(ind)}}>-</button>
+            <button className="submit smallest" onClick={() => {this.removeVideoByIndex(ind)}}>-</button>
         </div>
         )
         
@@ -152,7 +152,7 @@ class OrderContainer extends Component {
         this.setState({...this.state, video: this.state.video.filter((_el, ind) => ind !== index)})
     }
 
-    validateNextVideo(){
+    validateNextVideo() {
         let interest = this.state.nextVidInterest;
         let url = this.state.nextVidUrl;
         let match = this.state.video.filter(el => el.url === this.state.nextVidUrl && el.interest === this.state.nextVidInterest)
@@ -185,15 +185,15 @@ class OrderContainer extends Component {
                  <form onSubmit={this.handleSubmit}>
                      <div style={{display: "flex", flexDirection:"column"}}>
                         <label className="order-label">
-                            <span className="label-text">Credits:</span>
+                            <b className="label-text">Credits:</b>
                             <input type="number"name ="name" value={this.state.credits} onChange={c => this.setCredits(c.target.value)}/>
                         </label>
                         <label className="order-label">
-                            <span className="label-text">Start Date:</span>
+                            <b className="label-text">Start Date:</b>
                             <input type="date"name="start date" value={this.state.startDate} onChange={e=>this.setStartDate(e.target.value)}/>
                         </label>
-                        <label className="order-label">
-                            <span className="label-text">End Date:</span>
+                        <label className="order-label" style={{paddingBottom: "1em"}}>
+                            <b className="label-text">End Date:</b>
                             <input type="date"name="end date" value={this.state.endDate} onChange={e=>this.setEndDate(e.target.value)}/>
                         </label>
                         <div>
@@ -201,25 +201,27 @@ class OrderContainer extends Component {
                         </div>
                         <br/>
                         <label className="order-label">
-                            Add another video:
+                         <b>Add a video:</b>
                         </label>
                         <div/> 
                             <input placeholder="video url" type="text"name="url" value={this.state.nextVidUrl} onChange={e=>this.setState({...this.state, nextVidUrl: e.target.value})}/>
                         <div>
-                            <label>
+                            <br/>
+                            <b className="label-text">
                                 Interest:
-                            </label>
+                            </b>
                             {this.interest()}
                         </div>
                         </div>
                         <div>
-                        <button onClick={e=> {e.preventDefault()
+                            <br/>
+                        <button className="submit small"onClick={e=> {e.preventDefault()
                                             this.addNextVideo()}}
                                 disabled={!this.validateNextVideo()}>
                         Add</button>
                         <br/>
                         </div>
-                        <input type="submit" value="Create" disabled={!this.validateForm()}/>
+                        <input type="submit" className="submit small" value="Confirm order" disabled={!this.validateForm()}/>
                     </form>
             </div>
         )
