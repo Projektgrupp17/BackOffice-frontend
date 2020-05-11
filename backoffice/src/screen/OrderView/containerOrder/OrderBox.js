@@ -172,8 +172,8 @@ class OrderContainer extends Component {
 
     interest(){
         return(
-            <select id="interest" name="Interest" onChange={e => this.setInterest(e.target.value)}>
-                <option key="0" value="-">-</option>
+            <select id="interest" defaultValue="default" name="Interest" onChange={e => this.setInterest(e.target.value)}>
+                <option value="default" disabled>video interest</option>
                 {this.makeInterestList()}
             </select>
         )
@@ -204,12 +204,8 @@ class OrderContainer extends Component {
                          <b>Add a video:</b>
                         </label>
                         <div/> 
-                            <input placeholder="video url" type="text"name="url" value={this.state.nextVidUrl} onChange={e=>this.setState({...this.state, nextVidUrl: e.target.value})}/>
+                            <input className="order-label" placeholder="video url" type="text"name="url" value={this.state.nextVidUrl} onChange={e=>this.setState({...this.state, nextVidUrl: e.target.value})}/>
                         <div>
-                            <br/>
-                            <b className="label-text">
-                                Interest:
-                            </b>
                             {this.interest()}
                         </div>
                         </div>

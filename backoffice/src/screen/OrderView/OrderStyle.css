@@ -10,7 +10,7 @@
 
 
 .order-label {
-    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .label-text {
@@ -35,7 +35,6 @@
     opacity: 0;
     margin-top: calc(50vh - 20vh);
     position: absolute;
-    margin-left:2px;
     list-style-type:none;
     min-height: 40vh;
     left: 6.8vw;
