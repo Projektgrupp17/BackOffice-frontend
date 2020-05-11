@@ -8,7 +8,7 @@ import configureStore from 'redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import { ENDPOINTAUTH, ENDPOINTBACKEND } from '../config/config';
+import { ENDPOINTBACKEND } from '../config/config';
 const chai = require('chai');
 
 
@@ -52,7 +52,6 @@ describe("Order actions", () => {
             "efceacad-ffd2-4df2-9092-65cb50e47634"
         );
 
-        console.log(store.dispatch);
         return store.dispatch(makeOrder({
             user: "test@example.com",
             credits: 100, "video": [{

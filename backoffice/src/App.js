@@ -23,6 +23,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router,Route,Switch, Redirect} from 'react-router-dom';
 import './App.css';
 import LoginView from './screen/LoginView/Login';
+import UserService from './screen/UserServiceView/UserService';
 import loginModel from './model/LoginModel';
 import Order from './screen/OrderView/Order';
 import orderModel from './model/OrderModel';
@@ -47,6 +48,7 @@ class App extends Component{
             <Switch> 
               <FrontScreen exact path ="/" component={{home:Home,login: LoginView }}/>
               <PrivateRoute exact path ="/order" component = {Order} model ={orderModel} isAuth ={isAuth()}/>
+              <PrivateRoute exact path ="/userservice" component = {UserService} store = {loginModel.store} isAuth ={isAuth()}/>
               <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store} menu= {Home}/>
             </Switch>
           </Router>
