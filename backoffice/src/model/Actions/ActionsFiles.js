@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-
+/*ALL THE BELOW A */
  const postUserLoginRequest =() => ({
      type:'POST_USER_LOGIN_REQUEST',
  })
@@ -60,7 +60,6 @@ const refreshOrder = auth =>({
     payload: auth
 })
 
-
 const getInterestsRequest = () =>({
     type:'GET_INTEREST_REQUEST'
 })
@@ -74,7 +73,20 @@ const getInterestsError = error =>({
 })
 
 
+const getOrderhistoryRequest = () =>({
+    type:'GET_ORDERHISTORY_REQUEST'
+})
+const getOrderhistorySuccess = data =>({
+    type: 'GET_ORDERHISTORY_SUCCESS',
+    payload: data
+})
+const getOrderhistoryError = error =>({
+    type: 'GET_ORDERHISTORY_ERROR',
+    error: error
+})
+
 
 
 export {postUserLoginError,postUserLoginRequest,postUserLoginSuccess, postOrderRequest, postOrderSuccess, postOrderError,
-postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder,postUserLogout,getInterestsRequest,getInterestsSuccess,getInterestsError} ;
+postUserRegisterRequest,postUserRegisterSuccess,postUserRegisterError,refreshOrder,postUserLogout,getInterestsRequest,
+getInterestsSuccess,getInterestsError,getOrderhistoryRequest,getOrderhistorySuccess,getOrderhistoryError};

@@ -1,6 +1,7 @@
 /**
  * 
  * @author Magnus Fredriksson
+ * @author Netanel Avraham Eklind
  * @version 0.0.1
  */
 
@@ -19,7 +20,7 @@ import {JWTverify} from './JWTDecoder';
 class OrderModel extends Observable {
     constructor() {
         super()
-        this.store = Redux.createStore(Redux.combineReducers({order,interests}), Redux.applyMiddleware(thunkMiddleware));
+        this.store = Redux.createStore(Redux.combineReducers({order,interests,history}), Redux.applyMiddleware(thunkMiddleware));
     }
 
     getAllOrders() {
@@ -32,6 +33,19 @@ class OrderModel extends Observable {
      */
     notifyObservers() {
         this._observer.map(observer => observer.update(this));
+    }
+}
+
+const orderHistory = () =>{
+    return function(dispatch){
+        dispatch(Actions.getOrderhistoryRequest());
+        return axios.get(`${ENDPOINTBACKEND}order/history?userName=${LoginModel.getUsername()}`)
+        .then(resp =>{
+            dispatch(Actions.getOrderhistorySuccess(resp.data))
+        })
+        .catch(error =>{
+            dispatch(Actions.getOrderhistoryError(error.message))
+        })
     }
 }
 
@@ -75,6 +89,36 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
         })
     }
 }
+
+const history = (
+    state = {
+        loading:false,
+        history:[],
+        error:''
+    }, action) =>{
+        switch(action.type){
+            case 'GET_ORDERHISTORY_REQUEST':
+                return{
+                    ...state,
+                    loading:true
+                }
+            case 'GET_ORDERHISTORY_SUCCESS':
+                return{
+                    loading:false,
+                    history:action.payload,
+                    error: ''
+                }
+            case 'GET_ORDERHISTORY_ERROR':
+                return{
+                    loading:false,
+                    history:[],
+                    error:''
+                }
+
+            default:
+                return state;
+        }
+    }
 
 /**
  * Retrives current allowed intrerests from the backend api
@@ -144,5 +188,5 @@ const order = (state = {
 
 const instance = new OrderModel();
 export default instance;
-export { makeOrder,getAllInterests };
+export { makeOrder,getAllInterests,orderHistory};
 
