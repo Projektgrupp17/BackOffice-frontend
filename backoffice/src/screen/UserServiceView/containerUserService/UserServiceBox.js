@@ -2,7 +2,7 @@
  * Userservice component
  * 
  * @author Magnus Fredriksson
- * @version 0.0.1
+ * @version 1.0.0
  */
 //import '../OrderStyle.css'
 import React,{Component} from 'react'
@@ -12,15 +12,18 @@ import equal from 'deep-equal';
 
 
 /**
- * Dispatch a new update to the store with the given dispatch from 
- * the store.
- * @param {The dispatch command to sned a store upate} dispatch 
+ * Connects this component to the spectified redux state
+ * @param state the redux state
  */
 const mapStateToProps = state => ({ 
     userInfo: state.userInfo,
     userUpdate: state.userUpdate
 })
 
+/**
+ * Connects this component to the specified redux actions
+ * @param {*} dispatch the reduc dispatcher 
+ */
 const mapDispatchToProps = dispatch => {
     return {
       updateUser: updatedUser => dispatch(putUserUpdate(updatedUser)),
@@ -28,19 +31,14 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-
-
 /**
- * The main component of the loginbox.
- * It handles the submition of the email and password and sends it to the store
- * for login.
+ * The main component of the userservice box.
+ * handles the form and actions for changing useraccount data
  */
 class UserServiceBox extends Component {
     constructor(props){
         super(props)
         this.state ={
-            startDate:this.toDateString(Date.now()),
-            endDate:this.toDateString(Date.now()),
             newUser: {
                 username: '',
                 email: '',
@@ -78,14 +76,6 @@ class UserServiceBox extends Component {
         this.handleStatus("LOADING");
     }
 
-    toDateString(dateEpoch) {
-        let date = new Date(dateEpoch);
-        let year = date.getYear()+1900;
-        let month = ("0" + date.getMonth()).slice(-2);
-        let day = ("0" + date.getDate()).slice(-2);
-        return year + "-" + month + "-" + day;
-    }
-
     MessageDisplay = () => {
     if(this.props.userUpdate.error)
         return (<span className="error-display">{this.props.userUpdate.error}</span>)
@@ -111,7 +101,7 @@ class UserServiceBox extends Component {
             && u.password !== ''
             && u.agency !== ''
             && u.username !== '';
-     }
+    }
 
     render() {
         return(
