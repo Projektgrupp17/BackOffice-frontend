@@ -57,10 +57,6 @@ class UserServiceBox extends Component {
         this.props.status(status)
     }
 
-    validateForm() {
-        return this.state.video && this.state.video.length > 0 && this.state.credits > 0 && this.state.startDate && this.state.endDate  
-    }
-
     componentDidMount() {
         this.props.getCurrentUser(this.props.userEmail);
     }
@@ -110,11 +106,11 @@ class UserServiceBox extends Component {
         let u = this.state.newUser;
         return s.newPassword !== '' 
             && s.newPassword === s.newPasswordRepeat
-            && s.oldPasswordConfirm != '' 
-            && u.email != ''
-            && u.password != ''
-            && u.agency != ''
-            && u.username != '';
+            && s.oldPasswordConfirm !== '' 
+            && u.email !== ''
+            && u.password !== ''
+            && u.agency !== ''
+            && u.username !== '';
      }
 
     render() {
