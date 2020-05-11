@@ -38,7 +38,7 @@ class OrderModel extends Observable {
 const getAllInterests = () =>{
     return function(dispatch){
         dispatch(Actions.getInterestsRequest())
-        axios.get(`${ENDPOINTBACKEND}order/intrests`)
+        return axios.get(`${ENDPOINTBACKEND}order/intrests`)
         .then(resp =>{
             dispatch(Actions.getInterestsSuccess(resp.data))
             instance.notifyObservers();
@@ -56,7 +56,7 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
         }
         dispatch(Actions.postOrderRequest())
-        axios.post(ENDPOINTBACKEND + 'order/add', 
+        return axios.post(ENDPOINTBACKEND + 'order/add', 
         {
             user,
             credits,
@@ -97,9 +97,9 @@ const interests = (state = {
                 response:action.payload,
                 error:''
             }
-
-        case 'GET_INTEREST_ERROR':
-            return{
+            
+            case 'GET_INTEREST_ERROR':
+                return{
                 ...state,
                 loading:false,
                 error:action.payload
@@ -108,7 +108,6 @@ const interests = (state = {
         default: 
         return state;
     }
-
 }
 
 const order = (state = {

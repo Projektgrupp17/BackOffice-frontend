@@ -91,11 +91,10 @@ class Order extends Component {
      */
     render() {
         let display = null;
-
                 display = <OrderBox
                     username={user.getUsername()}
                     store={this.props.model.store}
-                    status={this.status} 
+                    status={this.status}
                     orderRequestStatus={this.state.status}/>
         return (
             <div id="wrapper">
