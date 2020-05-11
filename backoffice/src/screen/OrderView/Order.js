@@ -102,6 +102,7 @@ class Order extends Component {
                 display = <b>{"ERROR"}</b>;
                 break;
             default:
+
                 display = <OrderBox
                     username={user.getUsername()}
                     store={this.props.model.store}

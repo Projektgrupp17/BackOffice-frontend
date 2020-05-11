@@ -33,8 +33,12 @@ import './LoginStyle.css'
              message:''
             }
             this.status = this.handleStatusChange.bind(this);
+            this.display = this.handleDisplay.bind(this)
         }
 
+    handleDisplay(display){
+        this.props.welcome(display);
+    }
 
     /**
      * Tells the program if the loading is done or not, thus changing screen.
@@ -107,6 +111,7 @@ import './LoginStyle.css'
                  status:'DONE'
              })
              this.props.history.push("/")
+             this.handleDisplay("none");
          }
      }
      /**
