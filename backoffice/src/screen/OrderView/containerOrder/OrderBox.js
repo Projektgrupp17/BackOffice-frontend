@@ -65,7 +65,7 @@ class OrderContainer extends Component {
             credits: this.state.credits, 
             user: this.props.username, 
             video: this.state.video.map(el => { 
-                return {...el, interest: this.mapInterestToId([el.interest]) }}), 
+                return {...el, interest: el.interest}}), 
             Startdate: this.toISODate(this.state.startDate), 
             Enddate: this.toISODate(this.state.endDate)
             }
