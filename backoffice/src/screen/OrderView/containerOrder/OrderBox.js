@@ -69,8 +69,6 @@ class OrderContainer extends Component {
             Startdate: this.toISODate(this.state.startDate), 
             Enddate: this.toISODate(this.state.endDate)
             }
-            order.video = "";
-
         this.props.makeOrder(order);
         this.handleStatus("LOADING");
     }
