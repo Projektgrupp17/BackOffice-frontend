@@ -50,6 +50,13 @@
     animation-fill-mode: forwards;
 }
 
+.error-display {
+    margin-bottom: -1em;
+    margin-top: 1em;
+    text-align: center;
+    color:red;
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to { opacity: 1; }
