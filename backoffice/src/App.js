@@ -19,7 +19,7 @@
  * TODO: Implementing the different screens and better the router service.
  */
 
-import React, { Component } from 'react';
+import React, { useState  } from 'react';
 import {BrowserRouter as Router,Route,Switch, Redirect} from 'react-router-dom';
 import './App.css';
 import LoginView from './screen/LoginView/Login';
@@ -34,19 +34,20 @@ import Logout from './screen/LogoutView/LogutContainer';
  * Method to render the application to display the different screens depending on browser router.
  * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
  */
-class App extends Component{
-  render(){
+
+  const App=()=>{
+    const [display,setdisplay] = useState("grid");
     return (
       <div id="app-component">
         <div className="circle c0" id="circle0"/>
         <div className="circle c1" id="circle1"/>
          <div className="circle c2" id="circle2"/>
-        <div id ="Login-Message">
+        <div id ="Login-Message" style={{display:display}}>
           {!isAuth() ? ( <h1 id="message">Welcome!<br/>Sign up to start service!</h1>) : ("")}
         </div>
           <Router>
             <Switch> 
-              <FrontScreen exact path ="/" component={{home:Home,login: LoginView }}/>
+              <FrontScreen exact path ="/" component={{home:Home,login: LoginView }} welcome={setdisplay}/>
               <PrivateRoute exact path ="/order" component = {Order} model ={orderModel} isAuth ={isAuth()}/>
               <PrivateRoute exact path ="/userservice" component = {UserService} store = {loginModel.store} isAuth ={isAuth()}/>
               <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store} menu= {Home}/>
@@ -55,18 +56,17 @@ class App extends Component{
       </div>
   );
 }
-}
 
 /**
  * Displays either the login view or the menu/"homeview" depending if the user is 
  * autherized or not.
  * @param {Components} param0 
  */
-const FrontScreen = ({component:{home:Home,login: LoginView}}) =>{
+const FrontScreen = ({component:{home:Home,login: LoginView},...rest}) =>{
   return (
     isAuth() ?(<PrivateRoute component ={Home} store={loginModel.store}/>)
     :(
-    <PublicRoute model = {loginModel} component ={LoginView}/>)
+    <PublicRoute model = {loginModel} component ={LoginView} welcome={rest.welcome}/>)
   )
 }
 
@@ -101,6 +101,7 @@ const PrivateRoute = ({component: Component, ...rest}) =>{
         />
       )
 }
+
 
 export default App;
 export {PrivateRoute};
