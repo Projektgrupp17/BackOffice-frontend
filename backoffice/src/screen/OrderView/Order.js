@@ -20,6 +20,7 @@
 import React, { Component } from "react";
 import OrderBox from './containerOrder/OrderBox';
 import user from "../../model/LoginModel";
+import Menu from '../HomeView/containerHome/MenuContainer'
 
 
 
@@ -32,7 +33,8 @@ class Order extends Component {
         super(props)
         this.state = {
             auth: null,
-            status: ''
+            status: '',
+            displayNavBar: false
         }
         this.status = this.handleStatus.bind(this);
 
@@ -63,16 +65,24 @@ class Order extends Component {
 
     update(payload) {
         let status = '';
-        if(payload.store.getState().order.Loading || payload.store.getState().interests.loading)
+        if (payload.store.getState().order.Loading || payload.store.getState().interests.loading)
             status = "LOADING";
-        
-        if(payload.store.getState().order.error)
+
+        if (payload.store.getState().order.error)
             status = "ERROR";
         this.setState({
             ...this.state,
             status: status,
             response: payload.store.getState().order.response
         })
+    }
+
+    handleDisplay() {
+        this.setState({
+            ...this.state,
+            displayNavBar: !this.state.displayNavBar
+        })
+
     }
 
     /**
@@ -92,15 +102,21 @@ class Order extends Component {
                 display = <b>{"ERROR"}</b>;
                 break;
             default:
-                console.log(user.getUsername())
-                display = <OrderBox 
+
+                display = <OrderBox
+
                     username={user.getUsername()}
                     store={this.props.model.store}
                     status={this.status} />
         }
         return (
-            <div className="order-component" id="order-component">
-                {display}
+            <div id="wrapper">
+                <button id="Menu" onClick={() => this.handleDisplay()}>
+                    <Menu label={"Menu"} display={this.state.displayNavBar} store={this.props.store} />
+                </button>
+                <div className="order-component">
+                    {display}
+                </div>
             </div>
         );
     }

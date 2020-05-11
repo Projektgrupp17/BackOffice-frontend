@@ -35,7 +35,7 @@ const display = (flag) =>{
 const Navbar = (props) =>{
     return(
         <div>
-            {display(props.display) ?<List {...props} label={openOrClose(true)}/> : <List {...props} label={openOrClose(false)}/> }
+            {<List {...props} label={openOrClose(display(props.display))}/>}
         </div>
     )
 }
@@ -46,7 +46,7 @@ const Navbar = (props) =>{
  */
 const List = props =>{
     return(
-    <ul id={props.label.navbar}>
+    <ul className={props.label.navbar} id="navbar">
         <li><Link to='/order' className={props.label.navButton}>Order</Link></li>
         <li><Link to='/orderhistory' className={props.label.navButton}>Orderhistory</Link></li>
         <li><Link to='/userservice'className={props.label.navButton}>User service</Link></li>
@@ -57,8 +57,9 @@ const List = props =>{
 
 
 const openOrClose = (flag) =>{
-    if(flag)return {navbar: "navbar",navButton: "nav-btn"}
-    return  {navbar: "navbar1",navButton: "nav-btn1"}
+    console.log("OPENORCLOSE: " + flag);
+    if(flag)return { navbar: "navbar shown",navButton: "nav-btn shown"}
+    return  {navbar: "navbar ",navButton: "nav-btn"}
 }
 
 export default Menu

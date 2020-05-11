@@ -51,10 +51,10 @@ const Logout = props =>{
             <b>Do you wish to logout?</b>
             <ul id="checkout">
                 <li id="yes">
-                    <button onClick={()=> logout(props)} className="nav-btn">Yes</button>
+                    <button onClick={()=> logout(props)} className="nav-btn shown">Yes</button>
                 </li>      
                 <li id="no">
-                    <button onClick={() => props.history.goBack()} className="nav-btn">no</button>
+                    <button onClick={() => props.history.goBack()} className="nav-btn shown">no</button>
                 </li>
             </ul>
                     </div>   
