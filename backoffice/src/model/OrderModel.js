@@ -51,7 +51,6 @@ const getAllInterests = () =>{
 }
 
 const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
-    console.log(user);
     return function (dispatch) {
         if(!JWTverify){
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
