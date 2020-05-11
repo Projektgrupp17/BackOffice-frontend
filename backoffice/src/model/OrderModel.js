@@ -7,7 +7,7 @@
 import Observable from "./util/Observable";
 import * as Redux from 'redux'
 import * as Actions from './Actions/ActionsFiles';
-import { ENDPOINTBACKEND } from '../config/config';
+import { ENDPOINTBACKEND} from '../config/config';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
 import LoginModel,{refresh} from './LoginModel';
@@ -57,7 +57,6 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
         }
         dispatch(Actions.postOrderRequest())
-        console.log("START REQ")
         axios.post(ENDPOINTBACKEND + 'order/add', 
         {
             user,
@@ -67,12 +66,10 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             Enddate
         })
         .then(resp => {
-            console.log("SUCC REQ")
             dispatch(Actions.postOrderSuccess(resp.data))
             instance.notifyObservers();
         })
         .catch(error => {
-                console.log("ERROR REQ")
                 dispatch(Actions.postOrderError(error.message))
                 instance.notifyObservers();
         })
@@ -122,14 +119,12 @@ const order = (state = {
 }, action) => {
     switch (action.type) {
         case 'POST_ADVERTISEMENT_ORDER':
-            console.log("START");
             return {
                 ...state,
                 loading: true
             }
             
             case 'POST_ADVERTISEMENT_ORDER_SUCCESS':
-                console.log("SUCCESS")
                 return {
                     loading: false,
                     response: action.payload,
@@ -137,7 +132,6 @@ const order = (state = {
                 }
                 
             case 'POST_ADVERTISEMENT_ORDER_ERROR':
-                console.log("ERROR");
                 return {
                     loading: false,
                     response: {},

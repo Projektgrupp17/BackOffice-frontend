@@ -42,7 +42,11 @@
     font-size: medium;
 }
 
-.submit:hover{
+.submit:disabled {
+    color: grey;
+}
+
+.submit:enabled:hover{
     background:rgb(41, 41, 41) ;
     border-color: rgb(41, 41, 41);
 }

@@ -45,7 +45,8 @@ class OrderContainer extends Component {
             credits:100,
             video: [],
             nextVidUrl: '',
-            nextVidInterest:''
+            nextVidInterest:'',
+            nextVidInterestId:null
         }
         this.handleStatus = this.handleStatus.bind(this);
     }
@@ -54,26 +55,33 @@ class OrderContainer extends Component {
         this.props.status(status)
     }
 
-   validateForm() {
-    return true;    
-        //return this.state.email.length > 0 && this.state.password.length > 0;
+    validateForm() {
+        return this.state.video && this.state.video.length > 0 && this.state.credits > 0 && this.state.startDate && this.state.endDate  
     }
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log(event)
-        this.props.makeOrder({
+        let order = {
             credits: this.state.credits, 
             user: this.props.username, 
-            video: this.state.video.map(el => { return {...el, interest: this.interestMap[el.interest] } }), 
+            video: this.state.video.map(el => { 
+                return {...el, interest: el.interest}}), 
             Startdate: this.toISODate(this.state.startDate), 
             Enddate: this.toISODate(this.state.endDate)
-            })
+            }
+
+        this.props.makeOrder(order);
         this.handleStatus("LOADING");
     }
 
+    mapInterestToId(interest){
+        let matches = this.props.interests.response.filter(el =>  el.string === interest[0])
+        if(matches.length === 0 || matches.length > 1)
+            throw new Error("INVALID INTEREST MAPPING");
+        return matches[0].id;
+    }
+
     setInterest(c){
-        console.log(c)
         this.setState({
             ...this.state,
             nextVidInterest:c
@@ -116,6 +124,8 @@ class OrderContainer extends Component {
     }
     
     addNextVideo() {
+        if(!this.validateNextVideo())
+            return;
         this.state.video.push({url: this.state.nextVidUrl, length: 100, interest: this.state.nextVidInterest});
         this.setState({...this.state, nextVidUrl: ""})
     }
@@ -124,9 +134,10 @@ class OrderContainer extends Component {
         return (
         <div id="order-video-list">
         {this.state.video.map((el,ind) =>  
-        <div key={el.url}>
-            <input type="text"name ="video-url" value={el.url}  disabled id={"order-vid-url" + ind}/>
-            <input type="text"name ="video-url" value={this.validateInterest(el.interest)}  disabled id={"order-vid-interest-" + ind}/>
+        <div key={el.url+ ind}>
+            <input type="text" name ="video-url" value={el.url}  disabled id={"order-vid-url" + ind} key={"order-vid-url" + ind}  style={{marginRight: "1em"}}/>
+            <input type="text" name ="video-interest" value={el.interest}   disabled id={"order-vid-interest-" + ind}/>
+            <button className="submit smallest" onClick={() => {this.removeVideoByIndex(ind)}}>-</button>
         </div>
         )
         
@@ -135,8 +146,22 @@ class OrderContainer extends Component {
         )
     }
 
-    validateInterest(interest){
-        if(interest === '-' || interest === '') return this.props.interests.response[0].string
+    removeVideoByIndex(index) {
+        if(index === undefined)
+            throw new Error("bad index");
+        this.setState({...this.state, video: this.state.video.filter((_el, ind) => ind !== index)})
+    }
+
+    validateNextVideo() {
+        let interest = this.state.nextVidInterest;
+        let url = this.state.nextVidUrl;
+        let match = this.state.video.filter(el => el.url === this.state.nextVidUrl && el.interest === this.state.nextVidInterest)
+        //No identical duplicates.
+        if (match.length > 0)
+            return false
+        if(interest === '-' || interest === '' || !interest || url === '-' || url === '' || !url)
+            return false;
+        return true;
     }
 
     makeInterestList(){
@@ -147,8 +172,8 @@ class OrderContainer extends Component {
 
     interest(){
         return(
-            <select id="interest" name="Interest" onChange={e => this.setInterest(e.target.value)}>
-                <option key="0" value="-">-</option>
+            <select id="interest" defaultValue="default" name="Interest" onChange={e => this.setInterest(e.target.value)}>
+                <option value="default" disabled>video interest</option>
                 {this.makeInterestList()}
             </select>
         )
@@ -158,39 +183,41 @@ class OrderContainer extends Component {
         return(
             <div className="orderbox" id="orderbox">
                  <form onSubmit={this.handleSubmit}>
-                        <label>
-                            Credits:
+                     <div style={{display: "flex", flexDirection:"column"}}>
+                        <label className="order-label">
+                            <b className="label-text">Credits:</b>
                             <input type="number"name ="name" value={this.state.credits} onChange={c => this.setCredits(c.target.value)}/>
                         </label>
-                        <label>
-                            Start Date:
+                        <label className="order-label">
+                            <b className="label-text">Start Date:</b>
                             <input type="date"name="start date" value={this.state.startDate} onChange={e=>this.setStartDate(e.target.value)}/>
                         </label>
-                        <label>
-                            End Date:
+                        <label className="order-label" style={{paddingBottom: "1em"}}>
+                            <b className="label-text">End Date:</b>
                             <input type="date"name="end date" value={this.state.endDate} onChange={e=>this.setEndDate(e.target.value)}/>
                         </label>
                         <div>
                         {this.getVideoElements()}
                         </div>
-                        <label>
-                            Add another video:
-                        <div/> 
-                            <input placeholder="video url" type="text"name="url" value={this.state.nextVidUrl} onChange={e=>this.setState({...this.state, nextVidUrl: e.target.value})}/>
+                        <br/>
+                        <label className="order-label">
+                         <b>Add a video:</b>
                         </label>
+                        <div/> 
+                            <input className="order-label" placeholder="video url" type="text"name="url" value={this.state.nextVidUrl} onChange={e=>this.setState({...this.state, nextVidUrl: e.target.value})}/>
                         <div>
-                            <label>
-                                Interest:
-                            </label>
                             {this.interest()}
                         </div>
+                        </div>
                         <div>
-                        <button onClick={e=> {e.preventDefault()
-                                            this.addNextVideo()}}>
+                            <br/>
+                        <button className="submit small"onClick={e=> {e.preventDefault()
+                                            this.addNextVideo()}}
+                                disabled={!this.validateNextVideo()}>
                         Add</button>
                         <br/>
                         </div>
-                        <input type="submit" value="Create" disabled={!this.validateForm()}/>
+                        <input type="submit" className="submit small" value="Confirm order" disabled={!this.validateForm()}/>
                     </form>
             </div>
         )

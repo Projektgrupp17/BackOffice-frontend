@@ -1,9 +1,56 @@
 .orderbox {
-    grid-area: website;
-    margin-left: 25%;
-    padding: 2.5%;
-    width: 45%;
+    color: white ;
+    margin-left: 2.5em;
+    margin-right: 2.5em;
+    padding: 2em;
     display: flex;
     flex-direction: column;
-    background-color: grey;
+    min-width: 30em;
 }
+
+
+.order-label {
+    margin-bottom: 0.5em;
+}
+
+.label-text {
+    display: inline-block;
+    min-width: 5em;
+}
+
+.submit.small{
+    width: auto;
+    margin-top: 0.6em;
+    padding: 4px;
+    height: 100%;
+}
+
+.submit.smallest{
+    height: 100%;
+    width: auto;
+    font-size: small;
+}
+
+.order-component {
+    opacity: 0;
+    margin-top: calc(50vh - 20vh);
+    position: absolute;
+    list-style-type:none;
+    min-height: 40vh;
+    left: 6.8vw;
+    background-color: rgb(41, 41, 41);
+    border: 2px solid white;
+    display: grid;
+    grid-template-rows: repeat(2fr);
+    justify-content:center;
+    align-content: center;
+    row-gap: 3vw;
+    transition: opacity 0.5s ease-in-out;
+    animation: 1s ease-in-out fadein;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
