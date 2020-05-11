@@ -66,6 +66,10 @@
     color:lightgreen;
 }
 
+.error-display.message {
+    color:white;
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to { opacity: 1; }

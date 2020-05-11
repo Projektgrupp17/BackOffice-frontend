@@ -77,6 +77,8 @@ class UserServiceBox extends Component {
     }
 
     MessageDisplay = () => {
+    if(this.props.userUpdate.loading)
+        return (<span className="error-display message">Loading...</span>)
     if(this.props.userUpdate.error)
         return (<span className="error-display">{this.props.userUpdate.error}</span>)
     if(this.props.userUpdate.message) 
