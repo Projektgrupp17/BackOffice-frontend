@@ -74,7 +74,7 @@ describe("Order actions", () => {
             })
     })
 
-    it('Should get success response', () => {
+    it('Should handle error response', () => {
         let expectedActions = [
             {
                 type: 'POST_ADVERTISEMENT_ORDER'
@@ -96,7 +96,6 @@ describe("Order actions", () => {
         })
             .replyOnce(500, "internal server error");
 
-        console.log(store.dispatch);
         return store.dispatch(makeOrder({
             user: "test@example.com",
             credits: 100, "video": [{
