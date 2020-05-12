@@ -2,7 +2,7 @@
  * Login UnitTest: done
  */
 
-import Login,{login,refresh,signup} from '../model/LoginModel';
+import Login,{login,refresh,signup, userLogout} from '../model/LoginModel';
 import configureStore from 'redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
@@ -450,4 +450,71 @@ describe("Signup works correctly",() =>{
         })
     })
     
+})
+
+describe("Logout works correctly", () =>{
+    beforeEach(() =>{
+        store.clearActions()
+        mock.resetHistory();
+    })
+
+    it('The logout sends correct actions', () =>{
+        let expectedActions = [
+            {type:'POST_USER_LOGOUT'}
+        ]
+        let mockStore = {
+            loading:false,
+            auth:{
+                token:'testing',
+                refreshtoken:'refreshtesting'
+            },
+            error:''
+        }
+
+        store.getState = () => mockStore;
+
+        mock.onPost(`${ENDPOINTAUTH}auth/logout`)
+        .reply(200);
+
+        store.dispatch(userLogout())
+        .then(() =>{
+            chai.expect(store.getActions()).to.deep.equal(expectedActions)
+        })
+
+    })
+
+    it('Cleares store when logout is done', ()=>{
+        let expectedActions = [
+            {type:'POST_USER_LOGOUT',payload: '200'}]
+        let mockStore = {
+            loading:false,
+            auth:{
+                token:'testing',
+                refreshtoken:'refreshtesting'
+            },
+            error:''
+        }
+
+        store.getState = () => mockStore;
+        mock.onPost(`${ENDPOINTAUTH}auth/logout`)
+        .reply(200);
+
+        store.dispatch(userLogout()).then(()=>{
+            switch(store.getActions()[0]){
+                case 'POST_USER_LOGOUT':
+                    store.getState = () =>({
+                        loading:false,
+                        auth:{
+                            token:'',
+                            refreshtoken:''
+                        },
+                        error:''
+                    })
+            }
+            chai.expect(store.getState()).to.not.equal(mockStore)
+            chai.assert(store.getActions()[0].payload === '200')
+        })
+
+    })
+
 })

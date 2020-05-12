@@ -91,6 +91,19 @@ class Order extends Component {
      */
     render() {
         let display = null;
+
+        switch (this.state.status) {
+            case 'LOADING':
+                display = <em>Loading...</em>;
+                break;
+            case 'SUCCESS':
+                display = <b>{"SUCCESS: " + this.props.model.store.getState().order.response}</b>;
+                break;
+            case 'ERROR':
+                display = <b>{"ERROR"}</b>;
+                break;
+            default:
+
                 display = <OrderBox
                     username={user.getUsername()}
                     store={this.props.model.store}

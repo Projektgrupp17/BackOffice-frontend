@@ -6,6 +6,7 @@
  * @version 1.0.0
  */
 
+
  export const postUserLoginRequest =() => ({
      type:'POST_USER_LOGIN_REQUEST',
  })
@@ -84,6 +85,18 @@ export const getUserError = error =>({
     error: error
 })
 
+
+export const getOrderhistoryRequest = () =>({
+    type:'GET_ORDERHISTORY_REQUEST'
+})
+export const getOrderhistorySuccess = data =>({
+    type: 'GET_ORDERHISTORY_SUCCESS',
+    payload: data
+})
+export const getOrderhistoryError = error =>({
+    type: 'GET_ORDERHISTORY_ERROR',
+    error: error
+})
 export const updateUserRequest = () =>({
     type:'UPDATE_USER_REQUEST'
 })
