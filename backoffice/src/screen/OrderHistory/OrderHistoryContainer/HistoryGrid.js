@@ -1,26 +1,26 @@
 import {connect} from 'react-redux';
-import {orderHistory} from '../../../model/OrderModel';
+import {orderHistory,getAllInterests} from '../../../model/OrderModel';
 import React from 'react';
 import GetList from './GetList';
 
 const mapDispatchToProps = dispatch =>{
-    console.log("help!")
     return{
-        orderHistory: () => dispatch(orderHistory())
+        orderHistory: () => dispatch(orderHistory()),
+        getAllInterests: () => dispatch(getAllInterests())
     }
 }
 
 const screwReact = props =>{
-    console.log("help!!!")
     props.orderHistory();
+    props.getAllInterests();
 }
 
 const HistoryGrid = props =>{
-    console.log(props)
     return <div id="HistoryGrid">
         <div id="Orders">
+        {/* <button onClick={() => screwReact(props)}>press for testing! </button> */}
         <h1>All Orders</h1>
-        <GetList store={props.store}/>
+        <GetList store={props.store} order={props.setOrder}/>
         </div>
         <button id="historyButton" onClick={() => screwReact(props)}>
                     Get history

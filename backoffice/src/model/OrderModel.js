@@ -27,6 +27,9 @@ class OrderModel extends Observable {
         return this.store.getState().orders;
     }
 
+    getInterest(interested){
+    }
+
     /**
      * This method notifies observers if there is any changes to the 
      * store!
@@ -52,7 +55,7 @@ const orderHistory = () =>{
 const getAllInterests = () =>{
     return function(dispatch){
         dispatch(Actions.getInterestsRequest())
-        axios.get(`${ENDPOINTBACKEND}order/intrests`)
+    return axios.get(`${ENDPOINTBACKEND}order/intrests`)
         .then(resp =>{
             dispatch(Actions.getInterestsSuccess(resp.data))
             instance.notifyObservers();
