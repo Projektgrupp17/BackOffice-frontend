@@ -7,7 +7,7 @@ const equal = require('deep-equal');
 const port = 5558;
 let server;
 let routes = []
-
+const debug = false;
 const postRoutingFunc = function(req, res) {RoutingFunc("post", req, res)}
 const getRoutingFunc  = function(req, res) {RoutingFunc("get", req, res)}
 const putRoutingFunc  = function(req, res) {RoutingFunc("put", req, res)}
@@ -16,7 +16,7 @@ const RoutingFunc = function (method, req, res) {
     //Allow one trailing slash discrepancy, but not more, that would be a bug!
     let url = req.url.replace(/\/$/, "");
     let i = 0;
-    console.log("handling: " + req.url);
+    debug ? console.log("handling: " + req.url) : null;
     for (i = 0; i < routes.length; i++) {
         let route = routes[i];
         let path = route.path.replace(/\/$/, "");
@@ -65,6 +65,6 @@ module.exports = {
         app.post('/*', postRoutingFunc)
         app.get('/*', getRoutingFunc)
         app.put('/*', putRoutingFunc)
-        server = app.listen(port, () => console.log(`mock server listening at http://localhost:${port}`))
+        server = app.listen(port, () => debug ? console.log(`mock server listening at http://localhost:${port}`) : null)
     }
 }

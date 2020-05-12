@@ -48,33 +48,11 @@ class Order extends Component {
     }
 
     /**
-     * This method is called when the component is rendered for the first time and will then 
-     * add an observer to the class. 
-     */
-    componentDidMount() {
-        this.props.model.addObserver(this);
-    }
-
-    /**
      * This method is called when the component is no longer needed and thus removing the 
      * observer from the site.
      */
     componentWillUnmount() {
         this.props.model.removeObserver(this);
-    }
-
-    update(payload) {
-        let status = '';
-        if (payload.store.getState().order.Loading || payload.store.getState().interests.loading)
-            status = "LOADING";
-
-        if (payload.store.getState().order.error)
-            status = "ERROR";
-        this.setState({
-            ...this.state,
-            status: status,
-            response: payload.store.getState().order.response
-        })
     }
 
     handleDisplay() {
@@ -91,24 +69,17 @@ class Order extends Component {
      */
     render() {
         let display = null;
-
         switch (this.state.status) {
-            case 'LOADING':
-                display = <em>Loading...</em>;
-                break;
             case 'SUCCESS':
                 display = <b>{"SUCCESS: " + this.props.model.store.getState().order.response}</b>;
-                break;
-            case 'ERROR':
-                display = <b>{"ERROR"}</b>;
-                break;
+            break;
             default:
-
                 display = <OrderBox
                     username={user.getUsername()}
                     store={this.props.model.store}
                     status={this.status}
                     orderRequestStatus={this.state.status}/>
+        }
         return (
             <div id="wrapper">
                 <button id="Menu" onClick={() => this.handleDisplay()}>
@@ -120,7 +91,6 @@ class Order extends Component {
             </div>
         );
     }
-}
 }
 
 export default Order

@@ -280,6 +280,6 @@ describe("integration test suite", () => {
         await driver.findElement(By.xpath("//*/input[@value='Confirm order']")).click();
         //await driver.wait(until.elementLocated(By.xpath("//*[text() = 'Loading...']")), 500);
         await driver.wait(until.elementLocated(By.xpath("//*[text() = 'There was an error with the request']")), 1000);
-        setTimeout(done, 5000)
+        done();
     });
 })
