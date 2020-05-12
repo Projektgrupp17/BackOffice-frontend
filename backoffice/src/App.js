@@ -30,6 +30,7 @@ import orderModel from './model/OrderModel';
 import {isAuth} from './model/JWTDecoder';
 import Home from './screen/HomeView/HomeView';
 import Logout from './screen/LogoutView/LogutContainer';
+import OrderHistory from './screen/OrderHistory/OrderHistory';
 /**
  * Method to render the application to display the different screens depending on browser router.
  * @returns             The virtual REACT dom to be rendered.asdasdaasdasd
@@ -49,8 +50,10 @@ import Logout from './screen/LogoutView/LogutContainer';
             <Switch> 
               <FrontScreen exact path ="/" component={{home:Home,login: LoginView }} welcome={setdisplay}/>
               <PrivateRoute exact path ="/order" component = {Order} model ={orderModel} isAuth ={isAuth()}/>
+
+              <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store}/>
+              <PrivateRoute exact path ="/orderhistory" component={OrderHistory} isAuth={isAuth()} store={orderModel.store} menu={Home}/>
               <PrivateRoute exact path ="/userservice" component = {UserService} store = {loginModel.store} isAuth ={isAuth()}/>
-              <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store} menu= {Home}/>
             </Switch>
           </Router>
       </div>
