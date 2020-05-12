@@ -38,8 +38,10 @@ const mapDispatchToProps = dispatch => {
 class UserServiceBox extends Component {
     constructor(props){
         super(props)
+        console.log(props)
         this.state ={
-            newUser: {
+            newUser:  props.userInfo.user ||  
+            {
                 username: '',
                 email: '',
                 agency: ''
@@ -48,6 +50,7 @@ class UserServiceBox extends Component {
             newPasswordRepeat: '',
             oldPasswordConfirm: ''
         }
+        this.hasRequested = false;
         this.handleStatus = this.handleStatus.bind(this);
     }
 
@@ -56,6 +59,7 @@ class UserServiceBox extends Component {
     }
 
     componentDidMount() {
+        console.log("MOUNTING")
         this.props.getCurrentUser(this.props.userEmail);
     }
 
@@ -72,6 +76,7 @@ class UserServiceBox extends Component {
             oldPassword: this.state.oldPasswordConfirm,
             password: this.state.newPassword
         }
+        this.hasRequested = true;
         this.props.updateUser(updatedUser);
         this.handleStatus("LOADING");
     }
@@ -137,7 +142,7 @@ class UserServiceBox extends Component {
                             <input type="password" name ="Old password" value={this.state.oldPasswordConfirm} placeholder="******" onChange={c => {this.setState({...this.state, oldPasswordConfirm: c.target.value})}}/>
                     </label>
                     <button className="submit small" disabled={!this.validateForm()} onClick={this.handleSubmit}>Update</button>
-                    <this.MessageDisplay/>
+                    {this.hasRequested ? <this.MessageDisplay/> : ""}
             </div>
         )
     }
