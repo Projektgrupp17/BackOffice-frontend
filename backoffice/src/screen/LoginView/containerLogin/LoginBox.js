@@ -17,7 +17,7 @@ import DisplayError from './Error';
  * @param {Store} dispatch  action to be taken
  */
 const mapDispatchToProps = dispatch=>{
-    return{
+    return {
         login: (email,password) => dispatch(login(email,password))
     }
 }

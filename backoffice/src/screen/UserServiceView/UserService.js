@@ -17,14 +17,12 @@
  * * Contact us
  */
 
-import React, { Component } from "react";
-import OrderBox from './containerOrder/OrderBox';
+import React, { Component } from 'react';
 import user from "../../model/LoginModel";
 import Menu from '../HomeView/containerHome/MenuContainer'
+import UserServiceBox from './containerUserService/UserServiceBox';
 
-
-
-class Order extends Component {
+export default class UserService extends Component {
     /**
      * Creates a super with props and a state that is null, state will contain the information needed!
      * @param {Contains the model from the model layer, login} model 
@@ -37,7 +35,6 @@ class Order extends Component {
             displayNavBar: false
         }
         this.status = this.handleStatus.bind(this);
-
     }
 
     handleStatus(status) {
@@ -47,66 +44,24 @@ class Order extends Component {
         })
     }
 
-    /**
-     * This method is called when the component is rendered for the first time and will then 
-     * add an observer to the class. 
-     */
-    componentDidMount() {
-        this.props.model.addObserver(this);
-    }
-
-    /**
-     * This method is called when the component is no longer needed and thus removing the 
-     * observer from the site.
-     */
-    componentWillUnmount() {
-        this.props.model.removeObserver(this);
-    }
-
-    update(payload) {
-        let status = '';
-        if (payload.store.getState().order.Loading || payload.store.getState().interests.loading)
-            status = "LOADING";
-
-        if (payload.store.getState().order.error)
-            status = "ERROR";
-        this.setState({
-            ...this.state,
-            status: status,
-            response: payload.store.getState().order.response
-        })
-    }
-
     handleDisplay() {
         this.setState({
             ...this.state,
             displayNavBar: !this.state.displayNavBar
         })
-
     }
 
     /**
      * Render method that is returning the virtual dom to be rendered at the index.js file.
-     * @return             React virtual DOM
+     * @return React virtual DOM
      */
     render() {
         let display = null;
-
-        switch (this.state.status) {
-            case 'LOADING':
-                display = <em>Loading...</em>;
-                break;
-            case 'SUCCESS':
-                display = <b>{"SUCCESS: " + this.props.model.store.getState().order.response}</b>;
-                break;
-            case 'ERROR':
-                display = <b>{"ERROR"}</b>;
-                break;
-            default:
-
-                display = <OrderBox
-                    username={user.getUsername()}
-                    store={this.props.model.store}
+                display = <UserServiceBox
+                    handleStatusChanged = {this.handleStatus}
+                    handleDisplay = {this.handleDisplay}
+                    store= {this.props.store}
+                    userEmail={user.getUsername()}
                     status={this.status}
                     orderRequestStatus={this.state.status}/>
         return (
@@ -121,6 +76,3 @@ class Order extends Component {
         );
     }
 }
-
-
-export default Order

@@ -23,6 +23,7 @@ import React, { useState  } from 'react';
 import {BrowserRouter as Router,Route,Switch, Redirect} from 'react-router-dom';
 import './App.css';
 import LoginView from './screen/LoginView/Login';
+import UserService from './screen/UserServiceView/UserService';
 import loginModel from './model/LoginModel';
 import Order from './screen/OrderView/Order';
 import orderModel from './model/OrderModel';
@@ -49,8 +50,10 @@ import OrderHistory from './screen/OrderHistory/OrderHistory';
             <Switch> 
               <FrontScreen exact path ="/" component={{home:Home,login: LoginView }} welcome={setdisplay}/>
               <PrivateRoute exact path ="/order" component = {Order} model ={orderModel} isAuth ={isAuth()}/>
+
               <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store}/>
               <PrivateRoute exact path ="/orderhistory" component={OrderHistory} isAuth={isAuth()} store={orderModel.store} menu={Home}/>
+              <PrivateRoute exact path ="/userservice" component = {UserService} store = {loginModel.store} isAuth ={isAuth()}/>
             </Switch>
           </Router>
       </div>

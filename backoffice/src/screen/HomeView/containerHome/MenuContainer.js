@@ -57,7 +57,6 @@ const List = props =>{
 
 
 const openOrClose = (flag) =>{
-    console.log("OPENORCLOSE: " + flag);
     if(flag)return { navbar: "navbar shown",navButton: "nav-btn shown"}
     return  {navbar: "navbar ",navButton: "nav-btn"}
 }
