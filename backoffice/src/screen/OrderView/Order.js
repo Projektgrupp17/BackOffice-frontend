@@ -121,6 +121,6 @@ class Order extends Component {
         );
     }
 }
-
+}
 
 export default Order
