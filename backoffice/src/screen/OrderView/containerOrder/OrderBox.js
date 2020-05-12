@@ -192,15 +192,15 @@ class OrderContainer extends Component {
                      <div style={{display: "flex", flexDirection:"column"}}>
                         <label className="order-label">
                             <b className="label-text">Credits:</b>
-                            <input type="number"name ="name" value={this.state.credits} onChange={c => this.setCredits(c.target.value)}/>
+                            <input type="number"name ="credits" value={this.state.credits} onChange={c => this.setCredits(c.target.value)}/>
                         </label>
                         <label className="order-label">
                             <b className="label-text">Start Date:</b>
-                            <input type="date"name="start date" value={this.state.startDate} onChange={e=>this.setStartDate(e.target.value)}/>
+                            <input type="date"name ="start date" value={this.state.startDate} onChange={e=>this.setStartDate(e.target.value)}/>
                         </label>
                         <label className="order-label" style={{paddingBottom: "1em"}}>
                             <b className="label-text">End Date:</b>
-                            <input type="date"name="end date" value={this.state.endDate} onChange={e=>this.setEndDate(e.target.value)}/>
+                            <input type="date"name ="end date" value={this.state.endDate} onChange={e=>this.setEndDate(e.target.value)}/>
                         </label>
                         <div>
                         {this.getVideoElements()}
