@@ -30,6 +30,7 @@ export const JWTverify = (token) =>{
 const setAutherizationToken = (token,refreshtoken) => {
     if(token){
         Axios.defaults.headers.common['authorization'] = `${token}`
+        Axios.defaults.headers.common['Auth-Token'] = `${token}`
         Axios.defaults.headers.common['Refresh-Token'] =`${refreshtoken}`
     }
     else{

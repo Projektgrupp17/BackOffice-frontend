@@ -69,7 +69,6 @@ class OrderContainer extends Component {
             Startdate: this.toISODate(this.state.startDate), 
             Enddate: this.toISODate(this.state.endDate)
             }
-
         this.props.makeOrder(order);
         this.handleStatus("LOADING");
     }
@@ -179,6 +178,13 @@ class OrderContainer extends Component {
         )
     }
 
+    ErrorDisplay = () => {
+    if(this.props.orderRequestStatus !== "ERROR")
+        return <span/>
+    return (<span className="error-display">There was an error with the request</span>)
+    }
+    
+
     render() {
         return(
             <div className="orderbox" id="orderbox">
@@ -219,6 +225,7 @@ class OrderContainer extends Component {
                         </div>
                         <input type="submit" className="submit small" value="Confirm order" disabled={!this.validateForm()}/>
                     </form>
+                    <this.ErrorDisplay/>
             </div>
         )
     }
