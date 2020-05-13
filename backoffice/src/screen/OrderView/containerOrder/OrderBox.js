@@ -24,6 +24,7 @@ const mapDispatchToProps = dispatch =>{
 
 const mapStateToProps = state =>{
     return{
+        orderRequestStatus: state.order,
         interests: state.interests
     }
 }
@@ -48,7 +49,6 @@ class OrderContainer extends Component {
             nextVidInterest:'',
             nextVidInterestId:null
         }
-        this.handleStatus = this.handleStatus.bind(this);
     }
 
     handleStatus(status) {
@@ -70,14 +70,6 @@ class OrderContainer extends Component {
             Enddate: this.toISODate(this.state.endDate)
             }
         this.props.makeOrder(order);
-        this.handleStatus("LOADING");
-    }
-
-    mapInterestToId(interest){
-        let matches = this.props.interests.response.filter(el =>  el.string === interest[0])
-        if(matches.length === 0 || matches.length > 1)
-            throw new Error("INVALID INTEREST MAPPING");
-        return matches[0].id;
     }
 
     setInterest(c){
@@ -108,7 +100,10 @@ class OrderContainer extends Component {
         })
     }
 
-
+    componentDidUpdate(prevProps) {
+        if(prevProps.orderRequestStatus.response !== this.props.orderRequestStatus.response && !this.props.orderRequestStatus.error)
+            this.handleStatus("SUCCESS");
+    }
 
     toDateString(dateEpoch) {
         let date = new Date(dateEpoch);
@@ -179,9 +174,13 @@ class OrderContainer extends Component {
     }
 
     ErrorDisplay = () => {
-    if(this.props.orderRequestStatus !== "ERROR")
-        return <span/>
-    return (<span className="error-display">There was an error with the request</span>)
+    if(this.props.orderRequestStatus.loading)
+        return (<span className="error-display message">Loading...</span>)
+
+    if(this.props.orderRequestStatus.error)
+        return (<span className="error-display">There was an error with the request</span>)
+        
+    return <span/>
     }
     
 
@@ -192,15 +191,15 @@ class OrderContainer extends Component {
                      <div style={{display: "flex", flexDirection:"column"}}>
                         <label className="order-label">
                             <b className="label-text">Credits:</b>
-                            <input type="number"name ="name" value={this.state.credits} onChange={c => this.setCredits(c.target.value)}/>
+                            <input type="number"name ="credits" value={this.state.credits} onChange={c => this.setCredits(c.target.value)}/>
                         </label>
                         <label className="order-label">
                             <b className="label-text">Start Date:</b>
-                            <input type="date"name="start date" value={this.state.startDate} onChange={e=>this.setStartDate(e.target.value)}/>
+                            <input type="date"name ="start date" value={this.state.startDate} onChange={e=>this.setStartDate(e.target.value)}/>
                         </label>
                         <label className="order-label" style={{paddingBottom: "1em"}}>
                             <b className="label-text">End Date:</b>
-                            <input type="date"name="end date" value={this.state.endDate} onChange={e=>this.setEndDate(e.target.value)}/>
+                            <input type="date"name ="end date" value={this.state.endDate} onChange={e=>this.setEndDate(e.target.value)}/>
                         </label>
                         <div>
                         {this.getVideoElements()}
