@@ -101,7 +101,7 @@ class LoginContainer extends Component{
                         <div className="Button-login">
                         <input type="submit" value="Login" disabled={!this.validateForm()} className ="submit"/>
                         </div>
-                        {this.props.loginUser.loading ?(<div><b>Loading </b>{circle()}</div>):(
+                        {this.props.loginUser.loading ?(<b>Loading...</b>):(
                         <div className="Error-message">
                            <DisplayError store={this.props.store}/>
                         </div>
@@ -110,17 +110,6 @@ class LoginContainer extends Component{
             </div>
         )
     }
-}
-
-
-const circle= () =>{
-    return(
-        <div id="loading">
-            <div className="circles c4" id="circle4"/>
-            <div className="circles c5" id="circle5"/>
-            <div className="circles c6" id="circle6"/>
-        </div>
-    )
 }
 
 

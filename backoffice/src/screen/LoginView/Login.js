@@ -122,9 +122,6 @@ import './LoginStyle.css'
      render(){
          let display = null;
          switch(this.state.status){
-             case 'LOADING':
-                 display = <em style={{color:"white",fontSize:"Large"}}>Loading...</em>;
-                 break;
                  case 'DONE':
                      display = null;
                 break;

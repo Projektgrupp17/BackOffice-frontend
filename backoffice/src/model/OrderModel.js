@@ -87,8 +87,8 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             Enddate
         })
         .then(resp => {
-            dispatch(Actions.postOrderSuccess(resp.data))
             dispatch(Actions.saveOrder({user, credits, video, Startdate, Enddate,},resp.data))
+            dispatch(Actions.postOrderSuccess(resp.data))
             instance.notifyObservers();
         })
         .catch(error => {
