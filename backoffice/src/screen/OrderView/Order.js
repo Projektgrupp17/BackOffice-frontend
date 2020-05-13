@@ -71,6 +71,7 @@ class Order extends Component {
         let display = null;
         switch (this.state.status) {
             case 'SUCCESS':
+                console.log(this.props)
                 display = <b>{"SUCCESS: " + this.props.model.store.getState().order.response}</b>;
             break;
             default:
@@ -78,7 +79,8 @@ class Order extends Component {
                     username={user.getUsername()}
                     store={this.props.model.store}
                     status={this.status}
-                    orderRequestStatus={this.state.status}/>
+                    orderRequestStatus={this.state.status}
+                    {...this.props}/>
         }
         return (
             <div id="wrapper">

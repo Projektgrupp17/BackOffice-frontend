@@ -6,6 +6,10 @@
  * @version 1.0.0
  */
 
+ export const saveOrder = (order) =>({
+     type:'SAVE_ORDER',
+     payload: order
+ })
 
  export const postUserLoginRequest =() => ({
      type:'POST_USER_LOGIN_REQUEST',
@@ -24,6 +28,10 @@
  export const postUserLogout = auth =>({
      type: 'POST_USER_LOGOUT',
      payload:auth
+ })
+
+ export const postUserLougoutRequest = () =>({
+     type:'POST_USER_LOGOUT_REQUEST'
  })
 
  export const postUserRegisterRequest = () =>({

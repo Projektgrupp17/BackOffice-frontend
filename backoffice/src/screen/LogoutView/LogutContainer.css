@@ -24,6 +24,8 @@
     justify-self: center;
     align-self: center;
     background-color: rgb(41, 41, 41);
+    color: white;
+    border: 2px solid;
 }
 
 #box{
