@@ -22,7 +22,7 @@ import './Receipt.css';
                 <props.menu store={props.store}/>
             </div>
             <div id ="Receipt">
-                <DisplayReceipt store={props.store}/>
+                <DisplayReceipt store={props.store} history={props.history}/>
             </div>
         </div>
      )

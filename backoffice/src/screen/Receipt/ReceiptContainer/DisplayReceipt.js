@@ -10,14 +10,14 @@ const mapStateToProps = state =>{
 }
 
 const DisplayReceipt = props =>{
-    console.log(props.store.getState());
+    if(isEmpty(props.savedOrder)) props.history.goBack();
     return(
         <div id="Receipt-box">
             <h2> Thank you for ordering!</h2>
-            <h3>Order Id: <br/> <em>{props.savedOrder.orderID}</em></h3>
-            <h3>Start date: <br/> <em>{props.savedOrder.Startdate}</em></h3>
-            <h3>End date: <br/> <em>{props.savedOrder.Enddate}</em></h3>
-            <h3>Credits: <br/> <em>{props.savedOrder.credits}</em></h3>
+            <h3>Order Id: <br/> <em>{props.savedOrder.orderId}</em></h3>
+            <h3>Start date: <br/> <em>{props.savedOrder.order.Startdate}</em></h3>
+            <h3>End date: <br/> <em>{props.savedOrder.order.Enddate}</em></h3>
+            <h3>Credits: <br/> <em>{props.savedOrder.order.credits}</em></h3>
             <div id="Video-title" className ="Order-box">
                 <h3>Videos: <ul>{listVideos(props.savedOrder.video)}</ul> </h3>
             </div>
@@ -25,7 +25,18 @@ const DisplayReceipt = props =>{
     )
 }
 
+
+const isEmpty = obj =>{
+    for(var key in obj){
+        if(obj.hasOwnProperty(key)){
+            return false;
+        }
+    }
+    return true;
+}
+
 const listVideos = (videos) =>{
+    if (videos === undefined) return ('')
     let listnr = 0;
     return(
         videos.map(video =>
