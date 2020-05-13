@@ -1,9 +1,10 @@
 # BackOffice-frontend
 This is the frontend for the backoffice service that will be provided to the client!
 
+This application was created with the template from ```npx create-react-app```
 
 ## Dependencies
-Here is a list of all the npm dependencies used by the app:
+See package.json [file](https://github.com/Projektgrupp17/BackOffice-frontend/blob/master/backoffice/package.json)
 
 ## Modules
 **Screen** Is the view classes of the frontend and will be the classes that deals with information given to the user!
@@ -21,7 +22,7 @@ See test badge and test page on wiki!
 If you wish to run the application on the localhost, clone the repository and run 
 
 ```
-npm install <br/>
+npm install
   
 npm start
 ```
