@@ -37,7 +37,9 @@ describe("Order actions", () => {
             {
                 type: "POST_ADVERTISEMENT_ORDER_SUCCESS",
                 payload: "efceacad-ffd2-4df2-9092-65cb50e47634"
-            }
+            },
+            {   
+                type: 'SAVE_ORDER'
         ]
 
         mock.onPost(ENDPOINTBACKEND + 'order/add', {
