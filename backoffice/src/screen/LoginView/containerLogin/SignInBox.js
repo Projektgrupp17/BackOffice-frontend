@@ -14,6 +14,12 @@ const mapDispatchToProps = dispatch=>{
     }
 }
 
+const mapStateToProps = state =>{
+    return{
+        signupUser: state.signupUser
+    }
+}
+
 /**
  * This class implements the container to deal with the signin of the web-application.
  * It does this by implementing a form that is connected with the store in the lower model
@@ -50,7 +56,7 @@ class SignInContainer extends Component{
     handleSubmitEvent = event =>{
         event.preventDefault();
         this.props.signup(this.state)
-        this.handleStatusChange("LOADING");
+        // this.handleStatusChange("LOADING");
     }
 
     setEmail(value){
@@ -111,9 +117,11 @@ class SignInContainer extends Component{
                 <div className="Button-signup">
                 <input type="submit" value="Signup" disabled={!this.validateForm()} id="submit"/>
                 </div>
-                <div className ="Error-messageSignup">
-                    <DisplayError store={this.props.store}/>
-                </div>
+                {this.props.signupUser.loading ?(<b>Loading...</b>):(
+                    <div className="Error-message">
+                        <DisplayError store={this.props.store}/>
+                    </div>
+                )}
             </form>
         </div>
         )
@@ -121,4 +129,4 @@ class SignInContainer extends Component{
 
 }
 
-export default connect(null,mapDispatchToProps)(SignInContainer)
+export default connect(mapStateToProps,mapDispatchToProps)(SignInContainer)

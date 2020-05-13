@@ -39,16 +39,7 @@ class OrderModel extends Observable {
     }
 }
 
-const savedOrder = (state ={Enddate: "2020-04-13T00:00:00.000Z",
-Startdate: "2020-04-13T00:00:00.000Z",
-credits: 100,
-user: "gman@gman.com",
-orderID:"001542bc-a052-4bc7-9232-b52686b3fff2",
-video:[{
-    interest: "dogging",
-    length: 100,
-    url:"https://www.youtube.com/watch?v=w0AOGeqOnFY"
-}]},action)  =>{
+const savedOrder = (state ={},action)  =>{
     if(action.type === 'SAVE_ORDER') state = action.payload;
     return state;
 }

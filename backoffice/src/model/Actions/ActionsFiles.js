@@ -6,9 +6,9 @@
  * @version 1.0.0
  */
 
- export const saveOrder = (order) =>({
+ export const saveOrder = (order,orderId) =>({
      type:'SAVE_ORDER',
-     payload: order
+     payload: {order,orderId}
  })
 
  export const postUserLoginRequest =() => ({
