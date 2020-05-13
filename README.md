@@ -4,7 +4,6 @@ This is the frontend for the backoffice service that will be provided to the cli
 
 ## Dependencies
 Here is a list of all the npm dependencies used by the app:
-<code> npm install react-router </code> 
 
 ## Modules
 **Screen** Is the view classes of the frontend and will be the classes that deals with information given to the user!
@@ -21,8 +20,8 @@ See test badge and test page on wiki!
 ## Run
 If you wish to run the application on the localhost, clone the repository and run 
 
-<code> 
+```
 npm install <br/>
   
 npm start
-</code>
+```
