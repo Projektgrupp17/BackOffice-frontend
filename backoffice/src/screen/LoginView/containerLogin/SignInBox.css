@@ -1,8 +1,3 @@
-#signupbox form{
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: "Email""Username""Password""Agency""Submit""Error";
-}
 
 .email{
     grid-area: Email;
