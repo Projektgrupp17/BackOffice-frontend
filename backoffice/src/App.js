@@ -51,7 +51,7 @@ import Receipt from './screen/Receipt/Receipt';
             <Switch> 
               <FrontScreen exact path ="/" component={{home:Home,login: LoginView }} welcome={setdisplay}/>
               <PrivateRoute exact path ="/order" component = {Order} model ={orderModel} isAuth ={isAuth()}/>
-              <PrivateRoute exact path ="/receipt" component ={Receipt} isAuth={isAuth()} store ={orderModel.store}/>
+              <PrivateRoute exact path ="/receipt" component ={Receipt} isAuth={isAuth()} store ={orderModel.store} menu={Home}/>
               <PrivateRoute exact path ="/logout" component ={Logout} isAuth={isAuth()} store={loginModel.store}/>
               <PrivateRoute exact path ="/orderhistory" component={OrderHistory} isAuth={isAuth()} store={orderModel.store} menu={Home}/>
               <PrivateRoute exact path ="/userservice" component = {UserService} store = {loginModel.store} isAuth ={isAuth()}/>

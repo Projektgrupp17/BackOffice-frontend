@@ -39,7 +39,16 @@ class OrderModel extends Observable {
     }
 }
 
-const savedOrder = (state ={},action)  =>{
+const savedOrder = (state ={Enddate: "2020-04-13T00:00:00.000Z",
+Startdate: "2020-04-13T00:00:00.000Z",
+credits: 100,
+user: "gman@gman.com",
+orderID:"001542bc-a052-4bc7-9232-b52686b3fff2",
+video:[{
+    interest: "dogging",
+    length: 100,
+    url:"https://www.youtube.com/watch?v=w0AOGeqOnFY"
+}]},action)  =>{
     if(action.type === 'SAVE_ORDER') state = action.payload;
     return state;
 }
@@ -78,7 +87,6 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
         }
         dispatch(Actions.postOrderRequest())
-        dispatch(Actions.saveOrder({user, credits, video, Startdate, Enddate}))
         return axios.post(ENDPOINTBACKEND + 'order/add', 
         {
             user,
@@ -89,6 +97,7 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
         })
         .then(resp => {
             dispatch(Actions.postOrderSuccess(resp.data))
+            dispatch(Actions.saveOrder({user, credits, video, Startdate, Enddate,},resp.data))
             instance.notifyObservers();
         })
         .catch(error => {

@@ -156,6 +156,7 @@ const signupUser = (state = { userIsSignedUp: false, loading: false, error: '' }
  */
 const userLogout = () => {
     return function (dispatch) {
+        instance.store.dispatch(Actions.postUserLougoutRequest())
         return axios.post(`${ENDPOINTAUTH}auth/logout`)
             .then(resp => {
                 instance.store.dispatch(Actions.postUserLogout(resp.status))
@@ -293,6 +294,12 @@ const loginUser = (state = {
                     refreshtoken: action.payload.token
                 },
                 error: ''
+            }
+
+        case 'POST_USER_LOGOUT_REQUEST':
+            return{
+                ...state,
+                loading:true
             }
         case 'POST_USER_LOGOUT':
             return {

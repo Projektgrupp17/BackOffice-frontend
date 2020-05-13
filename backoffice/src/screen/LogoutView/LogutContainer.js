@@ -25,6 +25,12 @@ const mapDispatchToProps = dispatch=>{
     }
 }
 
+const mapStateToProps = state =>{
+    return{
+        loginUser: state.loginUser
+    }
+}
+
 /**
  * Dispatch the <code> userLogout </code> action and then pushes to go
  * back in history thus triggering falling back to login screen.
@@ -47,8 +53,10 @@ const Logout = props =>{
     return(
         <div id="Logout-box">
             <div id="Logout">
+                {props.loginUser.loading === true ? (<h2>Loading... See you soon!</h2>):(
                 <div id="box">
             <b>Do you wish to logout?</b>
+            
             <ul id="checkout">
                 <li id="yes">
                     <button onClick={()=> logout(props)} className="nav-btn shown">Yes</button>
@@ -58,9 +66,10 @@ const Logout = props =>{
                 </li>
             </ul>
                     </div>   
+                )}
             </div>
         </div>
     )
 }
 
-export default connect(null,mapDispatchToProps)(Logout);
+export default connect(mapStateToProps,mapDispatchToProps)(Logout);

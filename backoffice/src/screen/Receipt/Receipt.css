@@ -1,0 +1,41 @@
+#Wrapper{
+    color: white;
+    height: auto;
+    display: flex;
+    border-right: 2px solid;
+    position: relative;
+    background-image: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 33%, rgb(0, 0, 0) 67% );
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0,  rgb(26, 25, 25)), color-stop(1,  rgb(0, 0, 0)));
+    height: auto;
+    width: auto;
+    border-right: 2px solid;
+    border-color: rgb(255, 255, 255);
+}
+
+#Menu{
+    width: 6.9vw;
+}
+
+#Receipt{
+    background-color:  rgb(41, 41, 41);
+    position: absolute;
+    align-self: center;
+    left: 30vw;
+    border: 2px solid;
+    height: 40vw;
+    max-height: 50vw;
+    width: 25vw;
+    display: flex;
+    transition: opacity 0.5s ease-in-out;
+    animation: 0.5s ease-in-out fadein;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadein{
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#Receipt-box h3,h2{
+    padding-left: 20px;
+}

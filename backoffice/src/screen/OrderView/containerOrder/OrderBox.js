@@ -101,8 +101,10 @@ class OrderContainer extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.orderRequestStatus.response !== this.props.orderRequestStatus.response && !this.props.orderRequestStatus.error)
+        if(prevProps.orderRequestStatus.response !== this.props.orderRequestStatus.response && !this.props.orderRequestStatus.error){
             this.handleStatus("SUCCESS");
+            this.props.history.push("/receipt")
+        }
     }
 
     toDateString(dateEpoch) {

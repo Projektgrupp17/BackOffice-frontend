@@ -30,6 +30,10 @@
      payload:auth
  })
 
+ export const postUserLougoutRequest = () =>({
+     type:'POST_USER_LOGOUT_REQUEST'
+ })
+
  export const postUserRegisterRequest = () =>({
      type:'POST_USER_REGISTER_REQUEST'
  })

@@ -79,7 +79,8 @@ class Order extends Component {
                     username={user.getUsername()}
                     store={this.props.model.store}
                     status={this.status}
-                    orderRequestStatus={this.state.status}/>
+                    orderRequestStatus={this.state.status}
+                    {...this.props}/>
         }
         return (
             <div id="wrapper">

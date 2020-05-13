@@ -8,6 +8,7 @@
  */
 import React from 'react';
 import DisplayReceipt from './ReceiptContainer/DisplayReceipt';
+import './Receipt.css';
 
 /**
  * Used to display the Reciept screen for the user after a order 
@@ -18,9 +19,9 @@ import DisplayReceipt from './ReceiptContainer/DisplayReceipt';
      return(
         <div id ="Wrapper">
             <div id="Menu">
-                
+                <props.menu store={props.store}/>
             </div>
-            <div>
+            <div id ="Receipt">
                 <DisplayReceipt store={props.store}/>
             </div>
         </div>
