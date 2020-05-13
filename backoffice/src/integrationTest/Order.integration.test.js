@@ -44,7 +44,7 @@ describe("integration test suite", () => {
         testServer.reset();
         new Builder().forBrowser('chrome')
             //Remove headless to see the browser in real time
-            .setChromeOptions(new chrome.Options().windowSize({
+            .setChromeOptions(new chrome.Options().headless().windowSize({
                 width: 1024,
                 height: 768
             }))

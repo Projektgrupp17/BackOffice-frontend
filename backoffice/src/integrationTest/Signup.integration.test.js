@@ -133,8 +133,7 @@ describe("integration test suite", () => {
         chai.expect(await submitBtn.isEnabled()).to.equal(true);
         submitBtn.click();
         await driver.wait(until.elementLocated(By.xpath("//*[text()='Loading...']")), 5000);
-        let errorDiv = await driver.wait(until.elementLocated(By.className("Error-messageSignup")), 1000);
-        await driver.wait(until.elementTextMatches(errorDiv, /Error: invalid email/), 1000);
+        await driver.wait(until.elementLocated(By.xpath("//*[text() ='Error: invalid email']")), 1000);
         done();
     })
 

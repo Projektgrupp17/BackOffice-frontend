@@ -30,7 +30,7 @@ describe("integration test suite", () => {
     beforeEach((done) => {
         new Builder().forBrowser('chrome')
             //Remove headless to see the browser in real time
-            .setChromeOptions(new chrome.Options().headless().windowSize({
+            .setChromeOptions(new chrome.Options().windowSize({
                 width: 800,
                 height: 600
             }))
@@ -106,9 +106,8 @@ describe("integration test suite", () => {
         chai.expect(await submitBtn.isEnabled()).to.equal(true);
         let loginButton = await driver.findElement(By.className('submit'));
         loginButton.click();
-        await driver.wait(until.elementLocated(By.xpath("//*[text()='Loading...']")), 1000);
-        let errorDiv = await driver.wait(until.elementLocated(By.className("Error-message")), 1000);
-        await driver.wait(until.elementTextMatches(errorDiv, /Error: invalid login/), 1000);
+        await driver.wait(until.elementLocated(By.xpath("//*[text()='Loading...']")), 5000);
+        await driver.wait(until.elementLocated(By.xpath("//*[text()='Error: invalid email']")), 2000);
         done();
     });
 

@@ -16,6 +16,7 @@ import './Receipt.css';
  * @param {Component} props 
  */
  const Receipt = props =>{
+     console.log(props.store.getState())
      return(
         <div id ="Wrapper">
             <div id="Menu">

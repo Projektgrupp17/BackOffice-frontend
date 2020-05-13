@@ -10,7 +10,7 @@ const mapStateToProps = state =>{
 }
 
 const DisplayReceipt = props =>{
-    if(isEmpty(props.savedOrder)) props.history.goBack();
+    if(isEmpty(props.savedOrder.order)) props.history.goBack();
     return(
         <div id="Receipt-box">
             <h2> Thank you for ordering!</h2>
@@ -19,7 +19,7 @@ const DisplayReceipt = props =>{
             <h3>End date: <br/> <em>{props.savedOrder.order.Enddate}</em></h3>
             <h3>Credits: <br/> <em>{props.savedOrder.order.credits}</em></h3>
             <div id="Video-title" className ="Order-box">
-                <h3>Videos: <ul>{listVideos(props.savedOrder.video)}</ul> </h3>
+                <h3>Videos: <ul>{listVideos(props.savedOrder.order.video)}</ul> </h3>
             </div>
         </div>
     )
