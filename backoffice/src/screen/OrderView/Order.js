@@ -91,12 +91,12 @@ class Order extends Component {
      */
     render() {
         let display = null;
-
         switch (this.state.status) {
             case 'LOADING':
                 display = <em>Loading...</em>;
                 break;
             case 'SUCCESS':
+                console.log(this.props)
                 display = <b>{"SUCCESS: " + this.props.model.store.getState().order.response}</b>;
                 break;
             case 'ERROR':

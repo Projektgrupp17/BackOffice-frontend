@@ -20,7 +20,7 @@ import {JWTverify} from './JWTDecoder';
 class OrderModel extends Observable {
     constructor() {
         super()
-        this.store = Redux.createStore(Redux.combineReducers({order,interests,history}), Redux.applyMiddleware(thunkMiddleware));
+        this.store = Redux.createStore(Redux.combineReducers({order,interests,history,savedOrder}), Redux.applyMiddleware(thunkMiddleware));
     }
 
     getAllOrders() {
@@ -37,6 +37,11 @@ class OrderModel extends Observable {
     notifyObservers() {
         this._observer.map(observer => observer.update(this));
     }
+}
+
+const savedOrder = (state ={},action)  =>{
+    if(action.type === 'SAVE_ORDER') state = action.payload;
+    return state;
 }
 
 const orderHistory = () =>{
@@ -73,6 +78,7 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
         }
         dispatch(Actions.postOrderRequest())
+        dispatch(Actions.saveOrder({user, credits, video, Startdate, Enddate}))
         return axios.post(ENDPOINTBACKEND + 'order/add', 
         {
             user,

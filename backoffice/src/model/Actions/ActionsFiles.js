@@ -6,6 +6,10 @@
  * @version 1.0.0
  */
 
+ export const saveOrder = (order) =>({
+     type:'SAVE_ORDER',
+     payload: order
+ })
 
  export const postUserLoginRequest =() => ({
      type:'POST_USER_LOGIN_REQUEST',
