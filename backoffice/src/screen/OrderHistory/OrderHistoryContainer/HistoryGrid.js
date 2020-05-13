@@ -5,13 +5,13 @@ import GetList from './GetList';
 
 const mapDispatchToProps = dispatch =>{
     return{
-        orderHistory: () => dispatch(orderHistory()),
+        orderHistory: (email) => dispatch(orderHistory(email)),
         getAllInterests: () => dispatch(getAllInterests())
     }
 }
 
 const screwReact = props =>{
-    props.orderHistory();
+    props.orderHistory(props.login);
     props.getAllInterests();
 }
 

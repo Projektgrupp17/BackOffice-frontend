@@ -10,9 +10,6 @@
  * @Author Netanel Avraham Eklind
  * @version 0.0.5
  * 
- * TODO: 
- * * Forgot password
- * * Contact us
  */
 
 import React, { Component } from "react";

@@ -116,3 +116,8 @@ export const updateUserError = error =>({
     type: 'UPDATE_USER_ERROR',
     error: error
 })
+
+export const saveUserInfo = user =>({
+    type:'SAVE_USER_INFO',
+    payload:user
+})
