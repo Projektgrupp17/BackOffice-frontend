@@ -40,6 +40,7 @@ describe("Order actions", () => {
             },
             {   
                 type: 'SAVE_ORDER'
+            }
         ]
 
         mock.onPost(ENDPOINTBACKEND + 'order/add', {
