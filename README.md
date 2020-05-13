@@ -20,7 +20,9 @@ See test badge and test page on wiki!
 
 ## Run
 If you wish to run the application on the localhost, clone the repository and run 
+
 <code> 
 npm install <br/>
+  
 npm start
 </code>
