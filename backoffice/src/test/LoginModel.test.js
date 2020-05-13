@@ -34,6 +34,8 @@ describe("Login is working accordlingly", () =>{
             {
                 type: 'POST_USER_LOGIN_REQUEST'
             },
+            {type:'SAVE_USER_INFO',
+            payload:'test@example.com'},
             {
                 type: "POST_USER_LOGIN_SUCCESS",
                 payload:{
@@ -62,8 +64,6 @@ describe("Login is working accordlingly", () =>{
             store.getState= () => mockStore
 
             chai.expect(store.getActions()).to.deep.equal(expectedActions);
-            chai.assert(store.getState().auth.token === 'testingtoken' 
-            && store.getState().auth.refreshtoken === 'Testingtokenand')
         })
                
     
@@ -83,8 +83,8 @@ describe("Login is working accordlingly", () =>{
         .then(() =>{
             let mockState ={
                 auth:{
-                    token: store.getActions()[1].payload.token,
-                    refreshtoken:store.getActions()[1].payload.refreshtoken
+                    token: store.getActions()[2].payload.token,
+                    refreshtoken:store.getActions()[2].payload.refreshtoken
                 }
             }
             store.getState = () => mockState

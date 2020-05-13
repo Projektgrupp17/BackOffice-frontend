@@ -26,10 +26,6 @@ class OrderModel extends Observable {
     getAllOrders() {
         return this.store.getState().orders;
     }
-
-    getInterest(interested){
-    }
-
     /**
      * This method notifies observers if there is any changes to the 
      * store!
@@ -44,10 +40,13 @@ const savedOrder = (state ={},action)  =>{
     return state;
 }
 
-const orderHistory = () =>{
+const orderHistory = (userName) =>{
     return function(dispatch){
+        if(!JWTverify){
+            LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
+        }
         dispatch(Actions.getOrderhistoryRequest());
-        return axios.get(`${ENDPOINTBACKEND}order/history?userName=${LoginModel.getUsername()}`)
+        return axios.get(`${ENDPOINTBACKEND}order/history?userName=${userName}`)
         .then(resp =>{
             dispatch(Actions.getOrderhistorySuccess(resp.data))
         })
@@ -59,6 +58,9 @@ const orderHistory = () =>{
 
 const getAllInterests = () =>{
     return function(dispatch){
+        if(!JWTverify){
+            LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
+        }
         dispatch(Actions.getInterestsRequest())
     return axios.get(`${ENDPOINTBACKEND}order/intrests`)
         .then(resp =>{

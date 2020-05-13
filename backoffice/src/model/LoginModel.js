@@ -87,11 +87,10 @@ const refresh = (auth) => {
             }
         })
             .then(resp => {
-
                 dispatch(Actions.refreshOrder(resp.data.data))
-                instance.notifyObservers();
                 setAutherizationToken(resp.data.token)
-                document.cookie = JSON.stringify(instance.store.getState());
+                instance.notifyObservers();
+                setCookie();
             })
             .catch(error => {
                 dispatch(Actions.postUserLoginError(error.response.data.message))
@@ -113,6 +112,7 @@ const signup = json => {
                 dispatch(Actions.postUserRegisterSuccess(resp.status))
                 instance.notifyObservers();
                 instance.store.dispatch(login(json.email, json.password))
+                setCookie();
             })
             .catch(error => {
                 dispatch(Actions.postUserRegisterError(error.response.data.message))
@@ -162,7 +162,7 @@ const userLogout = () => {
                 instance.store.dispatch(Actions.postUserLogout(resp.status))
                 instance.notifyObservers();
                 setAutherizationToken()
-                document.cookie = `${JSON.stringify(instance.store.getState())}logedOut; expires=1980-05-08T14:49:00.000Z; path =/;`;
+                setCookie(true);
             })
             .catch(error => {
                 dispatch(Actions.postUserRegisterError(error.response.data.message))
@@ -183,12 +183,11 @@ const login = (email, pass) => {
             email: email,
         })
             .then(resp => {
-                var date = new Date();
-                date.setTime(date.getTime() + (60 * 1000));
+                dispatch(Actions.saveUserInfo(email))
                 dispatch(Actions.postUserLoginSuccess(resp.data))
                 instance.notifyObservers();
                 setAutherizationToken(resp.data.token, resp.data.refreshtoken)
-                document.cookie = `${JSON.stringify(instance.store.getState())}; expires=${date}; path =/;`;
+                setCookie()
             })
             .catch(error => {
                 if (error.message === 'Network Error') {
@@ -212,6 +211,7 @@ const getCurrentUser = email => {
             .then(resp => {
                 dispatch(Actions.getUserSuccess(resp.data))
                 instance.notifyObservers();
+                setCookie();
             })
             .catch(error => {
                 dispatch(Actions.getUserError(error.message))
@@ -237,6 +237,7 @@ const putUserUpdate = ({ oldEmail, oldPassword, email, username, agency, passwor
             .then(resp => {
                 dispatch(Actions.updateUserSuccess(resp.data))
                 instance.notifyObservers();
+                setCookie();
             })
             .catch(error => {
                 let payLoad = error;
@@ -246,6 +247,13 @@ const putUserUpdate = ({ oldEmail, oldPassword, email, username, agency, passwor
                 instance.notifyObservers();
             })
     }
+}
+
+const saveUserInfos = (state={},action) =>{
+    if(action.type === 'SAVE_USER_INFO'){
+        return state = action.payload;
+    } 
+    return state;
 }
 
 /**
@@ -389,9 +397,17 @@ const userUpdate = (state = {
     }
 
 
+  const setCookie = (flag = false)=>{
+        var date = new Date();
+        date.setTime(date.getTime() + (60 * 1000));
+        if(flag === false) return document.cookie =`${JSON.stringify(instance.store.getState())}; expires=${date}; path =${window.location.pathname};`;
+        document.cookie = `${JSON.stringify(instance.store.getState())}logedOut; expires=1980-05-08T14:49:00.000Z; path =/;`;
+    }
 
 
-    const combineReducers = { loginUser, signupUser, userInfo, userUpdate };
+
+
+    const combineReducers = { loginUser, signupUser, userInfo, userUpdate,saveUserInfos};
 
 
     const instance = new LoginModel();
