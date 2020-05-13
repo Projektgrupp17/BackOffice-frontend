@@ -38,6 +38,18 @@ describe("Order actions", () => {
                 type: "POST_ADVERTISEMENT_ORDER_SUCCESS",
                 payload: "efceacad-ffd2-4df2-9092-65cb50e47634"
             }
+            ,{
+                type: "SAVE_ORDER",
+                payload: {
+                    user: "test@example.com",
+                    credits: 100, "video": [{
+                        "url": "1232", "length": 100,
+                        interest: "dance"
+                    }],
+                    Startdate: "2020-04-11T00:00:00.000Z",
+                    Enddate: "2020-04-11T00:00:00.000Z"
+                }
+            }
         ]
 
         mock.onPost(ENDPOINTBACKEND + 'order/add', {
