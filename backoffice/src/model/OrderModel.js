@@ -22,7 +22,6 @@ class OrderModel extends Observable {
         super()
         if (getCookie("Order") && !getCookie("Login").includes("logedOut")){
             this.store = Redux.createStore(Redux.combineReducers({order,interests,history,savedOrder}), JSON.parse(getCookie("Order")), Redux.applyMiddleware(thunkMiddleware));
-            orderHistory(LoginModel.store.getState().saveUserInfos)
         }
         else{
             this.store = Redux.createStore(Redux.combineReducers({order,interests,history,savedOrder}), Redux.applyMiddleware(thunkMiddleware));
@@ -48,13 +47,14 @@ const savedOrder = (state ={},action)  =>{
 
 const orderHistory = (userName) =>{
     return function(dispatch){
-        if(!JWTverify){
+        if(!JWTverify(LoginModel.store.getState().loginUser.auth.token)){
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
         }
         dispatch(Actions.getOrderhistoryRequest());
         return axios.get(`${ENDPOINTBACKEND}order/history?userName=${userName}`)
         .then(resp =>{
             dispatch(Actions.getOrderhistorySuccess(resp.data))
+            console.log(instance.store.getState())
         })
         .catch(error =>{
             dispatch(Actions.getOrderhistoryError(error.message))
@@ -72,7 +72,6 @@ const getAllInterests = () =>{
         .then(resp =>{
             dispatch(Actions.getInterestsSuccess(resp.data))
             instance.notifyObservers();
-            setCookie();
         })
         .catch(error =>{
             dispatch(Actions.getInterestsError(error.message))
@@ -98,8 +97,6 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
         .then(resp => {
             dispatch(Actions.saveOrder({user, credits, video, Startdate, Enddate,},resp.data))
             dispatch(Actions.postOrderSuccess(resp.data))
-            instance.notifyObservers();
-            setCookie();
         })
         .catch(error => {
                 dispatch(Actions.postOrderError(error.message))
@@ -201,13 +198,6 @@ const order = (state = {
         default:
             return state;
     }
-}
-
-
-const setCookie = (flag = false)=>{
-    var date = new Date();
-    date.setTime(date.getTime() + (60 * 1000));
-    if(flag === false) document.cookie =`Order=${JSON.stringify(instance.store.getState())}; expires=${date}; path =${window.location.pathname};`;
 }
 
 const getCookie =(name)=> {
