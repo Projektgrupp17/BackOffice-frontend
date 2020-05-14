@@ -56,7 +56,8 @@ const displayOrder = ({order:Order,...rest}) =>{
 const listVideos=(videos,props) =>{
     return (
         videos.map(video => 
-        <li key={video.video.id}>Url: {video.video.url} <br/> Interest: <GetInterest store={props.store} id={video.video.interest}/></li>)
+        <li key={video.video.id}>Url: {video.video.url} <br/> Interest: <GetInterest store={props.store} id={video.video.interest}/>
+        <br/> Played: {video.played}<br/> Times played: {video.count}</li>)
     )
 }
 
