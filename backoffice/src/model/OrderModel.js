@@ -20,7 +20,13 @@ import {JWTverify} from './JWTDecoder';
 class OrderModel extends Observable {
     constructor() {
         super()
-        this.store = Redux.createStore(Redux.combineReducers({order,interests,history,savedOrder}), Redux.applyMiddleware(thunkMiddleware));
+        if (getCookie("Order") && !getCookie("Login").includes("logedOut")){
+            this.store = Redux.createStore(Redux.combineReducers({order,interests,history,savedOrder}), JSON.parse(getCookie("Order")), Redux.applyMiddleware(thunkMiddleware));
+            orderHistory(LoginModel.store.getState().saveUserInfos)
+        }
+        else{
+            this.store = Redux.createStore(Redux.combineReducers({order,interests,history,savedOrder}), Redux.applyMiddleware(thunkMiddleware));
+        }
     }
 
     getAllOrders() {
@@ -66,6 +72,7 @@ const getAllInterests = () =>{
         .then(resp =>{
             dispatch(Actions.getInterestsSuccess(resp.data))
             instance.notifyObservers();
+            setCookie();
         })
         .catch(error =>{
             dispatch(Actions.getInterestsError(error.message))
@@ -92,6 +99,7 @@ const makeOrder = ({user, credits, video, Startdate, Enddate}) => {
             dispatch(Actions.saveOrder({user, credits, video, Startdate, Enddate,},resp.data))
             dispatch(Actions.postOrderSuccess(resp.data))
             instance.notifyObservers();
+            setCookie();
         })
         .catch(error => {
                 dispatch(Actions.postOrderError(error.message))
@@ -193,6 +201,18 @@ const order = (state = {
         default:
             return state;
     }
+}
+
+
+const setCookie = (flag = false)=>{
+    var date = new Date();
+    date.setTime(date.getTime() + (60 * 1000));
+    if(flag === false) document.cookie =`Order=${JSON.stringify(instance.store.getState())}; expires=${date}; path =${window.location.pathname};`;
+}
+
+const getCookie =(name)=> {
+    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : null;
 }
 
 const instance = new OrderModel();

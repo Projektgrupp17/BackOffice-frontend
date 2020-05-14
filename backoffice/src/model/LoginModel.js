@@ -22,6 +22,9 @@
  * the <em> jwt </em> token since it may have expired. Thus the user does not need to login
  * each time a token has "expired".
  * 
+ * <code> saveUser() </code> save the userinformation of the previous person that as been
+ * autherized by the application.
+ * 
  * @author Netanel Avraham Eklind
  * @version 0.0.1
  */
@@ -38,8 +41,8 @@ class LoginModel extends Observable {
 
     constructor(cookie) {
         super()
-        if (document.cookie !== '' && !document.cookie.includes("logedOut")) {
-            this.store = Redux.createStore(Redux.combineReducers(combineReducers), JSON.parse(document.cookie), Redux.applyMiddleware(thunkMiddleware));
+        if (getCookie("Login") && !document.cookie.includes("logedOut")) {
+            this.store = Redux.createStore(Redux.combineReducers(combineReducers), JSON.parse(getCookie("Login")), Redux.applyMiddleware(thunkMiddleware));
             setAutherizationToken(this.store.getState().loginUser.auth.token, this.store.getState().loginUser.auth.refreshtoken)
         }
         else {
@@ -400,10 +403,14 @@ const userUpdate = (state = {
   const setCookie = (flag = false)=>{
         var date = new Date();
         date.setTime(date.getTime() + (60 * 1000));
-        if(flag === false) return document.cookie =`${JSON.stringify(instance.store.getState())}; expires=${date}; path =${window.location.pathname};`;
-        document.cookie = `${JSON.stringify(instance.store.getState())}logedOut; expires=1980-05-08T14:49:00.000Z; path =/;`;
+        if(flag === false) return document.cookie =`Login=${JSON.stringify(instance.store.getState())}; expires=${date}; path =${window.location.pathname};`;
+        document.cookie = `Login=${JSON.stringify(instance.store.getState())}logedOut; expires=1980-05-08T14:49:00.000Z; path =/;`;
     }
 
+    const getCookie =(name)=> {
+        var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return v ? v[2] : null;
+    }
 
 
 

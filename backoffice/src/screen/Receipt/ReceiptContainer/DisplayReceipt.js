@@ -2,13 +2,23 @@ import React from 'react'
 import { connect } from "react-redux"
 
 
-
+/**
+ * A function that retrives the <em> savedOrder </em> state of the
+ * ordermodel.
+ * @param {Store} state 
+ */
 const mapStateToProps = state =>{
     return{
         savedOrder: state.savedOrder
     }
 }
 
+/**
+ * The display component of Receipt view, it shows all the information
+ * that was sent to the backend and gives the user a verification of the
+ * order.
+ * @param {Component} props 
+ */
 const DisplayReceipt = props =>{
     if(isEmpty(props.savedOrder.order)) props.history.goBack();
     return(
@@ -25,7 +35,11 @@ const DisplayReceipt = props =>{
     )
 }
 
-
+/**
+ * A helper function to check if the object is empty
+ * @param {Object} obj 
+ * @returns true if yes, else false.
+ */
 const isEmpty = obj =>{
     for(var key in obj){
         if(obj.hasOwnProperty(key)){
@@ -35,6 +49,11 @@ const isEmpty = obj =>{
     return true;
 }
 
+/**
+ * Creates a list of the array provided in structure 
+ * acording to HTML5.
+ * @param {Array} videos 
+ */
 const listVideos = (videos) =>{
     if (videos === undefined) return ('')
     let listnr = 0;
