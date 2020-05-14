@@ -47,7 +47,7 @@ const savedOrder = (state ={},action)  =>{
 
 const orderHistory = (userName) =>{
     return function(dispatch){
-        if(!JWTverify(LoginModel.store.getState().loginUser.auth.token)){
+        if(!JWTverify){
             LoginModel.store.dispatch(refresh(LoginModel.store.getState().loginUser.refreshtoken))
         }
         dispatch(Actions.getOrderhistoryRequest());
