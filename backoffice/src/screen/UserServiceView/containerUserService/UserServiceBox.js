@@ -38,7 +38,6 @@ const mapDispatchToProps = dispatch => {
 class UserServiceBox extends Component {
     constructor(props){
         super(props)
-        console.log(props)
         this.state ={
             newUser:  props.userInfo.user ||  
             {
